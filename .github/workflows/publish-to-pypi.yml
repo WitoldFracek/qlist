@@ -1,6 +1,10 @@
 name: Publish Qwery List to PyPI
 
-on: push
+on:
+  push:
+    tags:
+      - "v*"
+
 
 jobs:
   build:
@@ -47,6 +51,9 @@ jobs:
         path: dist/
     - name: Publish distribution to PyPI
       uses: pypa/gh-action-pypi-publish@release/v1
+      with:
+        user: __token__
+        password: ${{ secrets.PYPI_API_TOKEN }}
 
   github-release:
     name: >-
