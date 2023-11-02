@@ -5,6 +5,7 @@ on:
     tags:
       - "v*"
 
+
 jobs:
   build:
     name: Build qwlist
@@ -49,9 +50,6 @@ jobs:
         path: dist/
     - name: Publish distribution to PyPI
       uses: pypa/gh-action-pypi-publish@release/v1
-      with:
-        user: __token__
-        password: ${{ secrets.PYPI_API_TOKEN }}
 
   github-release:
     name: >-
