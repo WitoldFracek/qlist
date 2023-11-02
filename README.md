@@ -14,7 +14,8 @@ s = xs.map(int).filter(lambda x: x < 3).fold(lambda acc, x: acc + x, 0)
 ```
 
 As a bonus you get `len()` **method**, so no longer will you be forced to wrapp your
-lists in this type of code `len(xs)` and simply call `xs.len()`
+lists in this type of code `len(xs)` and simply call `xs.len()` (I understand it is negligibly 
+slower but look how much nicer it looks!)
 
 
 ## Quick tutorial
