@@ -130,12 +130,27 @@ class Lazy(Generic[T]):
 
         Examples:
         --------
-        >>> QList([1, 2]).flatmap(lambda x: [x, x]).qlist()
-        [1, 1, 2, 2]
+        >>> QList([1, 2]).map(str).flatmap(lambda x: [x, x]).qlist()
+        ['1', '1', '2', '2']
         """
         def inner():
             for elem in self.gen:
                 yield from mapper(elem)
+        return Lazy(inner())
+
+    def zip(self, other: Iterable[K]) -> "Lazy[tuple[T, K]]":
+        """
+        Combines this Lazy object with the given Iterable elementwise as tuples.
+         The returned Lazy objects yields at most the number of elements of
+         the shorter sequence (Lazy or Iterable).
+
+        Args:
+            other: iterable to zip with this QList.
+
+        Returns: Lazy[tuple[T, K]]
+        """
+        def inner():
+            yield from zip(self.gen, other)
         return Lazy(inner())
 
     def collect(self):
@@ -264,9 +279,37 @@ class QList(list, Generic[T]):
         return len(self)
 
     def flatmap(self, mapper: Callable[[T], Iterable[K]]) -> Lazy[K]:
+        """
+        Applies the mapper function to each element of the QList and flattens the results.
+
+        Args:
+            mapper: function (T) -> Lazy[K]
+
+        Returns: Lazy[K]
+
+        Examples:
+        --------
+        >>> QList([1, 2]).flatmap(lambda x: [x, x]).qlist()
+        [1, 1, 2, 2]
+        """
         def inner():
             for elem in self:
                 yield from mapper(elem)
+        return Lazy(inner())
+
+    def zip(self, other: Iterable[K]) -> "Lazy[tuple[T, K]]":
+        """
+        Combines this QList with the given Iterable elementwise as tuples.
+         The returned Lazy objects yields at most the number of elements of
+         the shorter sequence (self or Iterable).
+
+        Args:
+            other: iterable to zip with this QList.
+
+        Returns: Lazy[tuple[T, K]]
+        """
+        def inner():
+            yield from zip(self, other)
         return Lazy(inner())
 
     def sorted(self, key: Callable[[T], SupportsLessThan] = lambda x: x, reverse: bool = False):
@@ -283,3 +326,4 @@ class QList(list, Generic[T]):
         Returns: QList[T]
         """
         return QList(sorted(self, key=key, reverse=reverse))
+
