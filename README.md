@@ -17,7 +17,7 @@ As a bonus you get `len()` **method**, so no longer will you be forced to wrapp 
 lists in this type of code `len(xs)` and simply call `xs.len()`
 
 
-## Quick tuorial
+## Quick tutorial
 Let's say we want to read numbers from a file and choose only the even ones. No problem at all!
 ```python
 with open('path/to/file.txt', 'r') as file:
