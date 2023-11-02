@@ -1,4 +1,4 @@
-# Query List
+# Qwery List
 QList is a small library introducing a new way to use higher order functions
 with lists, with **lazy evaluation**. It also aims to address ugly 
 python list methods such as map, filter and reduce. Whoever invented this:
@@ -28,4 +28,9 @@ even = qlist.map(int).filter(lambda x: x % 2 == 0).collect()
 Why is there this `collect` at the end? Because all operations on the QList are lazy evaluated, 
 so in order to finally apply all the operations you need to express that. (Eager evaluated module
 coming soon...)
+
+---
+
+### Side note
+I hereby announce that UwU, Qwery Listwu
 
