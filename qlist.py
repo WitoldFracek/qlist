@@ -283,12 +283,3 @@ class QList(list, Generic[T]):
         Returns: QList[T]
         """
         return QList(sorted(self, key=key, reverse=reverse))
-
-
-if __name__ == '__main__':
-    s = QList([1, 2]).flatmap(lambda x: [x, x]).qlist()
-    print(s)
-
-
-
-
