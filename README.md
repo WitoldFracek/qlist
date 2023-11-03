@@ -37,7 +37,7 @@ Making QList from an iterable
 ```
 Making QList from a generator
 ```python
->>> QList(x for x in range(3))
+>>> QList(range(3))
 [0, 1, 2]
 ```
 Making a list of pairs: `int` and `str`
