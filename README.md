@@ -101,5 +101,5 @@ it is to replace for-loops with method calls. And that's how the idea for a pyth
 **qwlist** was born.
 
 
-I hereby announce that UwU, Qwery Listwu
+I hereby announce that UwU, Qwery Listwu!
 
