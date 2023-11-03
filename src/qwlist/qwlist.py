@@ -1,4 +1,4 @@
-from typing import TypeVar, Generic, Iterable, Iterator, Callable, Generator
+from typing import TypeVar, Generic, Iterable, Iterator, Callable, Generator, Union, overload
 
 T = TypeVar('T')
 K = TypeVar('K')
@@ -149,9 +149,7 @@ class Lazy(Generic[T]):
 
         Returns: Lazy[tuple[T, K]]
         """
-        def inner():
-            yield from zip(self.gen, other)
-        return Lazy(inner())
+        return Lazy(zip(self.gen, other))
 
     def collect(self):
         """
@@ -166,7 +164,37 @@ class Lazy(Generic[T]):
         return iter(self.gen)
 
 
-class QList(list, Generic[T]):
+class QList(list):
+
+    @overload
+    def __getitem__(self, item: slice) -> "QList[T]":
+        ...
+
+    @overload
+    def __getitem__(self, item: int) -> T:
+        ...
+
+    def __getitem__(self, item) -> T:
+        if isinstance(item, slice):
+            return QList(super().__getitem__(item))
+        return super().__getitem__(item)
+
+    def slice(self, s: slice) -> Lazy[T]:
+        """
+        Calling this method with `slice(3)` works similarly to
+        `list[:3]` but is lazy evaluated.
+
+        Args:
+            s: slice object
+
+        Returns: Lazy[T]
+        """
+        assert isinstance(s, slice), f"slice method argument must be a slice object. Got {type(s)}."
+
+        def inner():
+            for elem in self[s]:
+                yield elem
+        return Lazy(inner())
 
     def list(self) -> list[T]:
         """
@@ -297,7 +325,7 @@ class QList(list, Generic[T]):
                 yield from mapper(elem)
         return Lazy(inner())
 
-    def zip(self, other: Iterable[K]) -> "Lazy[tuple[T, K]]":
+    def zip(self, other: Iterable[K]) -> Lazy[tuple[T, K]]:
         """
         Combines this QList with the given Iterable elementwise as tuples.
          The returned Lazy objects yields at most the number of elements of
@@ -308,11 +336,9 @@ class QList(list, Generic[T]):
 
         Returns: Lazy[tuple[T, K]]
         """
-        def inner():
-            yield from zip(self, other)
-        return Lazy(inner())
+        return Lazy(zip(self, other))
 
-    def sorted(self, key: Callable[[T], SupportsLessThan] = lambda x: x, reverse: bool = False):
+    def sorted(self, key: Callable[[T], SupportsLessThan] = lambda x: x, reverse: bool = False) -> "QList[T]":
         """
         Returns a new QList containing all items from the original list in ascending order.
 
@@ -326,4 +352,17 @@ class QList(list, Generic[T]):
         Returns: QList[T]
         """
         return QList(sorted(self, key=key, reverse=reverse))
+
+
+if __name__ == '__main__':
+    (
+        QList(x for x in range(100))
+        [::-1]
+        .slice(slice(20, 80))
+        .zip([True] * 30 + [False] * 30)
+        .map(lambda x: x[0] / 2 if x[1] else float(x[0]))
+        .filter(lambda x: x > 46)
+        .flatmap(lambda x: [x + 0j, x + 1j])
+        .foreach(print)
+    )
 
