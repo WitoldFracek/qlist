@@ -165,6 +165,45 @@ class Lazy(Generic[T]):
     def __iter__(self):
         return iter(self.gen)
 
+    def skip(self, n: int) -> "Lazy[T]":
+        """
+        Skips n first elements of the Lazy object.
+        Args:
+            n: int - numbers of elements to skip. Should be non-negative
+
+        Returns: Lazy[T]
+
+        Examples:
+        --------
+        >>> Lazy(range(10)).skip(2).collect()
+        [2, 3, 4, 5, 6, 7, 8, 9]
+        """
+        def inner():
+            for i, elem in enumerate(self.gen):
+                if i >= n:
+                    yield elem
+        return Lazy(inner())
+
+    def take(self, n: int) -> "Lazy[T]":
+        """
+        Takes n first elements of the Lazy object.
+        Args:
+            n: int - numbers of elements to skip. Should be non-negative
+
+        Returns: Lazy[T]
+
+        Examples:
+        --------
+        >>> Lazy(range(10)).take(2).collect()
+        [0, 1]
+        """
+        def inner():
+            for i, elem in enumerate(self.gen):
+                if i >= n:
+                    return None
+                yield elem
+        return Lazy(inner())
+
 
 class QList(list, Generic[T]):
 
@@ -326,4 +365,49 @@ class QList(list, Generic[T]):
         Returns: QList[T]
         """
         return QList(sorted(self, key=key, reverse=reverse))
+
+    def skip(self, n: int) -> Lazy[T]:
+        """
+        Skips n first elements of the QList.
+        Args:
+            n: int - numbers of elements to skip. Should be non-negative
+
+        Returns: Lazy[T]
+
+        Examples:
+        --------
+        >>> QList(range(10)).skip(2).collect()
+        [2, 3, 4, 5, 6, 7, 8, 9]
+        """
+        def inner():
+            for i, elem in enumerate(self):
+                if i >= n:
+                    yield elem
+        return Lazy(inner())
+
+    def take(self, n: int) -> Lazy[T]:
+        """
+        Takes n first elements of the QList.
+        Args:
+            n: int - numbers of elements to take. Should be non-negative
+
+        Returns: Lazy[T]
+
+        Examples:
+        --------
+        >>> QList(range(10)).take(2).collect()
+        [0, 1]
+        """
+        def inner():
+            for i, elem in enumerate(self):
+                if i >= n:
+                    return None
+                yield elem
+        return Lazy(inner())
+
+
+if __name__ == '__main__':
+    xs = QList(range(10)).skip(2).collect()
+    print(xs)
+
 
