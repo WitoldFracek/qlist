@@ -1,1 +1,1 @@
-import eager
+from .eager import EagerQList
