@@ -20,13 +20,25 @@ slower but look how much nicer it looks!)
 ## Quick tutorial
 Let's say we want to read numbers from a file and choose only the even ones. No problem at all!
 ```python
+from qwlist import QList
+
 with open('path/to/file.txt', 'r') as file:
     qlist = QList(file.readlines())
 even = qlist.map(int).filter(lambda x: x % 2 == 0).collect()
 ```
-Why is there this `collect` at the end? Because all operations on the QList are lazy evaluated, 
-so in order to finally apply all the operations you need to express that. (Eager evaluated module
-coming soon...)
+Why is there this `collect` at the end? Because all operations on the QList are **lazy evaluated**, 
+so in order to finally apply all the operations you need to express that.
+
+There is also an eagerly evaluated `EagerQList` in case all the actions performed on the list should
+be evaluated instantaneously. This object is in the `qwlist.eager_qwlist.eager` module, but it is also
+possible to transform `QList` into `EagerQList` simply by calling `eager()`
+```python
+>>> from qwlist import QList
+>>> QList(range(3)).eager().map(str)
+['0', '1', '2']
+```
+EagerQList has the same methods that QList has (`filter`, `map`, `foreach`, ...) but not lazy evaluated so there is no need to call `callect`
+at the end.
 
 ---
 ## Examples
