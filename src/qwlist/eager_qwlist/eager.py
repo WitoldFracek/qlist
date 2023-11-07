@@ -1,4 +1,4 @@
-from typing import TypeVar, Generic, Iterable, Iterator, Callable, Generator, Union, overload
+from typing import TypeVar, Iterable, Callable, overload
 
 T = TypeVar('T')
 K = TypeVar('K')
