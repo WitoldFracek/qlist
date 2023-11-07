@@ -1,4 +1,4 @@
-from typing import TypeVar, Generic, Iterable, Iterator, Callable, Generator, Union, overload
+from typing import TypeVar, Generic, Iterable, Callable, overload
 
 T = TypeVar('T')
 K = TypeVar('K')
@@ -213,7 +213,7 @@ class QList(list):
     def __getitem__(self, item: int) -> T:
         ...
 
-    def __getitem__(self, item) -> T:
+    def __getitem__(self, item):
         if isinstance(item, slice):
             return QList(super().__getitem__(item))
         return super().__getitem__(item)
@@ -242,6 +242,15 @@ class QList(list):
         Returns: list[T]
         """
         return list(self)
+
+    def eager(self) -> "EagerQList[T]":
+        """
+        Changes QList into EagerQList.
+
+        Returns: EagerQList[T]
+        """
+        from eager_qwlist.eager import EagerQList
+        return EagerQList(self)
 
     def filter(self, pred: Callable[[T], bool]) -> Lazy[T]:
         """
@@ -327,7 +336,7 @@ class QList(list):
 
         Examples
         --------
-        >>> s = QList([1, 2, 3]).fold(lambda acc, x: acc + x, 0)
+        >>> s = QList([1, 2, 3]).fold_right(lambda acc, x: acc + x, 0)
         6
         """
         acc = init
@@ -350,7 +359,7 @@ class QList(list):
         Applies the mapper function to each element of the QList and flattens the results.
 
         Args:
-            mapper: function (T) -> Lazy[K]
+            mapper: function (T) -> Iterable[K]
 
         Returns: Lazy[K]
 
