@@ -1,3 +1,4 @@
+import sys; sys.path.append('../src')
 from src.qwlist.qwlist import QList, Lazy
 from src.qwlist.eager import EagerQList
 import pytest
