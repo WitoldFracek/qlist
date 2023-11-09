@@ -249,7 +249,7 @@ class QList(list):
 
         Returns: EagerQList[T]
         """
-        from .eager_qwlist.eager import EagerQList
+        from src.qwlist.eager import EagerQList
         return EagerQList(self)
 
     def filter(self, pred: Callable[[T], bool]) -> Lazy[T]:
