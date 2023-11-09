@@ -99,7 +99,7 @@ class Lazy(Generic[T]):
 
         Examples
         --------
-        >>> s = QList([1, 2, 3]).map(float).fold(lambda acc, x: acc + x, 0.0)
+        >>> QList([1, 2, 3]).map(float).fold(lambda acc, x: acc + x, 0.0)
         6.0
         """
         acc = init
@@ -249,7 +249,7 @@ class QList(list):
 
         Returns: EagerQList[T]
         """
-        from src.qwlist.eager import EagerQList
+        from .eager import EagerQList
         return EagerQList(self)
 
     def filter(self, pred: Callable[[T], bool]) -> Lazy[T]:
@@ -312,7 +312,7 @@ class QList(list):
 
         Examples
         --------
-        >>> s = QList([1, 2, 3]).fold(lambda acc, x: acc + x, 0)
+        >>> QList([1, 2, 3]).fold(lambda acc, x: acc + x, 0)
         6
         """
         acc = init
@@ -336,7 +336,7 @@ class QList(list):
 
         Examples
         --------
-        >>> s = QList([1, 2, 3]).fold_right(lambda acc, x: acc + x, 0)
+        >>> QList([1, 2, 3]).fold_right(lambda acc, x: acc + x, 0)
         6
         """
         acc = init
@@ -386,7 +386,7 @@ class QList(list):
         """
         return Lazy(zip(self, other))
 
-    def sorted(self, key: Callable[[T], SupportsLessThan] = lambda x: x, reverse: bool = False) -> "QList[T]":
+    def sorted(self, key: Callable[[T], SupportsLessThan] = None, reverse: bool = False) -> "QList[T]":
         """
         Returns a new QList containing all items from the original list in ascending order.
 
@@ -394,7 +394,7 @@ class QList(list):
         flag can be set to request the result in descending order.
 
         Args:
-            key: function (T) -> SupportsLessThan. Defaults to identity function (x: T) -> x
+            key: function (T) -> SupportsLessThan. Defaults to None
             reverse: if set to True sorts values in descending order. Defaults to False
 
         Returns: QList[T]
@@ -442,14 +442,5 @@ class QList(list):
 
 
 if __name__ == '__main__':
-    (
-        QList(x for x in range(100))
-        [::-1]
-        .slice(slice(20, 80))
-        .zip([True] * 30 + [False] * 30)
-        .map(lambda x: x[0] / 2 if x[1] else float(x[0]))
-        .filter(lambda x: x > 46)
-        .flatmap(lambda x: [x + 0j, x + 1j])
-        .foreach(print)
-    )
+    pass
 
