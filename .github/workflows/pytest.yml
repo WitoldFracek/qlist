@@ -26,3 +26,7 @@ jobs:
     - name: Run pytest
       run: |
         pytest
+
+    - name: Check test results
+      run: exit ${{ job.status }}
+      if: failure()
