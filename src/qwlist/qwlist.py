@@ -129,9 +129,8 @@ class Lazy(Generic[T]):
         Returns: Lazy[K]
 
         Examples:
-        --------
-        >>> QList([1, 2]).map(str).flatmap(lambda x: [x, x]).qlist()
-        ['1', '1', '2', '2']
+            >>> QList([1, 2]).map(str).flatmap(lambda x: [x, x]).qlist()
+            ['1', '1', '2', '2']
         """
         def inner():
             for elem in self.gen:
@@ -345,10 +344,9 @@ class QList(list):
 
         Returns: K
 
-        Examples
-        --------
-        >>> QList([1, 2, 3]).fold(lambda acc, x: acc + x, 0)
-        6
+        Examples:
+            >>> QList([1, 2, 3]).fold(lambda acc, x: acc + x, 0)
+            6
         """
         acc = init
         for elem in self:
@@ -369,10 +367,9 @@ class QList(list):
 
         Returns: K
 
-        Examples
-        --------
-        >>> QList([1, 2, 3]).fold_right(lambda acc, x: acc + x, 0)
-        6
+        Examples:
+            >>> QList([1, 2, 3]).fold_right(lambda acc, x: acc + x, 0)
+            6
         """
         acc = init
         for elem in self[::-1]:
@@ -399,9 +396,8 @@ class QList(list):
         Returns: Lazy[K]
 
         Examples:
-        --------
-        >>> QList([1, 2]).flatmap(lambda x: [x, x]).qlist()
-        [1, 1, 2, 2]
+            >>> QList([1, 2]).flatmap(lambda x: [x, x]).qlist()
+            [1, 1, 2, 2]
         """
         def inner():
             for elem in self:
@@ -439,15 +435,15 @@ class QList(list):
     def skip(self, n: int) -> Lazy[T]:
         """
         Skips n first elements of the QList.
+
         Args:
-            n: int - numbers of elements to skip. Should be non-negative
+            n: numbers of elements to skip. Should be non-negative
 
         Returns: Lazy[T]
 
-        Examples:
-        --------
-        >>> QList(range(10)).skip(2).collect()
-        [2, 3, 4, 5, 6, 7, 8, 9]
+        Example:
+            >>> QList(range(10)).skip(2).collect()
+            [2, 3, 4, 5, 6, 7, 8, 9]
         """
         def inner():
             for i, elem in enumerate(self):
@@ -458,15 +454,15 @@ class QList(list):
     def take(self, n: int) -> Lazy[T]:
         """
         Takes n first elements of the QList.
+
         Args:
             n: int - numbers of elements to take. Should be non-negative
 
         Returns: Lazy[T]
 
         Examples:
-        --------
-        >>> QList(range(10)).take(2).collect()
-        [0, 1]
+            >>> QList(range(10)).take(2).collect()
+            [0, 1]
         """
         def inner():
             for i, elem in enumerate(self):
@@ -496,9 +492,8 @@ class QList(list):
         Returns: Lazy[T]
 
         Examples:
-        --------
-        >>> QList([1, 2, 3]).cycle().take(7).collect()
-        [1, 2, 3, 1, 2, 3, 1]
+            >>> QList([1, 2, 3]).cycle().take(7).collect()
+            [1, 2, 3, 1, 2, 3, 1]
         """
         def inner():
             while True:

@@ -60,7 +60,7 @@ Making a list of pairs: `int` and `str`
 ```
 Summing only the even numbers
 ```python
->>> QList(x for x in range(10)).filter(lambda x: x % 2 == 0).fold(lambda acc, x: acc + x, 0)
+>>> QList(range(10)).filter(lambda x: x % 2 == 0).fold(lambda acc, x: acc + x, 0)
 20
 ```
 ---

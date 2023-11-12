@@ -1,0 +1,18 @@
+# mkdocs.yml
+site_name: Qwery List
+
+theme:
+  name: "material"
+  palette:
+    scheme: slate
+    primary: pink
+    accent: amber
+
+nav:
+  - classes:
+      - QList: qlist.md
+      - Lazy: lazy.md
+      - EagerQList: eager.md
+
+plugins:
+  - mkdocstrings
