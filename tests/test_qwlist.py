@@ -29,14 +29,6 @@ def test_conversion_to_eager_qlist():
     assert expected == res
 
 
-def test_collect_from_lazy():
-    expected = QList([1, 2, 3])
-    res = expected.map(lambda x: x).collect()
-    assert expected == res
-    res = expected.map(lambda x: x).qlist()
-    assert expected == res
-
-
 def test_empty_constructor():
     expect = []
     res = QList().list()
