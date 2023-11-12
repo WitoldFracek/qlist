@@ -1,6 +1,5 @@
 import sys; sys.path.append('../src')
 from src.qwlist.qwlist import QList, Lazy
-from src.qwlist.eager import EagerQList
 import pytest
 
 
@@ -180,3 +179,45 @@ def test_methods_are_lazy():
     assert isinstance(lazy.take(3), Lazy)
     assert isinstance(lazy.skip(3), Lazy)
 
+
+def test_lazy_into_iter():
+    results = [0, 1, 2]
+    for expected, elem in zip(results, Lazy(range(3))):
+        assert expected == elem
+
+    for expected, elem in zip(results, Lazy([0, 1, 2])):
+        assert expected == elem
+
+    def gen():
+        yield 0; yield 1; yield 2
+
+    for expected, elem in zip(results, Lazy(gen())):
+        assert expected == elem
+
+
+def test_flatten():
+    expected = QList([1, 2, 3, 1, 2, 3])
+    res = Lazy([[1, 2, 3], [1, 2, 3]]).flatten().collect()
+    assert expected == res
+
+    expected = QList()
+    res = Lazy([[], [], []]).flatten().collect()
+    assert expected == res
+
+    expected = QList([[1, 2], [1, 2], [1, 2]])
+    res = Lazy([[[1, 2], [1, 2], [1, 2]]]).flatten().collect()
+    assert expected == res
+
+
+def test_cycle():
+    expected = QList([1, 2, 3, 1, 2, 3, 1])
+    res = Lazy([1, 2, 3]).cycle().take(7).collect()
+    assert expected == res
+
+    expected = QList()
+    res = Lazy([]).cycle().take(7).collect()
+    assert expected == res
+
+    expected = QList(range(3))
+    res = Lazy(range(10)).cycle().take(3).collect()
+    assert expected == res

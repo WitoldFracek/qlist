@@ -238,3 +238,31 @@ def test_methods_are_lazy():
     assert isinstance(qlist.take(3), Lazy)
     assert isinstance(qlist.skip(3), Lazy)
 
+
+def test_flatten():
+    expected = QList([1, 2, 3, 1, 2, 3])
+    res = QList([[1, 2, 3], [1, 2, 3]]).flatten().collect()
+    assert expected == res
+
+    expected = QList()
+    res = QList([[], [], []]).flatten().collect()
+    assert expected == res
+
+    expected = QList([[1, 2], [1, 2], [1, 2]])
+    res = QList([[[1, 2], [1, 2], [1, 2]]]).flatten().collect()
+    assert expected == res
+
+
+def test_cycle():
+    expected = QList([1, 2, 3, 1, 2, 3, 1])
+    res = QList([1, 2, 3]).cycle().take(7).collect()
+    assert expected == res
+
+    expected = QList()
+    res = QList().cycle().take(7).collect()
+    assert expected == res
+
+    expected = QList(range(3))
+    res = QList(range(10)).cycle().take(3).collect()
+    assert expected == res
+

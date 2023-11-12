@@ -202,6 +202,41 @@ class Lazy(Generic[T]):
                 yield elem
         return Lazy(inner())
 
+    def flatten(self) -> "Lazy[T]":
+        """
+        If self is a Lazy object of Iterable[T] flatten concatenates all iterables into a
+        single list and returns a Lazy[T] object
+        Returns: Lazy[T]
+        """
+        def inner():
+            for elem in self.gen:
+                yield from elem
+        return Lazy(inner())
+
+    def cycle(self):
+        """
+        Returns a Lazy[T] that cycles through the elements of the Lazy object that means
+        on achieving the last element the iteration starts from the beginning. The
+        returned lazy object has no end (infinite iterator) unless the Lazy object is empty
+        in which case cycle returns an empty Lazy object.
+
+        Returns: Lazy[T]
+
+        Examples:
+        --------
+        >>> Lazy([1, 2, 3]).cycle().take(7).collect()
+        [1, 2, 3, 1, 2, 3, 1]
+        """
+        def inner():
+            while True:
+                yielded = False
+                for elem in self.gen:
+                    yield elem
+                    yielded = True
+                if not yielded:
+                    return iter([])
+        return Lazy(inner())
+
 
 class QList(list):
 
@@ -438,6 +473,41 @@ class QList(list):
                 if i >= n:
                     return None
                 yield elem
+        return Lazy(inner())
+
+    def flatten(self) -> Lazy[T]:
+        """
+        If self is a QList of Iterable[T] flatten concatenates all iterables into a
+        single list and returns a Lazy[T] object
+        Returns: Lazy[T]
+        """
+        def inner():
+            for elem in self:
+                yield from elem
+        return Lazy(inner())
+
+    def cycle(self):
+        """
+        Returns a Lazy[T] that cycles through the elements of the QList that means
+        on achieving the last element the iteration starts from the beginning. The
+        returned lazy object has no end (infinite iterator) unless the QList is empty
+        in which case cycle returns an empty Lazy object.
+
+        Returns: Lazy[T]
+
+        Examples:
+        --------
+        >>> QList([1, 2, 3]).cycle().take(7).collect()
+        [1, 2, 3, 1, 2, 3, 1]
+        """
+        def inner():
+            while True:
+                yielded = False
+                for elem in self:
+                    yield elem
+                    yielded = True
+                if not yielded:
+                    return iter([])
         return Lazy(inner())
 
 

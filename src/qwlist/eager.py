@@ -168,6 +168,17 @@ class EagerQList(list):
         """
         return EagerQList(sorted(self, key=key, reverse=reverse))
 
+    def flatten(self) -> "EagerQList[T]":
+        """
+        If self is a EagerQList of Iterable[T] flatten concatenates all iterables into a
+        single list and returns a new EagerQList[T].
+        Returns: EagerQList[T]
+        """
+        def inner():
+            for elem in self:
+                yield from elem
+        return EagerQList(inner())
+
 
 if __name__ == '__main__':
     (
