@@ -12,6 +12,8 @@ class Lazy(Generic[T]):
     Calling any method **consumes** the current `Lazy` object. **Using the same object
     again may cause errors** due to the draining of the generator.
 
+    Found in `qwlist.Lazy`
+
     Examples:
         >>> qlist = QList([1, 2, 3, 4])
         >>> filtered = qlist.filter(lambda x: x < 3)
@@ -244,6 +246,12 @@ class Lazy(Generic[T]):
 
 
 class QList(list):
+    """
+    `QList` is a python list extension that adds several chainable, lazy
+    evaluated methods to the standard 'list'.
+
+    Found in `qwlist.QList`
+    """
 
     @overload
     def __getitem__(self, item: slice) -> "QList[T]":

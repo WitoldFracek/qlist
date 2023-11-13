@@ -17,6 +17,10 @@ theme:
       toggle:
         icon: material/weather-night
         name: Switch to dark mode
+  icon:
+    repo: fontawesome/brands/github
+  repo_url: https://github.com/WitoldFracek/qlist/tree/main
+
 
 nav:
   - Home: index.md
