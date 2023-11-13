@@ -1,4 +1,7 @@
+![Qitek](cat200.png)
+
 # Qwery List
+
 Qwery List is a small library introducing a new way to use higher order functions
 with lists, with **lazy evaluation**. 
 

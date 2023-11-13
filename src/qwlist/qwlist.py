@@ -503,10 +503,10 @@ class QList(list):
 
     def cycle(self):
         """
-        Returns a Lazy[T] that cycles through the elements of the QList that means
+        Returns a `Lazy[T]` that cycles through the elements of the `QList` that means
         on achieving the last element the iteration starts from the beginning. The
-        returned lazy object has no end (infinite iterator) unless the QList is empty
-        in which case cycle returns an empty Lazy object.
+        returned `Lazy` object has no end (infinite iterator) unless the `QList` is empty
+        in which case cycle returns an empty `Lazy` object (empty iterator).
 
         Returns: Lazy[T]
 

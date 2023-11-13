@@ -2,6 +2,9 @@
 site_name: Qwery List
 
 theme:
+  site_name: "Qwery List"
+  logo: cat200.png
+  favicon: cat200.png
   name: "material"
   palette:
     - scheme: slate
@@ -28,6 +31,10 @@ nav:
       - QList: qlist.md
       - Lazy: lazy.md
       - EagerQList: eager.md
+  - Qitek: cat200.png
 
 plugins:
   - mkdocstrings
+
+extra_css:
+  - navbar.css

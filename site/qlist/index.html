@@ -15,7 +15,7 @@
         <link rel="next" href="../lazy/">
       
       
-      <link rel="icon" href="../assets/images/favicon.png">
+      <link rel="icon" href="../cat200.png">
       <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.8">
     
     
@@ -47,6 +47,8 @@
     
     
       <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+    
+      <link rel="stylesheet" href="../navbar.css">
     
     <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
@@ -95,8 +97,7 @@
   <nav class="md-header__inner md-grid" aria-label="Header">
     <a href=".." title="Qwery List" class="md-header__button md-logo" aria-label="Qwery List" data-md-component="logo">
       
-  
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+  <img src="../cat200.png" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
@@ -176,8 +177,7 @@
   <label class="md-nav__title" for="__drawer">
     <a href=".." title="Qwery List" class="md-nav__button md-logo" aria-label="Qwery List" data-md-component="logo">
       
-  
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+  <img src="../cat200.png" alt="logo">
 
     </a>
     Qwery List
@@ -460,6 +460,25 @@
           </ul>
         </nav>
       
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cat200.png" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Qitek
+  </span>
+  
+
+      </a>
     </li>
   
 
@@ -1175,10 +1194,10 @@ evaluated methods to the standard <code>list</code>.</p>
 
     <span class="k">def</span> <span class="nf">cycle</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Returns a Lazy[T] that cycles through the elements of the QList that means</span>
+<span class="sd">        Returns a `Lazy[T]` that cycles through the elements of the `QList` that means</span>
 <span class="sd">        on achieving the last element the iteration starts from the beginning. The</span>
-<span class="sd">        returned lazy object has no end (infinite iterator) unless the QList is empty</span>
-<span class="sd">        in which case cycle returns an empty Lazy object.</span>
+<span class="sd">        returned `Lazy` object has no end (infinite iterator) unless the `QList` is empty</span>
+<span class="sd">        in which case cycle returns an empty `Lazy` object (empty iterator).</span>
 
 <span class="sd">        Returns: Lazy[T]</span>
 
@@ -1224,10 +1243,10 @@ evaluated methods to the standard <code>list</code>.</p>
 
   <div class="doc doc-contents ">
   
-      <p>Returns a Lazy[T] that cycles through the elements of the QList that means
+      <p>Returns a <code>Lazy[T]</code> that cycles through the elements of the <code>QList</code> that means
 on achieving the last element the iteration starts from the beginning. The
-returned lazy object has no end (infinite iterator) unless the QList is empty
-in which case cycle returns an empty Lazy object.</p>
+returned <code>Lazy</code> object has no end (infinite iterator) unless the <code>QList</code> is empty
+in which case cycle returns an empty <code>Lazy</code> object (empty iterator).</p>
 <p>Returns: Lazy[T]</p>
 
 
@@ -1262,10 +1281,10 @@ in which case cycle returns an empty Lazy object.</p>
 <span class="normal">524</span>
 <span class="normal">525</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">cycle</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Returns a Lazy[T] that cycles through the elements of the QList that means</span>
+<span class="sd">    Returns a `Lazy[T]` that cycles through the elements of the `QList` that means</span>
 <span class="sd">    on achieving the last element the iteration starts from the beginning. The</span>
-<span class="sd">    returned lazy object has no end (infinite iterator) unless the QList is empty</span>
-<span class="sd">    in which case cycle returns an empty Lazy object.</span>
+<span class="sd">    returned `Lazy` object has no end (infinite iterator) unless the `QList` is empty</span>
+<span class="sd">    in which case cycle returns an empty `Lazy` object (empty iterator).</span>
 
 <span class="sd">    Returns: Lazy[T]</span>
 
