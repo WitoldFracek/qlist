@@ -248,7 +248,7 @@ class Lazy(Generic[T]):
 class QList(list):
     """
     `QList` is a python list extension that adds several chainable, lazy
-    evaluated methods to the standard 'list'.
+    evaluated methods to the standard `list`.
 
     Found in `qwlist.QList`
     """
@@ -268,13 +268,13 @@ class QList(list):
 
     def slice(self, s: slice) -> Lazy[T]:
         """
-        Calling this method with `slice(3)` works similarly to
+        Calling this method with `s` equal to `slice(3)` works similarly to
         `list[:3]` but is lazy evaluated.
 
         Args:
             s: slice object
 
-        Returns: Lazy[T]
+        Returns: `Lazy[T]`
         """
         assert isinstance(s, slice), f"slice method argument must be a slice object. Got {type(s)}."
 
@@ -285,29 +285,34 @@ class QList(list):
 
     def list(self) -> list[T]:
         """
-        Changes QList into list.
+        Changes `QList` into `list`.
 
-        Returns: list[T]
+        Returns: `list[T]`
         """
         return list(self)
 
     def eager(self) -> "EagerQList[T]":
         """
-        Changes QList into EagerQList.
+        Changes `QList` into `EagerQList`.
 
-        Returns: EagerQList[T]
+        Returns: `EagerQList[T]`
         """
         from .eager import EagerQList
         return EagerQList(self)
 
     def filter(self, pred: Callable[[T], bool]) -> Lazy[T]:
         """
-        Returns a Lazy object containing all values from the QList for which
+        Returns a `Lazy` object containing all values from the `QList` for which
         the predicate holds true.
 
         Args:
-             pred: function (T) -> bool
-        Returns: Lazy[T]
+             pred: `function (T) -> bool`
+
+        Returns: `Lazy[T]`
+
+        Examples:
+            >>> QList([1, 2, 3, 4]).filter(lambda x: x < 3).collect()
+            [1, 2]
         """
         def inner():
             for elem in self:
@@ -317,13 +322,13 @@ class QList(list):
 
     def map(self, mapper: Callable[[T], K]) -> Lazy[K]:
         """
-        Returns a Lazy object containing all values from QList with
+        Returns a `Lazy` object containing all values from `QList` with
         the mapping function applied on them.
 
         Args:
-            mapper: function: (T) -> K
+            mapper: `function: (T) -> K`
 
-        Returns: Lazy[K]
+        Returns: `Lazy[K]`
         """
         def inner():
             for elem in self:
@@ -332,31 +337,31 @@ class QList(list):
 
     def foreach(self, action: Callable[[T], None]):
         """
-        Applies the given function to each of the QList elements.
+        Applies the given function to each of the `QList` elements.
 
         Args:
-            action: function (T) -> None
+            action: `function (T) -> None`
 
-        Returns: None
+        Returns: `None`
         """
         for elem in self:
             action(elem)
 
     def fold(self, operation: Callable[[K, T], K], init: K) -> K:
         """
-        Given the combination operator reduces the QList by processing
+        Given the combination operator reduces the `QList` by processing
         its values, building up the final value.
 
         **Other names:** fold_left, reduce, accumulate, aggregate
 
         Args:
-            operation: function: (K, T) -> K
+            operation: `function: (K, T) -> K`
                 Given the initial value `init` applies the
-                given combination operator on each element of the QList,
+                given combination operator on each element of the `QList`,
                 treating the result as a first argument in the next step.
             init: initial value for the combination operator.
 
-        Returns: K
+        Returns: `K`
 
         Examples:
             >>> QList([1, 2, 3]).fold(lambda acc, x: acc + x, 0)
@@ -369,17 +374,17 @@ class QList(list):
 
     def fold_right(self, operation: Callable[[K, T], K], init: K) -> K:
         """
-        Given the combination operator reduces the QList by processing
+        Given the combination operator reduces the `QList` by processing
         its values, building up the final value.
 
         Args:
-            operation: function: (K, T) -> K
+            operation: `function: (K, T) -> K`
                 Given the initial value `init` applies the
-                given combination operator on each element of the QList, starting from the
+                given combination operator on each element of the `QList`, starting from the
                 last element, treating the result as a first argument in the next step.
             init: initial value for the combination operator.
 
-        Returns: K
+        Returns: `K`
 
         Examples:
             >>> QList([1, 2, 3]).fold_right(lambda acc, x: acc + x, 0)
@@ -392,9 +397,9 @@ class QList(list):
 
     def len(self) -> int:
         """
-        Returns the len of the QList
+        Returns the len of the `QList`
 
-        (time complexity: O(1))
+        (time complexity: `O(1)`)
 
         Returns: int
         """
@@ -402,12 +407,12 @@ class QList(list):
 
     def flatmap(self, mapper: Callable[[T], Iterable[K]]) -> Lazy[K]:
         """
-        Applies the mapper function to each element of the QList and flattens the results.
+        Applies the mapper function to each element of the `QList` and flattens the results.
 
         Args:
-            mapper: function (T) -> Iterable[K]
+            mapper: `function (T) -> Iterable[K]`
 
-        Returns: Lazy[K]
+        Returns: `Lazy[K]`
 
         Examples:
             >>> QList([1, 2]).flatmap(lambda x: [x, x]).qlist()
@@ -420,29 +425,29 @@ class QList(list):
 
     def zip(self, other: Iterable[K]) -> Lazy[tuple[T, K]]:
         """
-        Combines this QList with the given Iterable elementwise as tuples.
-         The returned Lazy objects yields at most the number of elements of
-         the shorter sequence (self or Iterable).
+        Combines this `QList` with the given `Iterable` elementwise as tuples.
+         The returned `Lazy` objects yields at most the number of elements of
+         the shorter sequence (`self` or `Iterable`).
 
         Args:
-            other: iterable to zip with this QList.
+            other: iterable to zip with this `QList`.
 
-        Returns: Lazy[tuple[T, K]]
+        Returns: `Lazy[tuple[T, K]]`
         """
         return Lazy(zip(self, other))
 
     def sorted(self, key: Callable[[T], SupportsLessThan] = None, reverse: bool = False) -> "QList[T]":
         """
-        Returns a new QList containing all items from the original list in ascending order.
+        Returns a new `QList` containing all items from the original list in ascending order.
 
         A custom key function can be supplied to customize the sort order, and the reverse
         flag can be set to request the result in descending order.
 
         Args:
-            key: function (T) -> SupportsLessThan. Defaults to None
-            reverse: if set to True sorts values in descending order. Defaults to False
+            key: `function (T) -> SupportsLessThan`. Defaults to `None`
+            reverse: if set to `True` sorts values in descending order. Defaults to `False`
 
-        Returns: QList[T]
+        Returns: `QList[T]`
         """
         return QList(sorted(self, key=key, reverse=reverse))
 

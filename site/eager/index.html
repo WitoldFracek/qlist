@@ -346,19 +346,6 @@
     flatmap()
   </a>
   
-    <nav class="md-nav" aria-label="flatmap()">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#src.qwlist.eager.EagerQList.flatmap--examples" class="md-nav__link">
-    Examples:
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
 </li>
       
         <li class="md-nav__item">
@@ -373,38 +360,12 @@
     fold()
   </a>
   
-    <nav class="md-nav" aria-label="fold()">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#src.qwlist.eager.EagerQList.fold--examples" class="md-nav__link">
-    Examples
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
 </li>
       
         <li class="md-nav__item">
   <a href="#src.qwlist.eager.EagerQList.fold_right" class="md-nav__link">
     fold_right()
   </a>
-  
-    <nav class="md-nav" aria-label="fold_right()">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#src.qwlist.eager.EagerQList.fold_right--examples" class="md-nav__link">
-    Examples
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -509,19 +470,6 @@
     flatmap()
   </a>
   
-    <nav class="md-nav" aria-label="flatmap()">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#src.qwlist.eager.EagerQList.flatmap--examples" class="md-nav__link">
-    Examples:
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
 </li>
       
         <li class="md-nav__item">
@@ -536,38 +484,12 @@
     fold()
   </a>
   
-    <nav class="md-nav" aria-label="fold()">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#src.qwlist.eager.EagerQList.fold--examples" class="md-nav__link">
-    Examples
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
 </li>
       
         <li class="md-nav__item">
   <a href="#src.qwlist.eager.EagerQList.fold_right" class="md-nav__link">
     fold_right()
   </a>
-  
-    <nav class="md-nav" aria-label="fold_right()">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#src.qwlist.eager.EagerQList.fold_right--examples" class="md-nav__link">
-    Examples
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -639,6 +561,9 @@
           <p class="doc doc-class-bases">
             Bases: <code>list</code></p>
 
+  
+      <p><code>EagerQList</code> is a python list extension that adds several chainable, methods to the standard <code>list</code>.</p>
+<p>Found in <code>qwlist.eager.EagerQList</code></p>
 
             <details class="quote">
               <summary>Source code in <code>src\qwlist\eager.py</code></summary>
@@ -814,7 +739,19 @@
 <span class="normal">177</span>
 <span class="normal">178</span>
 <span class="normal">179</span>
-<span class="normal">180</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">EagerQList</span><span class="p">(</span><span class="nb">list</span><span class="p">):</span>
+<span class="normal">180</span>
+<span class="normal">181</span>
+<span class="normal">182</span>
+<span class="normal">183</span>
+<span class="normal">184</span>
+<span class="normal">185</span>
+<span class="normal">186</span>
+<span class="normal">187</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">EagerQList</span><span class="p">(</span><span class="nb">list</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    `EagerQList` is a python list extension that adds several chainable, methods to the standard `list`.</span>
+
+<span class="sd">    Found in `qwlist.eager.EagerQList`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="nd">@overload</span>
     <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span>
         <span class="o">...</span>
@@ -830,76 +767,80 @@
 
     <span class="k">def</span> <span class="nf">list</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">T</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Changes EagerQList into list.</span>
+<span class="sd">        Changes `EagerQList` into `list`.</span>
 
-<span class="sd">        Returns: list[T]</span>
+<span class="sd">        Returns: `list[T]`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">qlist</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;QList[T]&quot;</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Changes EagerQList into Qlist.</span>
+<span class="sd">        Changes `EagerQList` into `Qlist`.</span>
 
-<span class="sd">        Returns: QList[T]</span>
+<span class="sd">        Returns: `QList[T]`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="kn">from</span> <span class="nn">qwlist.qwlist</span> <span class="kn">import</span> <span class="n">QList</span>
+        <span class="kn">from</span> <span class="nn">qwlist</span> <span class="kn">import</span> <span class="n">QList</span>
         <span class="k">return</span> <span class="n">QList</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">filter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pred</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">T</span><span class="p">],</span> <span class="nb">bool</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s2">&quot;EagerQList[T]&quot;</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Returns a EagerQList containing all values from this EagerQList for which</span>
+<span class="sd">        Returns an `EagerQList` containing all values from this `EagerQList` for which</span>
 <span class="sd">        the predicate holds true.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">             pred: function (T) -&gt; bool</span>
-<span class="sd">        Returns: EagerQList[T]</span>
+<span class="sd">             pred: `function (T) -&gt; bool`</span>
+
+<span class="sd">        Returns: `EagerQList[T]`</span>
+
+<span class="sd">        Examples:</span>
+<span class="sd">            &gt;&gt;&gt; EagerQList([1, 2, 3, 4]).filter(lambda x: x &lt; 3)</span>
+<span class="sd">            [1, 2]</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">EagerQList</span><span class="p">(</span><span class="n">elem</span> <span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="bp">self</span> <span class="k">if</span> <span class="n">pred</span><span class="p">(</span><span class="n">elem</span><span class="p">))</span>
 
     <span class="k">def</span> <span class="nf">map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mapper</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">T</span><span class="p">],</span> <span class="n">K</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s2">&quot;EagerQList[K]&quot;</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Returns a EagerQList containing all values from this EagerQList with</span>
+<span class="sd">        Returns an `EagerQList` containing all values from this `EagerQList` with</span>
 <span class="sd">        the mapping function applied on them.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            mapper: function: (T) -&gt; K</span>
+<span class="sd">            mapper: `function: (T) -&gt; K`</span>
 
-<span class="sd">        Returns: EagerQList[K]</span>
+<span class="sd">        Returns: `EagerQList[K]`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">EagerQList</span><span class="p">(</span><span class="n">mapper</span><span class="p">(</span><span class="n">elem</span><span class="p">)</span> <span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">foreach</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">action</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">T</span><span class="p">],</span> <span class="kc">None</span><span class="p">]):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Applies the given function to each of the EagerQList elements.</span>
+<span class="sd">        Applies the given function to each of the `EagerQList` elements.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            action: function (T) -&gt; None</span>
+<span class="sd">            action: `function (T) -&gt; None`</span>
 
-<span class="sd">        Returns: None</span>
+<span class="sd">        Returns: `None`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
             <span class="n">action</span><span class="p">(</span><span class="n">elem</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">fold</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">operation</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">K</span><span class="p">,</span> <span class="n">T</span><span class="p">],</span> <span class="n">K</span><span class="p">],</span> <span class="n">init</span><span class="p">:</span> <span class="n">K</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">K</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Given the combination operator reduces the EagerQList by processing</span>
+<span class="sd">        Given the combination operator reduces the `EagerQList` by processing</span>
 <span class="sd">        its values, building up the final value.</span>
 
 <span class="sd">        **Other names:** fold_left, reduce, accumulate, aggregate</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            operation: function: (K, T) -&gt; K</span>
+<span class="sd">            operation: `function: (K, T) -&gt; K`</span>
 <span class="sd">                Given the initial value `init` applies the</span>
 <span class="sd">                given combination operator on each element of the EagerQList,</span>
 <span class="sd">                treating the result as a first argument in the next step.</span>
 <span class="sd">            init: initial value for the combination operator.</span>
 
-<span class="sd">        Returns: K</span>
+<span class="sd">        Returns: `K`</span>
 
-<span class="sd">        Examples</span>
-<span class="sd">        --------</span>
-<span class="sd">        &gt;&gt;&gt; s = EagerQList([1, 2, 3]).fold(lambda acc, x: acc + x, 0)</span>
-<span class="sd">        6</span>
+<span class="sd">        Examples:</span>
+<span class="sd">            &gt;&gt;&gt; s = EagerQList([1, 2, 3]).fold(lambda acc, x: acc + x, 0)</span>
+<span class="sd">            6</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">acc</span> <span class="o">=</span> <span class="n">init</span>
         <span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
@@ -908,22 +849,21 @@
 
     <span class="k">def</span> <span class="nf">fold_right</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">operation</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">K</span><span class="p">,</span> <span class="n">T</span><span class="p">],</span> <span class="n">K</span><span class="p">],</span> <span class="n">init</span><span class="p">:</span> <span class="n">K</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">K</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Given the combination operator reduces the EagerQList by processing</span>
+<span class="sd">        Given the combination operator reduces the `EagerQList` by processing</span>
 <span class="sd">        its values, building up the final value.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            operation: function: (K, T) -&gt; K</span>
+<span class="sd">            operation: `function: (K, T) -&gt; K`</span>
 <span class="sd">                Given the initial value `init` applies the</span>
 <span class="sd">                given combination operator on each element of the QList, starting from the</span>
 <span class="sd">                last element, treating the result as a first argument in the next step.</span>
 <span class="sd">            init: initial value for the combination operator.</span>
 
-<span class="sd">        Returns: K</span>
+<span class="sd">        Returns: `K`</span>
 
-<span class="sd">        Examples</span>
-<span class="sd">        --------</span>
-<span class="sd">        &gt;&gt;&gt; s = EagerQList([1, 2, 3]).fold_right(lambda acc, x: acc + x, 0)</span>
-<span class="sd">        6</span>
+<span class="sd">        Examples:</span>
+<span class="sd">            &gt;&gt;&gt; s = EagerQList([1, 2, 3]).fold_right(lambda acc, x: acc + x, 0)</span>
+<span class="sd">            6</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">acc</span> <span class="o">=</span> <span class="n">init</span>
         <span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
@@ -935,53 +875,52 @@
 
     <span class="k">def</span> <span class="nf">flatmap</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mapper</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">T</span><span class="p">],</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">K</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="s2">&quot;EagerQList[K]&quot;</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Applies the mapper function to each element of the EagerQList and flattens the results.</span>
+<span class="sd">        Applies the mapper function to each element of the `EagerQList` and flattens the results.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            mapper: function (T) -&gt; Iterable[K]</span>
+<span class="sd">            mapper: `function (T) -&gt; Iterable[K]`</span>
 
-<span class="sd">        Returns: EagerQList[K]</span>
+<span class="sd">        Returns: `EagerQList[K]`</span>
 
 <span class="sd">        Examples:</span>
-<span class="sd">        --------</span>
-<span class="sd">        &gt;&gt;&gt; EagerQList([1, 2]).flatmap(lambda x: [x, x])</span>
-<span class="sd">        [1, 1, 2, 2]</span>
+<span class="sd">            &gt;&gt;&gt; EagerQList([1, 2]).flatmap(lambda x: [x, x])</span>
+<span class="sd">            [1, 1, 2, 2]</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">EagerQList</span><span class="p">(</span><span class="n">x</span> <span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="bp">self</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">mapper</span><span class="p">(</span><span class="n">elem</span><span class="p">))</span>
 
     <span class="k">def</span> <span class="nf">zip</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">K</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s2">&quot;EagerQList[tuple[T, K]]&quot;</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Combines this EagerQList with the given Iterable elementwise as tuples.</span>
-<span class="sd">         The returned EagerQList objects has at most the number of elements of</span>
-<span class="sd">         the shorter sequence (self or Iterable).</span>
+<span class="sd">        Combines this `EagerQList` with the given `Iterable` elementwise as tuples.</span>
+<span class="sd">         The returned `EagerQList` objects has at most the number of elements of</span>
+<span class="sd">         the shorter sequence (`self` or `Iterable`).</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            other: iterable to zip with this EagerQList.</span>
+<span class="sd">            other: iterable to zip with this `EagerQList`.</span>
 
-<span class="sd">        Returns: EagerQList[tuple[T, K]]</span>
+<span class="sd">        Returns: `EagerQList[tuple[T, K]]`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">EagerQList</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">))</span>
 
-    <span class="k">def</span> <span class="nf">sorted</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">T</span><span class="p">],</span> <span class="n">SupportsLessThan</span><span class="p">]</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">,</span> <span class="n">reverse</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;EagerQList[T]&quot;</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">sorted</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">T</span><span class="p">],</span> <span class="n">SupportsLessThan</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">reverse</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;EagerQList[T]&quot;</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Returns a new EagerQList containing all items from the original list in ascending order.</span>
+<span class="sd">        Returns a new `EagerQList` containing all items from the original list in ascending order.</span>
 
 <span class="sd">        A custom key function can be supplied to customize the sort order, and the reverse</span>
 <span class="sd">        flag can be set to request the result in descending order.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            key: function (T) -&gt; SupportsLessThan. Defaults to identity function (x: T) -&gt; x</span>
-<span class="sd">            reverse: if set to True sorts values in descending order. Defaults to False</span>
+<span class="sd">            key: `function (T) -&gt; SupportsLessThan`. Defaults to `None`</span>
+<span class="sd">            reverse: if set to `True` sorts values in descending order. Defaults to `False`</span>
 
-<span class="sd">        Returns: EagerQList[T]</span>
+<span class="sd">        Returns: `EagerQList[T]`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">EagerQList</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="n">reverse</span><span class="p">))</span>
 
     <span class="k">def</span> <span class="nf">flatten</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;EagerQList[T]&quot;</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        If self is a EagerQList of Iterable[T] flatten concatenates all iterables into a</span>
-<span class="sd">        single list and returns a new EagerQList[T].</span>
-<span class="sd">        Returns: EagerQList[T]</span>
+<span class="sd">        If self is a `EagerQList` of `Iterable[T]` flatten concatenates all iterables into a</span>
+<span class="sd">        single list and returns a new `EagerQList[T]`.</span>
+<span class="sd">        Returns: `EagerQList[T]`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">def</span> <span class="nf">inner</span><span class="p">():</span>
             <span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
@@ -1016,7 +955,7 @@
 
   <div class="doc doc-contents ">
   
-      <p>Returns a EagerQList containing all values from this EagerQList for which
+      <p>Returns an <code>EagerQList</code> containing all values from this <code>EagerQList</code> for which
 the predicate holds true.</p>
 
 
@@ -1039,7 +978,7 @@ the predicate holds true.</p>
           </td>
           <td>
             <div class="doc-md-description">
-              <p>function (T) -&gt; bool</p>
+              <p><code>function (T) -&gt; bool</code></p>
             </div>
           </td>
           <td>
@@ -1048,27 +987,44 @@ the predicate holds true.</p>
         </tr>
     </tbody>
   </table>
-      <p>Returns: EagerQList[T]</p>
+      <p>Returns: <code>EagerQList[T]</code></p>
+
+
+
+<p><strong>Examples:</strong></p>
+    <div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">EagerQList</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">)</span>
+<span class="go">[1, 2]</span>
+</code></pre></div>
 
           <details class="quote">
             <summary>Source code in <code>src\qwlist\eager.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">39</span>
-<span class="normal">40</span>
-<span class="normal">41</span>
-<span class="normal">42</span>
-<span class="normal">43</span>
-<span class="normal">44</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">44</span>
 <span class="normal">45</span>
 <span class="normal">46</span>
 <span class="normal">47</span>
-<span class="normal">48</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">filter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pred</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">T</span><span class="p">],</span> <span class="nb">bool</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s2">&quot;EagerQList[T]&quot;</span><span class="p">:</span>
+<span class="normal">48</span>
+<span class="normal">49</span>
+<span class="normal">50</span>
+<span class="normal">51</span>
+<span class="normal">52</span>
+<span class="normal">53</span>
+<span class="normal">54</span>
+<span class="normal">55</span>
+<span class="normal">56</span>
+<span class="normal">57</span>
+<span class="normal">58</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">filter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pred</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">T</span><span class="p">],</span> <span class="nb">bool</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s2">&quot;EagerQList[T]&quot;</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Returns a EagerQList containing all values from this EagerQList for which</span>
+<span class="sd">    Returns an `EagerQList` containing all values from this `EagerQList` for which</span>
 <span class="sd">    the predicate holds true.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">         pred: function (T) -&gt; bool</span>
-<span class="sd">    Returns: EagerQList[T]</span>
+<span class="sd">         pred: `function (T) -&gt; bool`</span>
+
+<span class="sd">    Returns: `EagerQList[T]`</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; EagerQList([1, 2, 3, 4]).filter(lambda x: x &lt; 3)</span>
+<span class="sd">        [1, 2]</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">EagerQList</span><span class="p">(</span><span class="n">elem</span> <span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="bp">self</span> <span class="k">if</span> <span class="n">pred</span><span class="p">(</span><span class="n">elem</span><span class="p">))</span>
 </code></pre></div></td></tr></table></div>
@@ -1091,7 +1047,7 @@ the predicate holds true.</p>
 
   <div class="doc doc-contents ">
   
-      <p>Applies the mapper function to each element of the EagerQList and flattens the results.</p>
+      <p>Applies the mapper function to each element of the <code>EagerQList</code> and flattens the results.</p>
 
 
 
@@ -1113,7 +1069,7 @@ the predicate holds true.</p>
           </td>
           <td>
             <div class="doc-md-description">
-              <p>function (T) -&gt; Iterable[K]</p>
+              <p><code>function (T) -&gt; Iterable[K]</code></p>
             </div>
           </td>
           <td>
@@ -1122,46 +1078,42 @@ the predicate holds true.</p>
         </tr>
     </tbody>
   </table>
-      <p>Returns: EagerQList[K]</p>
-<h4 id="src.qwlist.eager.EagerQList.flatmap--examples">Examples:</h4>
-<blockquote>
-<blockquote>
-<blockquote>
-<p>EagerQList([1, 2]).flatmap(lambda x: [x, x])
-[1, 1, 2, 2]</p>
-</blockquote>
-</blockquote>
-</blockquote>
+      <p>Returns: <code>EagerQList[K]</code></p>
+
+
+
+<p><strong>Examples:</strong></p>
+    <div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">EagerQList</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span><span class="o">.</span><span class="n">flatmap</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">[</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="p">])</span>
+<span class="go">[1, 1, 2, 2]</span>
+</code></pre></div>
 
           <details class="quote">
             <summary>Source code in <code>src\qwlist\eager.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">127</span>
-<span class="normal">128</span>
-<span class="normal">129</span>
-<span class="normal">130</span>
-<span class="normal">131</span>
-<span class="normal">132</span>
-<span class="normal">133</span>
-<span class="normal">134</span>
-<span class="normal">135</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">135</span>
 <span class="normal">136</span>
 <span class="normal">137</span>
 <span class="normal">138</span>
 <span class="normal">139</span>
 <span class="normal">140</span>
-<span class="normal">141</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">flatmap</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mapper</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">T</span><span class="p">],</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">K</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="s2">&quot;EagerQList[K]&quot;</span><span class="p">:</span>
+<span class="normal">141</span>
+<span class="normal">142</span>
+<span class="normal">143</span>
+<span class="normal">144</span>
+<span class="normal">145</span>
+<span class="normal">146</span>
+<span class="normal">147</span>
+<span class="normal">148</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">flatmap</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mapper</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">T</span><span class="p">],</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">K</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="s2">&quot;EagerQList[K]&quot;</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Applies the mapper function to each element of the EagerQList and flattens the results.</span>
+<span class="sd">    Applies the mapper function to each element of the `EagerQList` and flattens the results.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        mapper: function (T) -&gt; Iterable[K]</span>
+<span class="sd">        mapper: `function (T) -&gt; Iterable[K]`</span>
 
-<span class="sd">    Returns: EagerQList[K]</span>
+<span class="sd">    Returns: `EagerQList[K]`</span>
 
 <span class="sd">    Examples:</span>
-<span class="sd">    --------</span>
-<span class="sd">    &gt;&gt;&gt; EagerQList([1, 2]).flatmap(lambda x: [x, x])</span>
-<span class="sd">    [1, 1, 2, 2]</span>
+<span class="sd">        &gt;&gt;&gt; EagerQList([1, 2]).flatmap(lambda x: [x, x])</span>
+<span class="sd">        [1, 1, 2, 2]</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">EagerQList</span><span class="p">(</span><span class="n">x</span> <span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="bp">self</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">mapper</span><span class="p">(</span><span class="n">elem</span><span class="p">))</span>
 </code></pre></div></td></tr></table></div>
@@ -1184,26 +1136,26 @@ the predicate holds true.</p>
 
   <div class="doc doc-contents ">
   
-      <p>If self is a EagerQList of Iterable[T] flatten concatenates all iterables into a
-single list and returns a new EagerQList[T].
-Returns: EagerQList[T]</p>
+      <p>If self is a <code>EagerQList</code> of <code>Iterable[T]</code> flatten concatenates all iterables into a
+single list and returns a new <code>EagerQList[T]</code>.
+Returns: <code>EagerQList[T]</code></p>
 
           <details class="quote">
             <summary>Source code in <code>src\qwlist\eager.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">171</span>
-<span class="normal">172</span>
-<span class="normal">173</span>
-<span class="normal">174</span>
-<span class="normal">175</span>
-<span class="normal">176</span>
-<span class="normal">177</span>
-<span class="normal">178</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">178</span>
 <span class="normal">179</span>
-<span class="normal">180</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">flatten</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;EagerQList[T]&quot;</span><span class="p">:</span>
+<span class="normal">180</span>
+<span class="normal">181</span>
+<span class="normal">182</span>
+<span class="normal">183</span>
+<span class="normal">184</span>
+<span class="normal">185</span>
+<span class="normal">186</span>
+<span class="normal">187</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">flatten</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;EagerQList[T]&quot;</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    If self is a EagerQList of Iterable[T] flatten concatenates all iterables into a</span>
-<span class="sd">    single list and returns a new EagerQList[T].</span>
-<span class="sd">    Returns: EagerQList[T]</span>
+<span class="sd">    If self is a `EagerQList` of `Iterable[T]` flatten concatenates all iterables into a</span>
+<span class="sd">    single list and returns a new `EagerQList[T]`.</span>
+<span class="sd">    Returns: `EagerQList[T]`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="nf">inner</span><span class="p">():</span>
         <span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
@@ -1229,7 +1181,7 @@ Returns: EagerQList[T]</p>
 
   <div class="doc doc-contents ">
   
-      <p>Given the combination operator reduces the EagerQList by processing
+      <p>Given the combination operator reduces the <code>EagerQList</code> by processing
 its values, building up the final value.</p>
 <p><strong>Other names:</strong> fold_left, reduce, accumulate, aggregate</p>
 
@@ -1253,7 +1205,7 @@ its values, building up the final value.</p>
           </td>
           <td>
             <div class="doc-md-description">
-              <p>function: (K, T) -&gt; K
+              <p><code>function: (K, T) -&gt; K</code>
 Given the initial value <code>init</code> applies the
 given combination operator on each element of the EagerQList,
 treating the result as a first argument in the next step.</p>
@@ -1279,63 +1231,59 @@ treating the result as a first argument in the next step.</p>
         </tr>
     </tbody>
   </table>
-      <p>Returns: K</p>
-<h4 id="src.qwlist.eager.EagerQList.fold--examples">Examples</h4>
-<blockquote>
-<blockquote>
-<blockquote>
-<p>s = EagerQList([1, 2, 3]).fold(lambda acc, x: acc + x, 0)
-6</p>
-</blockquote>
-</blockquote>
-</blockquote>
+      <p>Returns: <code>K</code></p>
+
+
+
+<p><strong>Examples:</strong></p>
+    <div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">EagerQList</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span><span class="o">.</span><span class="n">fold</span><span class="p">(</span><span class="k">lambda</span> <span class="n">acc</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">acc</span> <span class="o">+</span> <span class="n">x</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="go">6</span>
+</code></pre></div>
 
           <details class="quote">
             <summary>Source code in <code>src\qwlist\eager.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">74</span>
-<span class="normal">75</span>
-<span class="normal">76</span>
-<span class="normal">77</span>
-<span class="normal">78</span>
-<span class="normal">79</span>
-<span class="normal">80</span>
-<span class="normal">81</span>
-<span class="normal">82</span>
-<span class="normal">83</span>
-<span class="normal">84</span>
-<span class="normal">85</span>
-<span class="normal">86</span>
-<span class="normal">87</span>
-<span class="normal">88</span>
-<span class="normal">89</span>
-<span class="normal">90</span>
-<span class="normal">91</span>
-<span class="normal">92</span>
-<span class="normal">93</span>
-<span class="normal">94</span>
-<span class="normal">95</span>
-<span class="normal">96</span>
-<span class="normal">97</span>
-<span class="normal">98</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">fold</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">operation</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">K</span><span class="p">,</span> <span class="n">T</span><span class="p">],</span> <span class="n">K</span><span class="p">],</span> <span class="n">init</span><span class="p">:</span> <span class="n">K</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">K</span><span class="p">:</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 84</span>
+<span class="normal"> 85</span>
+<span class="normal"> 86</span>
+<span class="normal"> 87</span>
+<span class="normal"> 88</span>
+<span class="normal"> 89</span>
+<span class="normal"> 90</span>
+<span class="normal"> 91</span>
+<span class="normal"> 92</span>
+<span class="normal"> 93</span>
+<span class="normal"> 94</span>
+<span class="normal"> 95</span>
+<span class="normal"> 96</span>
+<span class="normal"> 97</span>
+<span class="normal"> 98</span>
+<span class="normal"> 99</span>
+<span class="normal">100</span>
+<span class="normal">101</span>
+<span class="normal">102</span>
+<span class="normal">103</span>
+<span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">fold</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">operation</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">K</span><span class="p">,</span> <span class="n">T</span><span class="p">],</span> <span class="n">K</span><span class="p">],</span> <span class="n">init</span><span class="p">:</span> <span class="n">K</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">K</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Given the combination operator reduces the EagerQList by processing</span>
+<span class="sd">    Given the combination operator reduces the `EagerQList` by processing</span>
 <span class="sd">    its values, building up the final value.</span>
 
 <span class="sd">    **Other names:** fold_left, reduce, accumulate, aggregate</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        operation: function: (K, T) -&gt; K</span>
+<span class="sd">        operation: `function: (K, T) -&gt; K`</span>
 <span class="sd">            Given the initial value `init` applies the</span>
 <span class="sd">            given combination operator on each element of the EagerQList,</span>
 <span class="sd">            treating the result as a first argument in the next step.</span>
 <span class="sd">        init: initial value for the combination operator.</span>
 
-<span class="sd">    Returns: K</span>
+<span class="sd">    Returns: `K`</span>
 
-<span class="sd">    Examples</span>
-<span class="sd">    --------</span>
-<span class="sd">    &gt;&gt;&gt; s = EagerQList([1, 2, 3]).fold(lambda acc, x: acc + x, 0)</span>
-<span class="sd">    6</span>
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; s = EagerQList([1, 2, 3]).fold(lambda acc, x: acc + x, 0)</span>
+<span class="sd">        6</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">acc</span> <span class="o">=</span> <span class="n">init</span>
     <span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
@@ -1361,7 +1309,7 @@ treating the result as a first argument in the next step.</p>
 
   <div class="doc doc-contents ">
   
-      <p>Given the combination operator reduces the EagerQList by processing
+      <p>Given the combination operator reduces the <code>EagerQList</code> by processing
 its values, building up the final value.</p>
 
 
@@ -1384,7 +1332,7 @@ its values, building up the final value.</p>
           </td>
           <td>
             <div class="doc-md-description">
-              <p>function: (K, T) -&gt; K
+              <p><code>function: (K, T) -&gt; K</code>
 Given the initial value <code>init</code> applies the
 given combination operator on each element of the QList, starting from the
 last element, treating the result as a first argument in the next step.</p>
@@ -1410,29 +1358,18 @@ last element, treating the result as a first argument in the next step.</p>
         </tr>
     </tbody>
   </table>
-      <p>Returns: K</p>
-<h4 id="src.qwlist.eager.EagerQList.fold_right--examples">Examples</h4>
-<blockquote>
-<blockquote>
-<blockquote>
-<p>s = EagerQList([1, 2, 3]).fold_right(lambda acc, x: acc + x, 0)
-6</p>
-</blockquote>
-</blockquote>
-</blockquote>
+      <p>Returns: <code>K</code></p>
+
+
+
+<p><strong>Examples:</strong></p>
+    <div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">EagerQList</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span><span class="o">.</span><span class="n">fold_right</span><span class="p">(</span><span class="k">lambda</span> <span class="n">acc</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">acc</span> <span class="o">+</span> <span class="n">x</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="go">6</span>
+</code></pre></div>
 
           <details class="quote">
             <summary>Source code in <code>src\qwlist\eager.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">100</span>
-<span class="normal">101</span>
-<span class="normal">102</span>
-<span class="normal">103</span>
-<span class="normal">104</span>
-<span class="normal">105</span>
-<span class="normal">106</span>
-<span class="normal">107</span>
-<span class="normal">108</span>
-<span class="normal">109</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">109</span>
 <span class="normal">110</span>
 <span class="normal">111</span>
 <span class="normal">112</span>
@@ -1445,24 +1382,31 @@ last element, treating the result as a first argument in the next step.</p>
 <span class="normal">119</span>
 <span class="normal">120</span>
 <span class="normal">121</span>
-<span class="normal">122</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">fold_right</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">operation</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">K</span><span class="p">,</span> <span class="n">T</span><span class="p">],</span> <span class="n">K</span><span class="p">],</span> <span class="n">init</span><span class="p">:</span> <span class="n">K</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">K</span><span class="p">:</span>
+<span class="normal">122</span>
+<span class="normal">123</span>
+<span class="normal">124</span>
+<span class="normal">125</span>
+<span class="normal">126</span>
+<span class="normal">127</span>
+<span class="normal">128</span>
+<span class="normal">129</span>
+<span class="normal">130</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">fold_right</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">operation</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">K</span><span class="p">,</span> <span class="n">T</span><span class="p">],</span> <span class="n">K</span><span class="p">],</span> <span class="n">init</span><span class="p">:</span> <span class="n">K</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">K</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Given the combination operator reduces the EagerQList by processing</span>
+<span class="sd">    Given the combination operator reduces the `EagerQList` by processing</span>
 <span class="sd">    its values, building up the final value.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        operation: function: (K, T) -&gt; K</span>
+<span class="sd">        operation: `function: (K, T) -&gt; K`</span>
 <span class="sd">            Given the initial value `init` applies the</span>
 <span class="sd">            given combination operator on each element of the QList, starting from the</span>
 <span class="sd">            last element, treating the result as a first argument in the next step.</span>
 <span class="sd">        init: initial value for the combination operator.</span>
 
-<span class="sd">    Returns: K</span>
+<span class="sd">    Returns: `K`</span>
 
-<span class="sd">    Examples</span>
-<span class="sd">    --------</span>
-<span class="sd">    &gt;&gt;&gt; s = EagerQList([1, 2, 3]).fold_right(lambda acc, x: acc + x, 0)</span>
-<span class="sd">    6</span>
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; s = EagerQList([1, 2, 3]).fold_right(lambda acc, x: acc + x, 0)</span>
+<span class="sd">        6</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">acc</span> <span class="o">=</span> <span class="n">init</span>
     <span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
@@ -1488,7 +1432,7 @@ last element, treating the result as a first argument in the next step.</p>
 
   <div class="doc doc-contents ">
   
-      <p>Applies the given function to each of the EagerQList elements.</p>
+      <p>Applies the given function to each of the <code>EagerQList</code> elements.</p>
 
 
 
@@ -1510,7 +1454,7 @@ last element, treating the result as a first argument in the next step.</p>
           </td>
           <td>
             <div class="doc-md-description">
-              <p>function (T) -&gt; None</p>
+              <p><code>function (T) -&gt; None</code></p>
             </div>
           </td>
           <td>
@@ -1519,28 +1463,28 @@ last element, treating the result as a first argument in the next step.</p>
         </tr>
     </tbody>
   </table>
-      <p>Returns: None</p>
+      <p>Returns: <code>None</code></p>
 
           <details class="quote">
             <summary>Source code in <code>src\qwlist\eager.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">62</span>
-<span class="normal">63</span>
-<span class="normal">64</span>
-<span class="normal">65</span>
-<span class="normal">66</span>
-<span class="normal">67</span>
-<span class="normal">68</span>
-<span class="normal">69</span>
-<span class="normal">70</span>
-<span class="normal">71</span>
-<span class="normal">72</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">foreach</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">action</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">T</span><span class="p">],</span> <span class="kc">None</span><span class="p">]):</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">72</span>
+<span class="normal">73</span>
+<span class="normal">74</span>
+<span class="normal">75</span>
+<span class="normal">76</span>
+<span class="normal">77</span>
+<span class="normal">78</span>
+<span class="normal">79</span>
+<span class="normal">80</span>
+<span class="normal">81</span>
+<span class="normal">82</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">foreach</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">action</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">T</span><span class="p">],</span> <span class="kc">None</span><span class="p">]):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Applies the given function to each of the EagerQList elements.</span>
+<span class="sd">    Applies the given function to each of the `EagerQList` elements.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        action: function (T) -&gt; None</span>
+<span class="sd">        action: `function (T) -&gt; None`</span>
 
-<span class="sd">    Returns: None</span>
+<span class="sd">    Returns: `None`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
         <span class="n">action</span><span class="p">(</span><span class="n">elem</span><span class="p">)</span>
@@ -1564,22 +1508,22 @@ last element, treating the result as a first argument in the next step.</p>
 
   <div class="doc doc-contents ">
   
-      <p>Changes EagerQList into list.</p>
-<p>Returns: list[T]</p>
+      <p>Changes <code>EagerQList</code> into <code>list</code>.</p>
+<p>Returns: <code>list[T]</code></p>
 
           <details class="quote">
             <summary>Source code in <code>src\qwlist\eager.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">22</span>
-<span class="normal">23</span>
-<span class="normal">24</span>
-<span class="normal">25</span>
-<span class="normal">26</span>
-<span class="normal">27</span>
-<span class="normal">28</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">list</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">T</span><span class="p">]:</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">list</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">T</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Changes EagerQList into list.</span>
+<span class="sd">    Changes `EagerQList` into `list`.</span>
 
-<span class="sd">    Returns: list[T]</span>
+<span class="sd">    Returns: `list[T]`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
@@ -1602,7 +1546,7 @@ last element, treating the result as a first argument in the next step.</p>
 
   <div class="doc doc-contents ">
   
-      <p>Returns a EagerQList containing all values from this EagerQList with
+      <p>Returns an <code>EagerQList</code> containing all values from this <code>EagerQList</code> with
 the mapping function applied on them.</p>
 
 
@@ -1625,7 +1569,7 @@ the mapping function applied on them.</p>
           </td>
           <td>
             <div class="doc-md-description">
-              <p>function: (T) -&gt; K</p>
+              <p><code>function: (T) -&gt; K</code></p>
             </div>
           </td>
           <td>
@@ -1634,29 +1578,29 @@ the mapping function applied on them.</p>
         </tr>
     </tbody>
   </table>
-      <p>Returns: EagerQList[K]</p>
+      <p>Returns: <code>EagerQList[K]</code></p>
 
           <details class="quote">
             <summary>Source code in <code>src\qwlist\eager.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">50</span>
-<span class="normal">51</span>
-<span class="normal">52</span>
-<span class="normal">53</span>
-<span class="normal">54</span>
-<span class="normal">55</span>
-<span class="normal">56</span>
-<span class="normal">57</span>
-<span class="normal">58</span>
-<span class="normal">59</span>
-<span class="normal">60</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mapper</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">T</span><span class="p">],</span> <span class="n">K</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s2">&quot;EagerQList[K]&quot;</span><span class="p">:</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">60</span>
+<span class="normal">61</span>
+<span class="normal">62</span>
+<span class="normal">63</span>
+<span class="normal">64</span>
+<span class="normal">65</span>
+<span class="normal">66</span>
+<span class="normal">67</span>
+<span class="normal">68</span>
+<span class="normal">69</span>
+<span class="normal">70</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mapper</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">T</span><span class="p">],</span> <span class="n">K</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s2">&quot;EagerQList[K]&quot;</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Returns a EagerQList containing all values from this EagerQList with</span>
+<span class="sd">    Returns an `EagerQList` containing all values from this `EagerQList` with</span>
 <span class="sd">    the mapping function applied on them.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        mapper: function: (T) -&gt; K</span>
+<span class="sd">        mapper: `function: (T) -&gt; K`</span>
 
-<span class="sd">    Returns: EagerQList[K]</span>
+<span class="sd">    Returns: `EagerQList[K]`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">EagerQList</span><span class="p">(</span><span class="n">mapper</span><span class="p">(</span><span class="n">elem</span><span class="p">)</span> <span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
@@ -1679,25 +1623,25 @@ the mapping function applied on them.</p>
 
   <div class="doc doc-contents ">
   
-      <p>Changes EagerQList into Qlist.</p>
-<p>Returns: QList[T]</p>
+      <p>Changes <code>EagerQList</code> into <code>Qlist</code>.</p>
+<p>Returns: <code>QList[T]</code></p>
 
           <details class="quote">
             <summary>Source code in <code>src\qwlist\eager.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">30</span>
-<span class="normal">31</span>
-<span class="normal">32</span>
-<span class="normal">33</span>
-<span class="normal">34</span>
-<span class="normal">35</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">35</span>
 <span class="normal">36</span>
-<span class="normal">37</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">qlist</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;QList[T]&quot;</span><span class="p">:</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">qlist</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;QList[T]&quot;</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Changes EagerQList into Qlist.</span>
+<span class="sd">    Changes `EagerQList` into `Qlist`.</span>
 
-<span class="sd">    Returns: QList[T]</span>
+<span class="sd">    Returns: `QList[T]`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="kn">from</span> <span class="nn">qwlist.qwlist</span> <span class="kn">import</span> <span class="n">QList</span>
+    <span class="kn">from</span> <span class="nn">qwlist</span> <span class="kn">import</span> <span class="n">QList</span>
     <span class="k">return</span> <span class="n">QList</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
           </details>
@@ -1712,14 +1656,14 @@ the mapping function applied on them.</p>
 
 
 <h2 id="src.qwlist.eager.EagerQList.sorted" class="doc doc-heading">
-          <code class="highlight language-python"><span class="nb">sorted</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="p">:</span> <span class="n">x</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></code>
+          <code class="highlight language-python"><span class="nb">sorted</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></code>
 
 </h2>
 
 
   <div class="doc doc-contents ">
   
-      <p>Returns a new EagerQList containing all items from the original list in ascending order.</p>
+      <p>Returns a new <code>EagerQList</code> containing all items from the original list in ascending order.</p>
 <p>A custom key function can be supplied to customize the sort order, and the reverse
 flag can be set to request the result in descending order.</p>
 
@@ -1743,11 +1687,11 @@ flag can be set to request the result in descending order.</p>
           </td>
           <td>
             <div class="doc-md-description">
-              <p>function (T) -&gt; SupportsLessThan. Defaults to identity function (x: T) -&gt; x</p>
+              <p><code>function (T) -&gt; SupportsLessThan</code>. Defaults to <code>None</code></p>
             </div>
           </td>
           <td>
-                <code>lambda : x</code>
+                <code>None</code>
           </td>
         </tr>
         <tr>
@@ -1757,7 +1701,7 @@ flag can be set to request the result in descending order.</p>
           </td>
           <td>
             <div class="doc-md-description">
-              <p>if set to True sorts values in descending order. Defaults to False</p>
+              <p>if set to <code>True</code> sorts values in descending order. Defaults to <code>False</code></p>
             </div>
           </td>
           <td>
@@ -1766,35 +1710,35 @@ flag can be set to request the result in descending order.</p>
         </tr>
     </tbody>
   </table>
-      <p>Returns: EagerQList[T]</p>
+      <p>Returns: <code>EagerQList[T]</code></p>
 
           <details class="quote">
             <summary>Source code in <code>src\qwlist\eager.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">156</span>
-<span class="normal">157</span>
-<span class="normal">158</span>
-<span class="normal">159</span>
-<span class="normal">160</span>
-<span class="normal">161</span>
-<span class="normal">162</span>
-<span class="normal">163</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">163</span>
 <span class="normal">164</span>
 <span class="normal">165</span>
 <span class="normal">166</span>
 <span class="normal">167</span>
 <span class="normal">168</span>
-<span class="normal">169</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">sorted</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">T</span><span class="p">],</span> <span class="n">SupportsLessThan</span><span class="p">]</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">,</span> <span class="n">reverse</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;EagerQList[T]&quot;</span><span class="p">:</span>
+<span class="normal">169</span>
+<span class="normal">170</span>
+<span class="normal">171</span>
+<span class="normal">172</span>
+<span class="normal">173</span>
+<span class="normal">174</span>
+<span class="normal">175</span>
+<span class="normal">176</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">sorted</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">T</span><span class="p">],</span> <span class="n">SupportsLessThan</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">reverse</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;EagerQList[T]&quot;</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Returns a new EagerQList containing all items from the original list in ascending order.</span>
+<span class="sd">    Returns a new `EagerQList` containing all items from the original list in ascending order.</span>
 
 <span class="sd">    A custom key function can be supplied to customize the sort order, and the reverse</span>
 <span class="sd">    flag can be set to request the result in descending order.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        key: function (T) -&gt; SupportsLessThan. Defaults to identity function (x: T) -&gt; x</span>
-<span class="sd">        reverse: if set to True sorts values in descending order. Defaults to False</span>
+<span class="sd">        key: `function (T) -&gt; SupportsLessThan`. Defaults to `None`</span>
+<span class="sd">        reverse: if set to `True` sorts values in descending order. Defaults to `False`</span>
 
-<span class="sd">    Returns: EagerQList[T]</span>
+<span class="sd">    Returns: `EagerQList[T]`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">EagerQList</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="n">reverse</span><span class="p">))</span>
 </code></pre></div></td></tr></table></div>
@@ -1817,9 +1761,9 @@ flag can be set to request the result in descending order.</p>
 
   <div class="doc doc-contents ">
   
-      <p>Combines this EagerQList with the given Iterable elementwise as tuples.
- The returned EagerQList objects has at most the number of elements of
- the shorter sequence (self or Iterable).</p>
+      <p>Combines this <code>EagerQList</code> with the given <code>Iterable</code> elementwise as tuples.
+ The returned <code>EagerQList</code> objects has at most the number of elements of
+ the shorter sequence (<code>self</code> or <code>Iterable</code>).</p>
 
 
 
@@ -1841,7 +1785,7 @@ flag can be set to request the result in descending order.</p>
           </td>
           <td>
             <div class="doc-md-description">
-              <p>iterable to zip with this EagerQList.</p>
+              <p>iterable to zip with this <code>EagerQList</code>.</p>
             </div>
           </td>
           <td>
@@ -1850,31 +1794,31 @@ flag can be set to request the result in descending order.</p>
         </tr>
     </tbody>
   </table>
-      <p>Returns: EagerQList[tuple[T, K]]</p>
+      <p>Returns: <code>EagerQList[tuple[T, K]]</code></p>
 
           <details class="quote">
             <summary>Source code in <code>src\qwlist\eager.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">143</span>
-<span class="normal">144</span>
-<span class="normal">145</span>
-<span class="normal">146</span>
-<span class="normal">147</span>
-<span class="normal">148</span>
-<span class="normal">149</span>
-<span class="normal">150</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">150</span>
 <span class="normal">151</span>
 <span class="normal">152</span>
 <span class="normal">153</span>
-<span class="normal">154</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">zip</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">K</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s2">&quot;EagerQList[tuple[T, K]]&quot;</span><span class="p">:</span>
+<span class="normal">154</span>
+<span class="normal">155</span>
+<span class="normal">156</span>
+<span class="normal">157</span>
+<span class="normal">158</span>
+<span class="normal">159</span>
+<span class="normal">160</span>
+<span class="normal">161</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">zip</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">K</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s2">&quot;EagerQList[tuple[T, K]]&quot;</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Combines this EagerQList with the given Iterable elementwise as tuples.</span>
-<span class="sd">     The returned EagerQList objects has at most the number of elements of</span>
-<span class="sd">     the shorter sequence (self or Iterable).</span>
+<span class="sd">    Combines this `EagerQList` with the given `Iterable` elementwise as tuples.</span>
+<span class="sd">     The returned `EagerQList` objects has at most the number of elements of</span>
+<span class="sd">     the shorter sequence (`self` or `Iterable`).</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        other: iterable to zip with this EagerQList.</span>
+<span class="sd">        other: iterable to zip with this `EagerQList`.</span>
 
-<span class="sd">    Returns: EagerQList[tuple[T, K]]</span>
+<span class="sd">    Returns: `EagerQList[tuple[T, K]]`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">EagerQList</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">))</span>
 </code></pre></div></td></tr></table></div>

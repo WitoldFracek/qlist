@@ -62,12 +62,6 @@ def test_getitem_slice():
     assert QList([0, 2, 4]) == qlist[:6:2]
 
 
-def test_lazy_operations():
-    expected = QList(range(3))
-    res = expected.map(lambda x: x).collect()
-    assert expected == res
-
-
 def test_map():
     expected = QList(['0', '1', '2'])
     res = QList(range(3)).map(str).collect()
@@ -237,6 +231,7 @@ def test_methods_are_lazy():
     assert isinstance(qlist.slice(slice(3)), Lazy)
     assert isinstance(qlist.take(3), Lazy)
     assert isinstance(qlist.skip(3), Lazy)
+    assert isinstance(QList([[1, 1]]).flatten(), Lazy)
 
 
 def test_flatten():
