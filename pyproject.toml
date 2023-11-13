@@ -19,3 +19,4 @@ classifiers = [
 
 [project.urls]
 "Homepage" = "https://github.com/WitoldFracek/qlist"
+"Docs" = "https://witoldfracek.github.io/qlist/"

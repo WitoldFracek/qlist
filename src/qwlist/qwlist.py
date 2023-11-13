@@ -9,21 +9,16 @@ class Lazy(Generic[T]):
     """
     Object representing lazy evaluation of called methods.
 
-    Warning:
-    -------
-    -------
+    Calling any method **consumes** the current `Lazy` object. **Using the same object
+    again may cause errors** due to the draining of the generator.
 
-    Calling any method consumes the current Lazy object. Using the same object
-    again may cause errors due to the draining of the generator.
-
-    Example:
-    -------
-    >>> qlist = QList([1, 2, 3, 4])
-    >>> filtered = qlist.filter(lambda x: x < 3)
-    >>> mapped_str = filtered.map(str)
-    >>> mapped_float = filtered.map(float)
-    >>> print(mapped_float.qlist())  # prints [1.0, 2.0]
-    >>> print(mapped_str.qlist())    # prints []
+    Examples:
+        >>> qlist = QList([1, 2, 3, 4])
+        >>> filtered = qlist.filter(lambda x: x < 3)
+        >>> mapped_str = filtered.map(str)
+        >>> mapped_float = filtered.map(float)
+        >>> print(mapped_float.qlist())  # prints [1.0, 2.0]
+        >>> print(mapped_str.qlist())    # prints []
     """
     def __init__(self, gen: Iterable[T]):
         """
@@ -33,33 +28,38 @@ class Lazy(Generic[T]):
         self.gen = gen
 
     def __repr__(self) -> str:
-        return f'Lazy({self.gen})'
+        return f'Lazy({repr(self.gen)})'
 
     def list(self) -> list[T]:
         """
-        Evaluates the Lazy object into list.
+        Evaluates the `Lazy` object into `list`.
 
-        Returns: list[T]
+        Returns: `list[T]`
         """
         return [elem for elem in self.gen]
 
     def qlist(self):
         """
-        Evaluates the Lazy object into QList.
+        Evaluates the `Lazy` object into `QList`.
+        Same as calling `collect()`
 
-        Returns: QList[T]
+        Returns: `QList[T]`
         """
         return QList(elem for elem in self.gen)
 
     def filter(self, pred: Callable[[T], bool]):
         """
-        Returns a Lazy object containing all values from this Lazy object for which
+        Returns a `Lazy` object containing all values from this `Lazy` object for which
         the predicate holds true.
 
         Args:
-            pred: function (T) -> bool
+            pred: `function (T) -> bool`
 
-        Returns: Lazy[T]
+        Returns: `Lazy[T]`
+
+        Examples:
+            >>> Lazy([0, 1, 2, 3]).filter(lambda x: x < 2).collect()
+            [0, 1]
         """
         def inner():
             for elem in self.gen:
@@ -69,13 +69,13 @@ class Lazy(Generic[T]):
 
     def map(self, mapper: Callable[[T], K]):
         """
-        Returns a Lazy object containing all values from this Lazy object with
+        Returns a `Lazy` object containing all values from this `Lazy` object with
         the mapping function applied on them.
 
         Args:
-            mapper: function: (T) -> K
+            mapper: `function: (T) -> K`
 
-        Returns: Lazy[K]
+        Returns: `Lazy[K]`
         """
         def inner():
             for elem in self.gen:
@@ -84,23 +84,22 @@ class Lazy(Generic[T]):
 
     def fold(self, operation: Callable[[K, T], K], init: K) -> K:
         """
-        Given the combination operator reduces the Lazy object by processing
+        Given the combination operator reduces the `Lazy` object by processing
         its constituent parts, building up the final value.
 
         **Other names:** fold_left, reduce, accumulate, aggregate
 
         Args:
-            operation: function: (K, T) -> K. Given the initial value `init` applies the
+            operation: `function: (K, T) -> K`. Given the initial value `init` applies the
                 given combination operator on each element yielded by the Lazy object,
                 treating the result as a first argument in the next step.
             init: initial value for the combination operator.
 
-        Returns: K
+        Returns: `K`
 
-        Examples
-        --------
-        >>> QList([1, 2, 3]).map(float).fold(lambda acc, x: acc + x, 0.0)
-        6.0
+        Examples:
+            >>> Lazy([1, 2, 3]).fold(lambda acc, x: acc + x, 0)
+            6
         """
         acc = init
         for elem in self.gen:
@@ -112,9 +111,9 @@ class Lazy(Generic[T]):
         Applies the given function to each of yielded elements.
 
         Args:
-            action: function (T) -> None
+            action: `function (T) -> None`
 
-        Returns: None
+        Returns: `None`
         """
         for elem in self.gen:
             action(elem)
@@ -124,13 +123,13 @@ class Lazy(Generic[T]):
         Applies the mapper function to each of the yielded elements and flattens the results.
 
         Args:
-            mapper: function (T) -> Lazy[K]
+            mapper: `function (T) -> Iterable[K]`
 
-        Returns: Lazy[K]
+        Returns: `Lazy[K]`
 
         Examples:
-            >>> QList([1, 2]).map(str).flatmap(lambda x: [x, x]).qlist()
-            ['1', '1', '2', '2']
+            >>> Lazy([1, 2]).flatmap(lambda x: [x, x]).qlist()
+            [1, 1, 2, 2]
         """
         def inner():
             for elem in self.gen:
@@ -139,22 +138,27 @@ class Lazy(Generic[T]):
 
     def zip(self, other: Iterable[K]) -> "Lazy[tuple[T, K]]":
         """
-        Combines this Lazy object with the given Iterable elementwise as tuples.
-         The returned Lazy objects yields at most the number of elements of
-         the shorter sequence (Lazy or Iterable).
+        Combines this `Lazy` object with the given `Iterable` elementwise as tuples.
+         The returned `Lazy` objects yields at most the number of elements of
+         the shorter sequence (`Lazy` or `Iterable`).
 
         Args:
-            other: iterable to zip with this QList.
+            other: iterable to zip with this `Lazy` object.
 
-        Returns: Lazy[tuple[T, K]]
+        Returns: `Lazy[tuple[T, K]]`
+
+        Examples:
+            >>> Lazy([1, 2, 3]).zip(['a', 'b', 'c']).collect()
+            [(1, 'a'), (2, 'b'), (3, 'c')]
         """
         return Lazy(zip(self.gen, other))
 
     def collect(self):
         """
-        Same as calling qlist()
+        Evaluates the `Lazy` object into `QList`.
+        Same as calling `qlist()`
 
-        Returns: QList[T]
+        Returns: `QList[T]`
 
         """
         return QList(x for x in self.gen)
@@ -164,16 +168,15 @@ class Lazy(Generic[T]):
 
     def skip(self, n: int) -> "Lazy[T]":
         """
-        Skips n first elements of the Lazy object.
+        Skips n first elements of the `Lazy` object.
         Args:
-            n: int - numbers of elements to skip. Should be non-negative
+            n: numbers of elements to skip. Should be non-negative
 
-        Returns: Lazy[T]
+        Returns: `Lazy[T]`
 
         Examples:
-        --------
-        >>> Lazy(range(10)).skip(2).collect()
-        [2, 3, 4, 5, 6, 7, 8, 9]
+            >>> Lazy(range(10)).skip(2).collect()
+            [2, 3, 4, 5, 6, 7, 8, 9]
         """
         def inner():
             for i, elem in enumerate(self.gen):
@@ -183,16 +186,15 @@ class Lazy(Generic[T]):
 
     def take(self, n: int) -> "Lazy[T]":
         """
-        Takes n first elements of the Lazy object.
+        Takes n first elements of the `Lazy` object.
         Args:
-            n: int - numbers of elements to skip. Should be non-negative
+            n: numbers of elements to skip. Should be non-negative
 
-        Returns: Lazy[T]
+        Returns: `Lazy[T]`
 
         Examples:
-        --------
-        >>> Lazy(range(10)).take(2).collect()
-        [0, 1]
+            >>> Lazy(range(10)).take(2).collect()
+            [0, 1]
         """
         def inner():
             for i, elem in enumerate(self.gen):
@@ -203,9 +205,14 @@ class Lazy(Generic[T]):
 
     def flatten(self) -> "Lazy[T]":
         """
-        If self is a Lazy object of Iterable[T] flatten concatenates all iterables into a
-        single list and returns a Lazy[T] object
-        Returns: Lazy[T]
+        If `self` is a `Lazy` object of `Iterable[T]`, flatten concatenates all iterables into a
+        single list and returns a `Lazy[T]` object.
+
+        Returns: `Lazy[T]`
+
+        Examples:
+            >>> Lazy([[1, 2], [3, 4]]).flatten().collect()
+            [1, 2, 3, 4]
         """
         def inner():
             for elem in self.gen:
@@ -214,17 +221,16 @@ class Lazy(Generic[T]):
 
     def cycle(self):
         """
-        Returns a Lazy[T] that cycles through the elements of the Lazy object that means
+        Returns a `Lazy[T]` that cycles through the elements of the `Lazy` object, that means
         on achieving the last element the iteration starts from the beginning. The
-        returned lazy object has no end (infinite iterator) unless the Lazy object is empty
-        in which case cycle returns an empty Lazy object.
+        returned `Lazy` object has no end (infinite iterator) unless the `Lazy` object is empty
+        in which case cycle returns an empty `Lazy` object (empty iterator).
 
-        Returns: Lazy[T]
+        Returns: `Lazy[T]`
 
         Examples:
-        --------
-        >>> Lazy([1, 2, 3]).cycle().take(7).collect()
-        [1, 2, 3, 1, 2, 3, 1]
+            >>> Lazy([1, 2, 3]).cycle().take(7).collect()
+            [1, 2, 3, 1, 2, 3, 1]
         """
         def inner():
             while True:
@@ -507,5 +513,5 @@ class QList(list):
 
 
 if __name__ == '__main__':
-    pass
+    print(Lazy([[1, 2], [3, 4]]).flatten().collect())
 
