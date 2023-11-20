@@ -9,12 +9,27 @@ with lists, with **lazy evaluation**.
 #### The standard python way
 ```python
 xs = ['1', '2', '3', '4']
-s = reduce(lambda acc, x: acc + x, filter(lambda x: x < 3, map(int, xs)), 0)
+s = reduce(
+    lambda acc, x: acc + x,
+    filter(
+        lambda x: x < 3,
+        map(
+            int,
+            xs
+        )
+    )
+    ,0
+)
 ```
 #### Qwery List way
 ```python
 xs = QList(['1', '2', '3', '4'])
-s = xs.map(int).filter(lambda x: x < 3).fold(lambda acc, x: acc + x, 0)
+s = (
+    xs
+    .map(int)
+    .filter(lambda x: x < 3)
+    .fold(lambda acc, x: acc + x, 0)
+)
 ```
 Chaining methods makes code much more readable and follows the natural flow
 of reading left to right. 
@@ -39,7 +54,13 @@ from qwlist import QList
 
 with open('path/to/file.txt', 'r') as file:
     qlist = QList(file.readlines())
-even = qlist.map(int).filter(lambda x: x % 2 == 0).collect()
+
+even = (
+    qlist
+    .map(int)
+    .filter(lambda x: x % 2 == 0)
+    .collect()
+)
 ```
 Why is there this `collect` at the end? Because all operations on the QList are **lazy evaluated**, 
 so in order to finally apply all the operations you need to express that.
@@ -48,9 +69,14 @@ There is also an eagerly evaluated `EagerQList` in case all the actions performe
 be evaluated instantaneously. This object is in the `qwlist.eager` module, but it is also
 possible to transform `QList` into `EagerQList` simply by calling `eager()`
 ```python
->>> from qwlist import QList
->>> QList(range(3)).eager().map(str)
-['0', '1', '2']
+from qwlist import QList
+
+xs = (
+    QList(range(3))
+    .eager()
+    .map(str)
+)
+print(xs)  # ['0', '1', '2']
 ```
 EagerQList has the same methods that QList has (`filter`, `map`, `foreach`, ...) but not lazy evaluated so
 there is no need to call `collect` at the end.
@@ -75,8 +101,12 @@ Making a list of pairs: `int` and `str`
 ```
 Summing only the even numbers
 ```python
->>> QList(range(10)).filter(lambda x: x % 2 == 0).fold(lambda acc, x: acc + x, 0)
-20
+s = (
+    QList(range(10))
+    .filter(lambda x: x % 2 == 0)
+    .fold(lambda acc, x: acc + x, 0)
+)
+print(s)  # 20
 ```
 ---
 
@@ -93,9 +123,13 @@ This syntax resembles **Rust** syntax:
 
 ```rust
 let xs = vec![1, 2, 3, 4];
-let double_xs: Vec<i32> = xs.iter().map(|&x| x * 2).collect();
+let double_xs: Vec<i32> = xs
+    .iter()
+    .map(|&x| x * 2)
+    .collect();
 println!("{double_xs:?}");
 // [2, 4, 6, 8]
+
 ```
 
 </td>
@@ -103,7 +137,11 @@ println!("{double_xs:?}");
 
 ```python
 xs = QList([1, 2, 3, 4])
-double_xs = xs.map(lambda x: x * 2).collect()
+double_xs = (
+    xs
+    .map(lambda x: x * 2)
+    .collect()
+)
 print(double_xs)
 # [2, 4, 6, 8]
 ```
