@@ -466,11 +466,26 @@ with lists, with <strong>lazy evaluation</strong>. </p>
 <h3 id="quick-comparison">Quick comparison</h3>
 <h4 id="the-standard-python-way">The standard python way</h4>
 <pre><code class="language-python">xs = ['1', '2', '3', '4']
-s = reduce(lambda acc, x: acc + x, filter(lambda x: x &lt; 3, map(int, xs)), 0)
+s = reduce(
+    lambda acc, x: acc + x,
+    filter(
+        lambda x: x &lt; 3,
+        map(
+            int,
+            xs
+        )
+    )
+    ,0
+)
 </code></pre>
 <h4 id="qwery-list-way">Qwery List way</h4>
 <pre><code class="language-python">xs = QList(['1', '2', '3', '4'])
-s = xs.map(int).filter(lambda x: x &lt; 3).fold(lambda acc, x: acc + x, 0)
+s = (
+    xs
+    .map(int)
+    .filter(lambda x: x &lt; 3)
+    .fold(lambda acc, x: acc + x, 0)
+)
 </code></pre>
 <p>Chaining methods makes code much more readable and follows the natural flow
 of reading left to right. 
@@ -489,16 +504,27 @@ slower but look how much nicer it looks!)</p>
 
 with open('path/to/file.txt', 'r') as file:
     qlist = QList(file.readlines())
-even = qlist.map(int).filter(lambda x: x % 2 == 0).collect()
+
+even = (
+    qlist
+    .map(int)
+    .filter(lambda x: x % 2 == 0)
+    .collect()
+)
 </code></pre>
 <p>Why is there this <code>collect</code> at the end? Because all operations on the QList are <strong>lazy evaluated</strong>, 
 so in order to finally apply all the operations you need to express that.</p>
 <p>There is also an eagerly evaluated <code>EagerQList</code> in case all the actions performed on the list should
 be evaluated instantaneously. This object is in the <code>qwlist.eager</code> module, but it is also
 possible to transform <code>QList</code> into <code>EagerQList</code> simply by calling <code>eager()</code></p>
-<pre><code class="language-python">&gt;&gt;&gt; from qwlist import QList
-&gt;&gt;&gt; QList(range(3)).eager().map(str)
-['0', '1', '2']
+<pre><code class="language-python">from qwlist import QList
+
+xs = (
+    QList(range(3))
+    .eager()
+    .map(str)
+)
+print(xs)  # ['0', '1', '2']
 </code></pre>
 <p>EagerQList has the same methods that QList has (<code>filter</code>, <code>map</code>, <code>foreach</code>, ...) but not lazy evaluated so
 there is no need to call <code>collect</code> at the end.</p>
@@ -518,8 +544,12 @@ there is no need to call <code>collect</code> at the end.</p>
 [(1, '1'), (2, '2'), (3, '3')]
 </code></pre>
 <p>Summing only the even numbers</p>
-<pre><code class="language-python">&gt;&gt;&gt; QList(range(10)).filter(lambda x: x % 2 == 0).fold(lambda acc, x: acc + x, 0)
-20
+<pre><code class="language-python">s = (
+    QList(range(10))
+    .filter(lambda x: x % 2 == 0)
+    .fold(lambda acc, x: acc + x, 0)
+)
+print(s)  # 20
 </code></pre>
 <hr />
 <h2 id="side-note">Side note</h2>
@@ -534,9 +564,13 @@ there is no need to call <code>collect</code> at the end.</p>
 
 
 <pre><code class="language-rust">let xs = vec![1, 2, 3, 4];
-let double_xs: Vec&lt;i32&gt; = xs.iter().map(|&amp;x| x * 2).collect();
+let double_xs: Vec&lt;i32&gt; = xs
+    .iter()
+    .map(|&amp;x| x * 2)
+    .collect();
 println!(&quot;{double_xs:?}&quot;);
 // [2, 4, 6, 8]
+
 </code></pre>
 
 
@@ -545,7 +579,11 @@ println!(&quot;{double_xs:?}&quot;);
 
 
 <pre><code class="language-python">xs = QList([1, 2, 3, 4])
-double_xs = xs.map(lambda x: x * 2).collect()
+double_xs = (
+    xs
+    .map(lambda x: x * 2)
+    .collect()
+)
 print(double_xs)
 # [2, 4, 6, 8]
 </code></pre>
