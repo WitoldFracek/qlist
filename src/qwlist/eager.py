@@ -186,14 +186,18 @@ class EagerQList(list):
                 yield from elem
         return EagerQList(inner())
 
+    def enumerate(self, start: int = 0) -> "EagerQList[tuple[int, T]]":
+        """
+        Returns a `Lazy` object with index-value pairs as its elements. Index starts at
+        the given position `start` (defaults to 0).
 
-if __name__ == '__main__':
-    (
-        EagerQList(x for x in range(100))
-        [::-1]
-        .zip([True] * 30 + [False] * 30)
-        .map(lambda x: x[0] / 2 if x[1] else float(x[0]))
-        .filter(lambda x: x > 46)
-        .flatmap(lambda x: [x + 0j, x + 1j])
-        .foreach(print)
-    )
+        Returns: Lazy[tuple[int, T]]
+
+        Examples:
+            >>> EagerQList(['a', 'b', 'c']).enumerate()
+            [(0, 'a'), (1, 'b'), (2, 'c')]
+        """
+        def inner():
+            for i, elem in enumerate(self, start=start):
+                yield i, elem
+        return EagerQList(inner())

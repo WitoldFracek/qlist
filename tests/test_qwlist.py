@@ -221,6 +221,47 @@ def test_method_chaining():
     )
     assert 4 == res
 
+    res = (
+        QList(range(10))
+        .filter(lambda x: x % 2 == 0)
+        .cycle()
+        .take(10)
+        .collect()
+    )
+    assert res == QList([0, 2, 4, 6, 8, 0, 2, 4, 6, 8])
+
+    res = (
+        QList(range(10))
+        .map(lambda x: x % 2 == 0)
+        .filter(lambda x: x)
+        .cycle()
+        .take(20)
+        .collect()
+    )
+    assert res == QList([True] * 20)
+
+
+def test_enumerate():
+    expected = QList([(0, 'a'), (1, 'b'), (2, 'c')])
+    res = QList(['a', 'b', 'c']).enumerate().collect()
+    assert res == expected
+
+    expected = QList([(5, 'a'), (6, 'b'), (7, 'c')])
+    res = QList(['a', 'b', 'c']).enumerate(start=5).collect()
+    assert res == expected
+
+    expected = QList([(-1, 'a'), (0, 'b'), (1, 'c')])
+    res = QList(['a', 'b', 'c']).enumerate(start=-1).collect()
+    assert res == expected
+
+    expected = QList([0, 1, 2, 3])
+    res = QList('a').cycle().enumerate().map(lambda x: x[0]).take(4).collect()
+    assert res == expected
+
+    expected = QList([(0, 'a'), (1, 'a'), (2, 'a'), (0, 'a'), (1, 'a'), (2, 'a')])
+    res = QList('a').cycle().take(3).enumerate().cycle().take(6).collect()
+    assert res == expected
+
 
 def test_methods_are_lazy():
     qlist = QList([1, 2, 3])

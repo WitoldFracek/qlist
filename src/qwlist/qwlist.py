@@ -155,7 +155,7 @@ class Lazy(Generic[T]):
         """
         return Lazy(zip(self.gen, other))
 
-    def collect(self):
+    def collect(self) -> "QList[T]":
         """
         Evaluates the `Lazy` object into `QList`.
         Same as calling `qlist()`
@@ -243,6 +243,25 @@ class Lazy(Generic[T]):
                 for elem in saved:
                     yield elem
         return Lazy(inner())
+
+    def enumerate(self, start: int = 0) -> "Lazy[tuple[int, T]]":
+        """
+        Returns a `Lazy` object with index-value pairs as its elements. Index starts at
+        the given position `start` (defaults to 0).
+
+        Returns: Lazy[tuple[int, T]]
+
+        Examples:
+            >>> Lazy(['a', 'b', 'c']).enumerate().collect()
+            [(0, 'a'), (1, 'b'), (2, 'c')]
+        """
+        def inner():
+            for i, elem in enumerate(self, start=start):
+                yield i, elem
+        return Lazy(inner())
+
+
+# ----------------- QList ----------------------------------------------
 
 
 class QList(list):
@@ -433,6 +452,10 @@ class QList(list):
             other: iterable to zip with this `QList`.
 
         Returns: `Lazy[tuple[T, K]]`
+
+        Examples:
+            >>> Lazy([1, 2, 3]).zip(['a', 'b', 'c']).collect()
+            [(1, 'a'), (2, 'b'), (3, 'c')]
         """
         return Lazy(zip(self, other))
 
@@ -460,7 +483,7 @@ class QList(list):
 
         Returns: Lazy[T]
 
-        Example:
+        Examples:
             >>> QList(range(10)).skip(2).collect()
             [2, 3, 4, 5, 6, 7, 8, 9]
         """
@@ -522,6 +545,22 @@ class QList(list):
             while saved:
                 for elem in saved:
                     yield elem
+        return Lazy(inner())
+
+    def enumerate(self, start: int = 0) -> Lazy[tuple[int, T]]:
+        """
+        Returns a `Lazy` object with index-value pairs as its elements. Index starts at
+        the given position `start` (defaults to 0).
+
+        Returns: Lazy[tuple[int, T]]
+
+        Examples:
+            >>> QList(['a', 'b', 'c']).enumerate().collect()
+            [(0, 'a'), (1, 'b'), (2, 'c')]
+        """
+        def inner():
+            for i, elem in enumerate(self, start=start):
+                yield i, elem
         return Lazy(inner())
 
 

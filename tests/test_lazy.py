@@ -156,6 +156,28 @@ def test_skip():
     assert expected == res
 
 
+def test_enumerate():
+    expected = QList([(0, 'a'), (1, 'b'), (2, 'c')])
+    res = Lazy(['a', 'b', 'c']).enumerate().collect()
+    assert res == expected
+
+    expected = QList([(5, 'a'), (6, 'b'), (7, 'c')])
+    res = Lazy(['a', 'b', 'c']).enumerate(start=5).collect()
+    assert res == expected
+
+    expected = QList([(-1, 'a'), (0, 'b'), (1, 'c')])
+    res = Lazy(['a', 'b', 'c']).enumerate(start=-1).collect()
+    assert res == expected
+
+    expected = QList([0, 1, 2, 3])
+    res = Lazy('a').cycle().enumerate().map(lambda x: x[0]).take(4).collect()
+    assert res == expected
+
+    expected = QList([(0, 'a'), (1, 'a'), (2, 'a'), (0, 'a'), (1, 'a'), (2, 'a')])
+    res = Lazy('a').cycle().take(3).enumerate().cycle().take(6).collect()
+    assert res == expected
+
+
 def test_method_chaining():
     res = (
         Lazy(range(100))
