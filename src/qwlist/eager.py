@@ -201,3 +201,4 @@ class EagerQList(list):
             for i, elem in enumerate(self, start=start):
                 yield i, elem
         return EagerQList(inner())
+
