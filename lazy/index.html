@@ -338,6 +338,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#src.qwlist.qwlist.Lazy.enumerate" class="md-nav__link">
+    enumerate()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#src.qwlist.qwlist.Lazy.filter" class="md-nav__link">
     filter()
   </a>
@@ -517,6 +524,13 @@
         <li class="md-nav__item">
   <a href="#src.qwlist.qwlist.Lazy.cycle" class="md-nav__link">
     cycle()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#src.qwlist.qwlist.Lazy.enumerate" class="md-nav__link">
+    enumerate()
   </a>
   
 </li>
@@ -880,7 +894,23 @@ again may cause errors</strong> due to the draining of the generator.</p>
 <span class="normal">242</span>
 <span class="normal">243</span>
 <span class="normal">244</span>
-<span class="normal">245</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Lazy</span><span class="p">(</span><span class="n">Generic</span><span class="p">[</span><span class="n">T</span><span class="p">]):</span>
+<span class="normal">245</span>
+<span class="normal">246</span>
+<span class="normal">247</span>
+<span class="normal">248</span>
+<span class="normal">249</span>
+<span class="normal">250</span>
+<span class="normal">251</span>
+<span class="normal">252</span>
+<span class="normal">253</span>
+<span class="normal">254</span>
+<span class="normal">255</span>
+<span class="normal">256</span>
+<span class="normal">257</span>
+<span class="normal">258</span>
+<span class="normal">259</span>
+<span class="normal">260</span>
+<span class="normal">261</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Lazy</span><span class="p">(</span><span class="n">Generic</span><span class="p">[</span><span class="n">T</span><span class="p">]):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Object representing lazy evaluation of called methods.</span>
 
@@ -1030,7 +1060,7 @@ again may cause errors</strong> due to the draining of the generator.</p>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">Lazy</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">gen</span><span class="p">,</span> <span class="n">other</span><span class="p">))</span>
 
-    <span class="k">def</span> <span class="nf">collect</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">collect</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;QList[T]&quot;</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Evaluates the `Lazy` object into `QList`.</span>
 <span class="sd">        Same as calling `qlist()`</span>
@@ -1096,7 +1126,7 @@ again may cause errors</strong> due to the draining of the generator.</p>
                 <span class="k">yield from</span> <span class="n">elem</span>
         <span class="k">return</span> <span class="n">Lazy</span><span class="p">(</span><span class="n">inner</span><span class="p">())</span>
 
-    <span class="k">def</span> <span class="nf">cycle</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">cycle</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Lazy[T]&quot;</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns a `Lazy[T]` that cycles through the elements of the `Lazy` object, that means</span>
 <span class="sd">        on achieving the last element the iteration starts from the beginning. The</span>
@@ -1110,13 +1140,29 @@ again may cause errors</strong> due to the draining of the generator.</p>
 <span class="sd">            [1, 2, 3, 1, 2, 3, 1]</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">def</span> <span class="nf">inner</span><span class="p">():</span>
-            <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-                <span class="n">yielded</span> <span class="o">=</span> <span class="kc">False</span>
-                <span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">gen</span><span class="p">:</span>
+            <span class="n">saved</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">gen</span><span class="p">:</span>
+                <span class="n">saved</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">elem</span><span class="p">)</span>
+                <span class="k">yield</span> <span class="n">elem</span>
+            <span class="k">while</span> <span class="n">saved</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="n">saved</span><span class="p">:</span>
                     <span class="k">yield</span> <span class="n">elem</span>
-                    <span class="n">yielded</span> <span class="o">=</span> <span class="kc">True</span>
-                <span class="k">if</span> <span class="ow">not</span> <span class="n">yielded</span><span class="p">:</span>
-                    <span class="k">return</span> <span class="nb">iter</span><span class="p">([])</span>
+        <span class="k">return</span> <span class="n">Lazy</span><span class="p">(</span><span class="n">inner</span><span class="p">())</span>
+
+    <span class="k">def</span> <span class="nf">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Lazy[tuple[int, T]]&quot;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a `Lazy` object with index-value pairs as its elements. Index starts at</span>
+<span class="sd">        the given position `start` (defaults to 0).</span>
+
+<span class="sd">        Returns: Lazy[tuple[int, T]]</span>
+
+<span class="sd">        Examples:</span>
+<span class="sd">            &gt;&gt;&gt; Lazy([&#39;a&#39;, &#39;b&#39;, &#39;c&#39;]).enumerate().collect()</span>
+<span class="sd">            [(0, &#39;a&#39;), (1, &#39;b&#39;), (2, &#39;c&#39;)]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">def</span> <span class="nf">inner</span><span class="p">():</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">elem</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="n">start</span><span class="p">):</span>
+                <span class="k">yield</span> <span class="n">i</span><span class="p">,</span> <span class="n">elem</span>
         <span class="k">return</span> <span class="n">Lazy</span><span class="p">(</span><span class="n">inner</span><span class="p">())</span>
 </code></pre></div></td></tr></table></div>
             </details>
@@ -1225,7 +1271,7 @@ Same as calling <code>qlist()</code></p>
 <span class="normal">163</span>
 <span class="normal">164</span>
 <span class="normal">165</span>
-<span class="normal">166</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">collect</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="normal">166</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">collect</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;QList[T]&quot;</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Evaluates the `Lazy` object into `QList`.</span>
 <span class="sd">    Same as calling `qlist()`</span>
@@ -1290,7 +1336,7 @@ in which case cycle returns an empty <code>Lazy</code> object (empty iterator).<
 <span class="normal">242</span>
 <span class="normal">243</span>
 <span class="normal">244</span>
-<span class="normal">245</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">cycle</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="normal">245</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">cycle</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Lazy[T]&quot;</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns a `Lazy[T]` that cycles through the elements of the `Lazy` object, that means</span>
 <span class="sd">    on achieving the last element the iteration starts from the beginning. The</span>
@@ -1304,13 +1350,75 @@ in which case cycle returns an empty <code>Lazy</code> object (empty iterator).<
 <span class="sd">        [1, 2, 3, 1, 2, 3, 1]</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="nf">inner</span><span class="p">():</span>
-        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-            <span class="n">yielded</span> <span class="o">=</span> <span class="kc">False</span>
-            <span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">gen</span><span class="p">:</span>
+        <span class="n">saved</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">gen</span><span class="p">:</span>
+            <span class="n">saved</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">elem</span><span class="p">)</span>
+            <span class="k">yield</span> <span class="n">elem</span>
+        <span class="k">while</span> <span class="n">saved</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="n">saved</span><span class="p">:</span>
                 <span class="k">yield</span> <span class="n">elem</span>
-                <span class="n">yielded</span> <span class="o">=</span> <span class="kc">True</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">yielded</span><span class="p">:</span>
-                <span class="k">return</span> <span class="nb">iter</span><span class="p">([])</span>
+    <span class="k">return</span> <span class="n">Lazy</span><span class="p">(</span><span class="n">inner</span><span class="p">())</span>
+</code></pre></div></td></tr></table></div>
+          </details>
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+
+<h2 id="src.qwlist.qwlist.Lazy.enumerate" class="doc doc-heading">
+          <code class="highlight language-python"><span class="nb">enumerate</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span></code>
+
+</h2>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Returns a <code>Lazy</code> object with index-value pairs as its elements. Index starts at
+the given position <code>start</code> (defaults to 0).</p>
+<p>Returns: Lazy[tuple[int, T]]</p>
+
+
+
+<p><strong>Examples:</strong></p>
+    <div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">Lazy</span><span class="p">([</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">enumerate</span><span class="p">()</span><span class="o">.</span><span class="n">collect</span><span class="p">()</span>
+<span class="go">[(0, &#39;a&#39;), (1, &#39;b&#39;), (2, &#39;c&#39;)]</span>
+</code></pre></div>
+
+          <details class="quote">
+            <summary>Source code in <code>src\qwlist\qwlist.py</code></summary>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">247</span>
+<span class="normal">248</span>
+<span class="normal">249</span>
+<span class="normal">250</span>
+<span class="normal">251</span>
+<span class="normal">252</span>
+<span class="normal">253</span>
+<span class="normal">254</span>
+<span class="normal">255</span>
+<span class="normal">256</span>
+<span class="normal">257</span>
+<span class="normal">258</span>
+<span class="normal">259</span>
+<span class="normal">260</span>
+<span class="normal">261</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Lazy[tuple[int, T]]&quot;</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns a `Lazy` object with index-value pairs as its elements. Index starts at</span>
+<span class="sd">    the given position `start` (defaults to 0).</span>
+
+<span class="sd">    Returns: Lazy[tuple[int, T]]</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; Lazy([&#39;a&#39;, &#39;b&#39;, &#39;c&#39;]).enumerate().collect()</span>
+<span class="sd">        [(0, &#39;a&#39;), (1, &#39;b&#39;), (2, &#39;c&#39;)]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">inner</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">elem</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="n">start</span><span class="p">):</span>
+            <span class="k">yield</span> <span class="n">i</span><span class="p">,</span> <span class="n">elem</span>
     <span class="k">return</span> <span class="n">Lazy</span><span class="p">(</span><span class="n">inner</span><span class="p">())</span>
 </code></pre></div></td></tr></table></div>
           </details>
