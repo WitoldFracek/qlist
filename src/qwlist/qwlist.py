@@ -221,7 +221,7 @@ class Lazy(Generic[T]):
                 yield from elem
         return Lazy(inner())
 
-    def cycle(self):
+    def cycle(self) -> "Lazy[T]":
         """
         Returns a `Lazy[T]` that cycles through the elements of the `Lazy` object, that means
         on achieving the last element the iteration starts from the beginning. The
@@ -235,13 +235,13 @@ class Lazy(Generic[T]):
             [1, 2, 3, 1, 2, 3, 1]
         """
         def inner():
-            while True:
-                yielded = False
-                for elem in self.gen:
+            saved = []
+            for elem in self.gen:
+                saved.append(elem)
+                yield elem
+            while saved:
+                for elem in saved:
                     yield elem
-                    yielded = True
-                if not yielded:
-                    return iter([])
         return Lazy(inner())
 
 
@@ -501,7 +501,7 @@ class QList(list):
                 yield from elem
         return Lazy(inner())
 
-    def cycle(self):
+    def cycle(self) -> Lazy[T]:
         """
         Returns a `Lazy[T]` that cycles through the elements of the `QList` that means
         on achieving the last element the iteration starts from the beginning. The
@@ -515,13 +515,13 @@ class QList(list):
             [1, 2, 3, 1, 2, 3, 1]
         """
         def inner():
-            while True:
-                yielded = False
-                for elem in self:
+            saved = []
+            for elem in self:
+                saved.append(elem)
+                yield elem
+            while saved:
+                for elem in saved:
                     yield elem
-                    yielded = True
-                if not yielded:
-                    return iter([])
         return Lazy(inner())
 
 

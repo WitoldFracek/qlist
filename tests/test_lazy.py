@@ -169,6 +169,25 @@ def test_method_chaining():
     )
     assert 4 == res
 
+    res = (
+        Lazy(range(10))
+        .filter(lambda x: x % 2 == 0)
+        .cycle()
+        .take(10)
+        .collect()
+    )
+    assert res == QList([0, 2, 4, 6, 8, 0, 2, 4, 6, 8])
+
+    res = (
+        Lazy(range(10))
+        .map(lambda x: x % 2 == 0)
+        .filter(lambda x: x)
+        .cycle()
+        .take(20)
+        .collect()
+    )
+    assert res == QList([True] * 20)
+
 
 def test_methods_are_lazy():
     lazy = Lazy([1, 2, 3])
