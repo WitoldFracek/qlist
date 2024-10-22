@@ -48,7 +48,6 @@ class EagerQList(list):
 
         Returns: `QList[T]`
         """
-        from qwlist import QList
         return QList(self)
 
     def filter(self, pred: Callable[[T], bool]) -> "EagerQList[T]":
@@ -124,7 +123,7 @@ class EagerQList(list):
         Args:
             operation: `function: (K, T) -> K`
                 Given the initial value `init` applies the
-                given combination operator on each element of the QList, starting from the
+                given combination operator on each element of the EagerQList, starting from the
                 last element, treating the result as a first argument in the next step.
             init: initial value for the combination operator.
 
@@ -249,4 +248,57 @@ class EagerQList(list):
         def inner():
             yield from self
             yield from other
+        return EagerQList(inner())
+
+
+    def merge(self, other: Iterable[T], merger: Callable[[T, T], bool]) -> "EagerQList[T]":
+        """
+        Merges `self` with `other`, maintaining the order of elements based on the merger function. It starts by
+         taking the first elements from `self` and `other`, calling the merger function with these elements as arguments.
+         If the output is True, the first element is yielded; otherwise, the second element is yielded. If `self` is
+         empty, the remaining elements from `other` are yielded, and vice versa.
+
+        Args:
+            other: Iterable[T] - an iterable to be merged with `self`.
+            merger: function (T, T) -> bool - a function that takes two arguments (left and right). If the output is True,
+        the left argument is yielded; otherwise, the right argument is yielded.
+
+        Returns: `EagerQList[T]` - EagerQList containing the merged elements.
+
+        Examples:
+            >>> EagerQList([1, 3, 5]).merge([2, 4, 6], lambda left, right: left < right)
+            [1, 2, 3, 4, 5, 6]
+        """
+        it1 = iter(self)
+        it2 = iter(other)
+
+        try:
+            elem1 = next(it1)
+        except StopIteration:
+            return EagerQList(it2)
+        try:
+            elem2 = next(it2)
+        except StopIteration:
+            return EagerQList([elem1]).chain(it1)
+
+        def inner():
+            left = elem1
+            right = elem2
+            while True:
+                if merger(left, right):
+                    yield left
+                    try:
+                        left = next(it1)
+                    except StopIteration:
+                        yield right
+                        yield from it2
+                        return
+                else:
+                    yield right
+                    try:
+                        right = next(it2)
+                    except StopIteration:
+                        yield left
+                        yield from it1
+                        return
         return EagerQList(inner())

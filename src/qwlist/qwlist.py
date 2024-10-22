@@ -313,6 +313,23 @@ class Lazy(Generic[T]):
         return Lazy(inner())
 
     def merge(self, other: Iterable[T], merger: Callable[[T, T], bool]) -> "Lazy[T]":
+        """
+        Merges `self` with `other`, maintaining the order of elements based on the merger function. It starts by
+         taking the first elements from `self` and `other`, calling the merger function with these elements as arguments.
+         If the output is True, the first element is yielded; otherwise, the second element is yielded. If `self` is
+         empty, the remaining elements from `other` are yielded, and vice versa.
+
+        Args:
+            other: Iterable[T] - an iterable to be merged with `self`.
+            merger: function (T, T) -> bool - a function that takes two arguments (left and right). If the output is True,
+             the left argument is yielded; otherwise, the right argument is yielded.
+
+        Returns: `Lazy[T]` - a lazy iterable containing the merged elements.
+
+        Examples:
+            >>> QList([1, 3, 5]).merge([2, 4, 6], lambda left, right: left < right).collect()
+            [1, 2, 3, 4, 5, 6]
+        """
         it1 = iter(self)
         it2 = iter(other)
 
@@ -710,6 +727,23 @@ class QList(list):
         return Lazy(inner())
 
     def merge(self, other: Iterable[T], merger: Callable[[T, T], bool]) -> Lazy[T]:
+        """
+        Merges `self` with `other`, maintaining the order of elements based on the merger function. It starts by
+         taking the first elements from `self` and `other`, calling the merger function with these elements as arguments.
+         If the output is True, the first element is yielded; otherwise, the second element is yielded. If `self` is
+         empty, the remaining elements from `other` are yielded, and vice versa.
+
+        Args:
+            other: Iterable[T] - an iterable to be merged with `self`.
+            merger: function (T, T) -> bool - a function that takes two arguments (left and right). If the output is True,
+        the left argument is yielded; otherwise, the right argument is yielded.
+
+        Returns: `Lazy[T]` - a lazy iterable containing the merged elements.
+
+        Examples:
+            >>> QList([1, 3, 5]).merge([2, 4, 6], lambda left, right: left < right).collect()
+            [1, 2, 3, 4, 5, 6]
+        """
         it1 = iter(self)
         it2 = iter(other)
 

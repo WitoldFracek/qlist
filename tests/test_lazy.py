@@ -313,3 +313,21 @@ def test_chain():
     expected = QList()
     res = Lazy([]).chain([]).collect()
     assert expected == res
+
+
+def test_merge():
+    expected = QList([1, 2, 3, 4, 5, 6])
+    res = Lazy([1, 3, 5]).merge([2, 4, 6], lambda left, right: left < right).collect()
+    assert expected == res
+
+    expected = QList([1, 2, 3])
+    res = Lazy([1, 2, 3]).merge([], lambda left, right: False).collect()
+    assert expected == res
+
+    expected = QList([1, 2, 3])
+    res = Lazy([]).merge([1, 2, 3], lambda left, right: True).collect()
+    assert expected == res
+
+    expected = QList()
+    res = Lazy([]).merge([], lambda left, right: False).collect()
+    assert expected == res
