@@ -1,4 +1,6 @@
-from typing import TypeVar, Iterable, Callable, overload
+from typing import TypeVar, Iterable, Callable, overload, Iterator
+
+from src.qwlist import QList
 
 T = TypeVar('T')
 K = TypeVar('K')
@@ -23,6 +25,14 @@ class EagerQList(list):
         if isinstance(item, slice):
             return EagerQList(super().__getitem__(item))
         return super().__getitem__(item)
+
+    def iter(self) -> Iterator[T]:
+        """
+        Changes EagerQList[T] into Iterator[T].
+
+        Returns: `Iterator[T]`
+        """
+        return iter(self)
 
     def list(self) -> list[T]:
         """
@@ -202,3 +212,41 @@ class EagerQList(list):
                 yield i, elem
         return EagerQList(inner())
 
+    def batch(self, size: int) -> "EagerQList[EagerQList[T]]":
+        """
+        Groups elements into batches of given `size`. The last batch may have fewer elements.
+
+        Args:
+            size: int - size of one batch
+
+        Returns: EagerQList[EagerQList[T]]
+
+        Examples:
+            >>> EagerQList(range(5)).batch(2)
+            [[0, 1], [2, 3], [4]]
+        """
+        assert size > 0, f'batch size must be greater then 0 but got {size}'
+
+        def inner():
+            for i in range(0, self.len(), size):
+                yield EagerQList(self[i:i + size])
+
+        return EagerQList(inner())
+
+    def chain(self, other: Iterable[T]) -> "EagerQList[T]":
+        """
+        Chains `self` with `other`, returning a new EagerQList with all elements from both iterables.
+
+        Args:
+            other: Iterable[T] - an iterable of elements to be "attached" after self is exhausted.
+
+        Returns: `EagerQList[T]`
+
+        Examples:
+            >>> EagerQList(range(0, 3)).chain(range(3, 6))
+            [0, 1, 2, 3, 4, 5]
+        """
+        def inner():
+            yield from self
+            yield from other
+        return EagerQList(inner())

@@ -201,3 +201,45 @@ def test_flatten():
     res = EagerQList([[[1, 2], [1, 2], [1, 2]]]).flatten()
     assert expected == res
 
+
+def test_batch():
+    expected = EagerQList([EagerQList([0, 1]), EagerQList([2, 3]), EagerQList([4])])
+    res = EagerQList(range(5)).batch(2)
+    for b1, b2 in zip(expected, res):
+        assert b1 == b2
+
+    expected = EagerQList(range(10))
+    res = EagerQList(range(10)).batch(3).flatmap(lambda x: x)
+    assert expected == res
+
+    expected = EagerQList(range(10))
+    res = EagerQList(range(10)).batch(4).flatten()
+    assert expected == res
+
+    expected = EagerQList(range(10))
+    res = EagerQList(range(10)).batch(expected.len())[0]
+    assert expected == res
+
+
+def test_iter():
+    expected = 0
+    res = next(EagerQList(range(10)).iter())
+    assert expected == res
+
+
+def test_chain():
+    expected = EagerQList([0, 1, 2, 3, 4, 5])
+    res = EagerQList(range(0, 3)).chain(range(3, 6))
+    assert expected == res
+
+    expected = EagerQList([0, 1, 2])
+    res = EagerQList(range(0, 3)).chain([])
+    assert expected == res
+
+    expected = EagerQList([0, 1, 2])
+    res = EagerQList([]).chain(range(0, 3))
+    assert expected == res
+
+    expected = EagerQList()
+    res = EagerQList().chain([])
+    assert expected == res

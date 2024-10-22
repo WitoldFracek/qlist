@@ -302,3 +302,46 @@ def test_cycle():
     res = QList(range(10)).cycle().take(3).collect()
     assert expected == res
 
+
+def test_batch():
+    expected = QList([QList([0, 1]), QList([2, 3]), QList([4])])
+    res = QList(range(5)).batch(2).collect()
+    for b1, b2 in zip(expected, res):
+        assert b1 == b2
+
+    expected = QList(range(10))
+    res = QList(range(10)).batch(3).flatmap(lambda x: x).collect()
+    assert expected == res
+
+    expected = QList(range(10))
+    res = QList(range(10)).batch(4).flatten().collect()
+    assert expected == res
+
+    expected = QList(range(10))
+    res = QList(range(10)).batch(expected.len()).collect()[0]
+    assert expected == res
+
+
+def test_iter():
+    expected = 0
+    res = next(QList(range(10)).iter())
+    assert expected == res
+
+
+def test_chain():
+    expected = QList([0, 1, 2, 3, 4, 5])
+    res = QList(range(0, 3)).chain(range(3, 6)).collect()
+    assert expected == res
+
+    expected = QList([0, 1, 2])
+    res = QList(range(0, 3)).chain([]).collect()
+    assert expected == res
+
+    expected = QList([0, 1, 2])
+    res = QList([]).chain(range(0, 3)).collect()
+    assert expected == res
+
+    expected = QList()
+    res = QList().chain([]).collect()
+    assert expected == res
+

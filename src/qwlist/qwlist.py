@@ -1,8 +1,9 @@
-from typing import TypeVar, Generic, Iterable, Callable, overload
+from typing import TypeVar, Generic, Iterable, Callable, overload, Optional, Iterator
 
 T = TypeVar('T')
 K = TypeVar('K')
 SupportsLessThan = TypeVar("SupportsLessThan")
+Booly = TypeVar('Booly')
 
 
 class Lazy(Generic[T]):
@@ -31,6 +32,14 @@ class Lazy(Generic[T]):
 
     def __repr__(self) -> str:
         return f'Lazy({repr(self.gen)})'
+
+    def iter(self) -> Iterator[T]:
+        """
+        Changes Lazy[T] into Iterator[T].
+
+        Returns: `Iterator[T]`
+        """
+        return iter(self.gen)
 
     def list(self) -> list[T]:
         """
@@ -260,6 +269,98 @@ class Lazy(Generic[T]):
                 yield i, elem
         return Lazy(inner())
 
+    def batch(self, size: int) -> "Lazy[QList[T]]":
+        """
+        Groups elements into batches of given `size`. The last batch may have fewer elements.
+
+        Args:
+            size: int - size of one batch
+
+        Returns: Lazy[QList[T]]
+
+        Examples:
+            >>> Lazy(range(5)).batch(2).collect()
+            [[0, 1], [2, 3], [4]]
+        """
+        assert size > 0, f'batch size must be greater then 0 but got {size}'
+        def inner():
+            group = QList()
+            for i, elem in enumerate(self.gen, start=1):
+                group.append(elem)
+                if i % size == 0:
+                    yield group
+                    group = QList()
+            if group:
+                yield group
+        return Lazy(inner())
+
+    def chain(self, other: Iterable[T]) -> "Lazy[T]":
+        """
+        Chains `self` with `other`, returning a new Lazy[T] with all elements from both iterables.
+
+        Args:
+            other: Iterable[T] - an iterable of elements to be "attached" after self is exhausted.
+
+        Returns: `Lazy[T]`
+
+        Examples:
+            >>> Lazy(range(0, 3)).chain(range(3, 6)).collect()
+            [0, 1, 2, 3, 4, 5]
+        """
+        def inner():
+            yield from self.gen
+            yield from other
+        return Lazy(inner())
+
+    def merge(self, other: Iterable[T], merger: Callable[[T, T], bool]) -> "Lazy[T]":
+        it1 = iter(self)
+        it2 = iter(other)
+
+        try:
+            elem1 = next(it1)
+        except StopIteration:
+            return Lazy(it2)
+        try:
+            elem2 = next(it2)
+        except StopIteration:
+            return Lazy([elem1]).chain(it1)
+
+        def inner():
+            left = elem1
+            right = elem2
+            while True:
+                if merger(left, right):
+                    yield left
+                    try:
+                        left = next(it1)
+                    except StopIteration:
+                        yield right
+                        yield from it2
+                        return
+                else:
+                    yield right
+                    try:
+                        right = next(it2)
+                    except StopIteration:
+                        yield left
+                        yield from it1
+                        return
+        return Lazy(inner())
+
+    def all(self, mapper: Optional[Callable[[T], Booly]] = None) -> bool:
+        def identity(x):
+            return x
+        mapper = identity if mapper is None else mapper
+        for elem in self.gen:
+            if not mapper(elem):
+                return False
+        return True
+
+    def full_flatten(self) -> "Lazy[T]":
+        """
+        self: Lazy[T | Iterable[T | Iterable[T | ...]]]
+        """
+
 
 # ----------------- QList ----------------------------------------------
 
@@ -284,6 +385,14 @@ class QList(list):
         if isinstance(item, slice):
             return QList(super().__getitem__(item))
         return super().__getitem__(item)
+
+    def iter(self) -> Iterator[T]:
+        """
+        Changes QList[T] into Iterator[T].
+
+        Returns: `Iterator[T]`
+        """
+        return iter(self)
 
     def slice(self, s: slice) -> Lazy[T]:
         """
@@ -563,7 +672,79 @@ class QList(list):
                 yield i, elem
         return Lazy(inner())
 
+    def batch(self, size: int) -> Lazy["QList[T]"]:
+        """
+        Groups elements into batches of given `size`. The last batch may have fewer elements.
+
+        Args:
+            size: int - size of one batch
+
+        Returns: Lazy[QList[T]]
+
+        Examples:
+            >>> QList(range(5)).batch(2).collect()
+            [[0, 1], [2, 3], [4]]
+        """
+        assert size > 0, f'batch size must be greater then 0 but got {size}'
+        def inner():
+            for i in range(0, self.len(), size):
+                yield QList(self[i:i+size])
+        return Lazy(inner())
+
+    def chain(self, other: Iterable[T]) -> Lazy[T]:
+        """
+        Chains `self` with `other`, returning a Lazy[T] with all elements from both iterables.
+
+        Args:
+            other: Iterable[T] - an iterable of elements to be "attached" after self is exhausted.
+
+        Returns: `Lazy[T]`
+
+        Examples:
+            >>> QList(range(0, 3)).chain(range(3, 6)).collect()
+            [0, 1, 2, 3, 4, 5]
+        """
+        def inner():
+            yield from self
+            yield from other
+        return Lazy(inner())
+
+    def merge(self, other: Iterable[T], merger: Callable[[T, T], bool]) -> Lazy[T]:
+        it1 = iter(self)
+        it2 = iter(other)
+
+        try:
+            elem1 = next(it1)
+        except StopIteration:
+            return Lazy(it2)
+        try:
+            elem2 = next(it2)
+        except StopIteration:
+            return Lazy([elem1]).chain(it1)
+
+        def inner():
+            left = elem1
+            right = elem2
+            while True:
+                if merger(left, right):
+                    yield left
+                    try:
+                        left = next(it1)
+                    except StopIteration:
+                        yield right
+                        yield from it2
+                        return
+                else:
+                    yield right
+                    try:
+                        right = next(it2)
+                    except StopIteration:
+                        yield left
+                        yield from it1
+                        return
+        return Lazy(inner())
+
 
 if __name__ == '__main__':
-    print(Lazy([[1, 2], [3, 4]]).flatten().collect())
+    print(Lazy([[], [], []]).all(mapper=lambda x: not x))
 
