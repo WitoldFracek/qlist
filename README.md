@@ -13,7 +13,7 @@ xs = QList(['1', '2', '3', '4'])
 s = xs.map(int).filter(lambda x: x < 3).fold(lambda acc, x: acc + x, 0)
 ```
 
-As a bonus you get `len()` **method**, so no longer will you be forced to wrapp your
+As a bonus you get `len()` **method**, so no longer will you be forced to wrap your
 lists in this type of code `len(xs)` and simply call `xs.len()` (I understand it is negligibly 
 slower but look how much nicer it looks!)
 
