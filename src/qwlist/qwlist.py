@@ -1,4 +1,4 @@
-from typing import TypeVar, Generic, Iterable, Callable, overload, Optional, Iterator
+from typing import TypeVar, Generic, Iterable, Callable, overload, Optional, Iterator, Type
 
 T = TypeVar('T')
 K = TypeVar('K')
@@ -228,6 +228,7 @@ class Lazy(Generic[T]):
         """
         def inner():
             for elem in self.gen:
+                # TODO: clear message when elem is not iterable
                 yield from elem
         return Lazy(inner())
 
@@ -377,18 +378,53 @@ class Lazy(Generic[T]):
     def any(self, mapper: Optional[Callable[[T], Booly]]):
         raise NotImplemented()
 
-    def full_flatten(self) -> "Lazy[T]":
+    def full_flatten(self, break_str: bool = True, preserve_type: Optional[Type] = None) -> "Lazy[T]":
         """
-        self: Lazy[T | Iterable[T | Iterable[T | ...]]]
+        When self is an iterable of nested iterables, all the iterables are flattened to a single iterable.
+        Recursive type annotation of `self` may be imagined to look like this: Lazy[T | Iterable[T | Iterable[T | ...]]].
+
+
+        Args:
+            break_str (bool, optional): If `True`, strings are flattened into individual characters. Defaults to `True`.
+            preserve_type (Optional[Type], optional): Type to exclude from flattening (i.e., treated as non-iterable). For example,
+             setting this to `str` makes `break_str` effectively `False`. Defaults to `None`.
+
+        Returns: `Lazy[T]` with all nested iterables flattened to a single iterable.
+
+        Examples:
+            >>> Lazy(['abc', ['def', 'ghi']]).full_flatten().collect()
+            ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i']
+
+            >>> Lazy(['abc', ['def', 'ghi']]).full_flatten(break_str=False).collect()
+            ['abc', 'def', 'ghi']
+
+            >>> Lazy(['abc', ['def', 'ghi']]).full_flatten(preserve_type=list).collect()
+            ['a', 'b', 'c', ['def', 'ghi']]
         """
-        raise NotImplemented()
+        def inner():
+            for elem in self.gen:
+                if preserve_type is not None and isinstance(elem, preserve_type):
+                    yield elem
+                elif isinstance(elem, str):
+                    if break_str:
+                        if len(elem) == 1:
+                            yield elem
+                        else:
+                            yield from Lazy(elem).full_flatten(break_str=break_str, preserve_type=preserve_type)
+                    else:
+                        yield elem
+                elif isinstance(elem, Iterable):
+                    yield from Lazy(elem).full_flatten(break_str=break_str, preserve_type=preserve_type)
+                else:
+                    yield elem
+        return Lazy(inner())
 
     def sum(self, init: Optional[T] = None) -> T:
         """
 
         Args:
             init (Optional[T]): - if set to None the first element of the iterable is the first component of the addition.
-             If set to anything other than none `init` is treated as the first component of the addition. Defaults to None.
+             If set to anything other than None `init` is treated as the first component of the addition. Defaults to None.
 
         Raises:
             Exception when called on an empty Lazy without specifying the `init` argument
@@ -808,6 +844,12 @@ class QList(list):
                         yield from it1
                         return
         return Lazy(inner())
+
+    def full_flatten(self) -> Lazy[T]:
+        def inner():
+            for elem in self:
+                if isinstance(elem, Iterable):
+                    yield from Lazy(elem).full_flatten()
 
 
 if __name__ == '__main__':
