@@ -3,6 +3,7 @@ from typing import TypeVar, Generic, Iterable, Callable, overload, Optional, Ite
 T = TypeVar('T')
 K = TypeVar('K')
 SupportsLessThan = TypeVar("SupportsLessThan")
+SupportsAdd = TypeVar("SupportsAdd")
 Booly = TypeVar('Booly')
 
 
@@ -373,10 +374,40 @@ class Lazy(Generic[T]):
                 return False
         return True
 
+    def any(self, mapper: Optional[Callable[[T], Booly]]):
+        raise NotImplemented()
+
     def full_flatten(self) -> "Lazy[T]":
         """
         self: Lazy[T | Iterable[T | Iterable[T | ...]]]
         """
+        raise NotImplemented()
+
+    def sum(self, init: Optional[T] = None) -> T:
+        """
+
+        Args:
+            init (Optional[T]): - if set to None the first element of the iterable is the first component of the addition.
+             If set to anything other than none `init` is treated as the first component of the addition. Defaults to None.
+
+        Raises:
+            Exception when called on an empty Lazy without specifying the `init` argument
+
+        Returns: sum off all the elements starting with the init
+        """
+        if init is not None:
+            ret = init
+            for elem in self.gen:
+                ret = ret + elem
+            return ret
+        it = iter(self.gen)
+        try:
+            ret = next(it)
+        except StopIteration:
+            raise Exception("calling sum on an empty Lazy without specifying the initial element. Either pass the init argument or call sum on nonempty Lazy")
+        for elem in it:
+            ret = ret + elem
+        return ret
 
 
 # ----------------- QList ----------------------------------------------
