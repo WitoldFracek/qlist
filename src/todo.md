@@ -19,6 +19,15 @@ QList, Lazy, EagerQList
 [ ] [ ] [ ] documented \
 [ ] [ ] [ ] tested
 
+### min
+[ ] [ ] [ ] implemented \
+[ ] [ ] [ ] documented \
+[ ] [ ] [ ] tested
+
+### max
+[ ] [ ] [ ] implemented \
+[ ] [ ] [ ] documented \
+[ ] [ ] [ ] tested
 
 ### full_flatten
 [x] [x] [ ] implemented \
@@ -44,9 +53,5 @@ QList, Lazy, EagerQList
 [x] [x] [x] implemented \
 [x] [x] [x] documented \
 [x] [x] [x] tested
-
-check flatten() on not iterable
-[1, 2, 3].flatten()
-add info when elem is not iterable
 
 w assertach jest res == expected kolejność
