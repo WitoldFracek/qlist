@@ -192,6 +192,9 @@ class EagerQList(list):
         """
         def inner():
             for elem in self:
+                if not isinstance(elem, Iterable):
+                    type_name = type(elem).__name__
+                    raise TypeError(f'could not flatten {self.__class__.__name__}[{type_name}] because {type_name} is not iterable.')
                 yield from elem
         return EagerQList(inner())
 

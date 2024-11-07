@@ -220,15 +220,23 @@ class Lazy(Generic[T]):
         If `self` is a `Lazy` object of `Iterable[T]`, flatten concatenates all iterables into a
         single list and returns a `Lazy[T]` object.
 
-        Returns: `Lazy[T]`
+        Returns:
+            `Lazy[T]`
+
+        Raises:
+            TypeError when elements of Lazy are not an iterable.
 
         Examples:
             >>> Lazy([[1, 2], [3, 4]]).flatten().collect()
             [1, 2, 3, 4]
         """
+
         def inner():
             for elem in self.gen:
-                # TODO: clear message when elem is not iterable
+                if not isinstance(elem, Iterable):
+                    type_name = type(elem).__name__
+                    raise TypeError(
+                        f'could not flatten {self.__class__.__name__}[{type_name}] because {type_name} is not iterable.')
                 yield from elem
         return Lazy(inner())
 
@@ -710,10 +718,18 @@ class QList(list):
         """
         If self is a QList of Iterable[T] flatten concatenates all iterables into a
         single list and returns a Lazy[T] object
-        Returns: Lazy[T]
+
+        Returns:
+            `Lazy[T]`
+
+        Raises:
+            TypeError when elements of QList are not iterable.
         """
         def inner():
             for elem in self:
+                if not isinstance(elem, Iterable):
+                    type_name = type(elem).__name__
+                    raise TypeError(f'could not flatten {self.__class__.__name__}[{type_name}] because {type_name} is not iterable.')
                 yield from elem
         return Lazy(inner())
 
@@ -724,7 +740,8 @@ class QList(list):
         returned `Lazy` object has no end (infinite iterator) unless the `QList` is empty
         in which case cycle returns an empty `Lazy` object (empty iterator).
 
-        Returns: Lazy[T]
+        Returns:
+            `Lazy[T]`
 
         Examples:
             >>> QList([1, 2, 3]).cycle().take(7).collect()
@@ -763,7 +780,8 @@ class QList(list):
         Args:
             size: int - size of one batch
 
-        Returns: Lazy[QList[T]]
+        Returns:
+            `Lazy[QList[T]]`
 
         Examples:
             >>> QList(range(5)).batch(2).collect()
@@ -782,7 +800,8 @@ class QList(list):
         Args:
             other: Iterable[T] - an iterable of elements to be "attached" after self is exhausted.
 
-        Returns: `Lazy[T]`
+        Returns:
+            `Lazy[T]`
 
         Examples:
             >>> QList(range(0, 3)).chain(range(3, 6)).collect()
@@ -805,7 +824,8 @@ class QList(list):
             merger: function (T, T) -> bool - a function that takes two arguments (left and right). If the output is True,
         the left argument is yielded; otherwise, the right argument is yielded.
 
-        Returns: `Lazy[T]` - a lazy iterable containing the merged elements.
+        Returns:
+            `Lazy[T]` - a lazy iterable containing the merged elements.
 
         Examples:
             >>> QList([1, 3, 5]).merge([2, 4, 6], lambda left, right: left < right).collect()
@@ -845,13 +865,50 @@ class QList(list):
                         return
         return Lazy(inner())
 
-    def full_flatten(self) -> Lazy[T]:
+    def full_flatten(self, break_str: bool = True, preserve_type: Optional[Type] = None) -> Lazy[T]:
+        """
+        When self is an iterable of nested iterables, all the iterables are flattened to a single iterable.
+        Recursive type annotation of `self` may be imagined to look like this: Lazy[T | Iterable[T | Iterable[T | ...]]].
+
+
+        Args:
+            break_str (bool, optional): If `True`, strings are flattened into individual characters. Defaults to `True`.
+            preserve_type (Optional[Type], optional): Type to exclude from flattening (i.e., treated as non-iterable). For example,
+             setting this to `str` makes `break_str` effectively `False`. Defaults to `None`.
+
+        Returns:
+            `Lazy[T]` with all nested iterables flattened to a single iterable.
+
+        Examples:
+            >>> Lazy(['abc', ['def', 'ghi']]).full_flatten().collect()
+            ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i']
+
+            >>> Lazy(['abc', ['def', 'ghi']]).full_flatten(break_str=False).collect()
+            ['abc', 'def', 'ghi']
+
+            >>> Lazy(['abc', ['def', 'ghi']]).full_flatten(preserve_type=list).collect()
+            ['a', 'b', 'c', ['def', 'ghi']]
+        """
+
         def inner():
             for elem in self:
-                if isinstance(elem, Iterable):
-                    yield from Lazy(elem).full_flatten()
+                if preserve_type is not None and isinstance(elem, preserve_type):
+                    yield elem
+                elif isinstance(elem, str):
+                    if break_str:
+                        if len(elem) == 1:
+                            yield elem
+                        else:
+                            yield from Lazy(elem).full_flatten(break_str=break_str, preserve_type=preserve_type)
+                    else:
+                        yield elem
+                elif isinstance(elem, Iterable):
+                    yield from Lazy(elem).full_flatten(break_str=break_str, preserve_type=preserve_type)
+                else:
+                    yield elem
+        return Lazy(inner())
 
 
 if __name__ == '__main__':
-    print(Lazy([[], [], []]).all(mapper=lambda x: not x))
+    QList([1, 2, 3]).flatten().collect()
 

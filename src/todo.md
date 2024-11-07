@@ -21,9 +21,9 @@ QList, Lazy, EagerQList
 
 
 ### full_flatten
-[ ] [x] [ ] implemented \
-[ ] [x] [ ] documented \
-[ ] [x] [ ] tested
+[x] [x] [ ] implemented \
+[x] [x] [ ] documented \
+[x] [x] [ ] tested
 
 ### merge
 [x] [x] [x] implemented \

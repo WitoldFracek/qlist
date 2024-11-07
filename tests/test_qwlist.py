@@ -363,3 +363,35 @@ def test_merge():
     res = QList().merge([], lambda left, right: False).collect()
     assert expected == res
 
+
+def test_full_flatten():
+    expected = QList(['a', 'b', 'c'])
+    res = QList('abc').full_flatten().collect()
+    assert expected == res
+
+    assert QList([[1, 2, 3]]).flatten().collect() == QList([[1, 2, 3]]).full_flatten().collect()
+
+    expected = QList([97, 97, 97, "b", "b", "b", "c", "c", "c", "d", "d", "d", " "])
+    res = QList([b"aaa", ["bbb"], [["ccc"], "ddd"], "", [[[" "]], []]]).full_flatten().collect()
+    assert res == expected
+
+    expected = QList(['abc', 'def', 'ghi'])
+    res = QList([['abc', 'def'], 'ghi']).full_flatten(break_str=False).collect()
+    assert res == expected
+
+    expected = QList([[], ['abc'], [True, False]])
+    res = QList([[], ['abc'], [True, False]]).full_flatten(preserve_type=list).collect()
+    assert res == expected
+
+    expected = QList()
+    res = QList([[], [[]], [[], []]]).full_flatten().collect()
+    assert res == expected
+
+    expected = QList(['a', 'b', 'c', ['def', 'ghi']])
+    res = QList(['abc', ['def', 'ghi']]).full_flatten(preserve_type=list).collect()
+    assert res == expected
+
+    expected = QList(['abc', ['def', 'ghi']])
+    res = Lazy([('abc',), ['def', 'ghi']]).full_flatten(preserve_type=list, break_str=False).collect()
+    assert res == expected
+
