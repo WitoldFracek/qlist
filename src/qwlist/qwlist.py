@@ -489,6 +489,25 @@ class Lazy(Generic[T]):
             ret = ret + elem
         return ret
 
+    def take_while(self, pred: Callable[[T], bool]) -> "Lazy[T]":
+        """
+        Creates a new Lazy that yields elements based on a predicate. Takes a function as an argument.
+        It will call this function on each element of the iterator, and yield elements while the function
+        returns `True`. After `False` is returned, iteration stops, and the rest of the elements are ignored.
+
+        Args:
+            pred (Callable[[T], bool]): `function (T) -> bool`
+
+        Returns:
+            `Lazy[T]`
+        """
+        def inner():
+            for elem in self.gen:
+                if not pred(elem):
+                    return
+                yield elem
+        return Lazy(inner())
+
 
 # ----------------- QList ----------------------------------------------
 
@@ -989,5 +1008,16 @@ class QList(list):
 
 
 if __name__ == '__main__':
-    QList([1, 2, 3]).full_flatten().collect()
+    def naturals(start):
+        current = start
+        while True:
+            yield current
+            current += 1
+
+    for n in Lazy(naturals(0)).take(10):
+        print(n)
+
+    primes = Lazy(naturals(2)).filter(lambda n: Lazy(naturals(2)).take_while(lambda p: p * p <= n).all(lambda x: n % x != 0))
+    for p in primes.take(100).skip(80):
+        print(p)
 
