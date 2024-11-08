@@ -363,3 +363,22 @@ def test_full_flatten():
     expected = QList(['abc', ['def', 'ghi']])
     res = Lazy([('abc',), ['def', 'ghi']]).full_flatten(preserve_type=list, break_str=False).collect()
     assert res == expected
+
+
+def test_all():
+    assert Lazy([1, True, [1, 2, 3]]).all()
+    assert Lazy([]).all()
+    assert Lazy([True, True, True]).all()
+    assert Lazy([False, False, False]).all(mapper=lambda x: not x)
+    assert Lazy(['abc', 'def', 'gdi']).all(mapper=lambda s: len(s) > 1)
+    assert not Lazy([False, False, False]).all()
+    assert not Lazy(['', 'a', 'aa']).all()
+
+def test_any():
+    assert Lazy([1, True, [1, 2, 3]]).any()
+    assert not Lazy([]).any()
+    assert Lazy([True, False, False]).any()
+    assert Lazy([True, True, False]).any(mapper=lambda x: not x)
+    assert Lazy(['abc', 'def', 'gdi']).any(mapper=lambda s: len(s) > 1)
+    assert not Lazy([False, False, False]).any()
+    assert Lazy(['', 'a', 'aa']).any()

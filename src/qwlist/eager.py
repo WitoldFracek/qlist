@@ -1,10 +1,12 @@
-from typing import TypeVar, Iterable, Callable, overload, Iterator
+from typing import TypeVar, Iterable, Callable, overload, Iterator, Optional, Type
 
 from src.qwlist import QList
 
 T = TypeVar('T')
 K = TypeVar('K')
 SupportsLessThan = TypeVar("SupportsLessThan")
+SupportsAdd = TypeVar("SupportsAdd")
+Booly = TypeVar('Booly')
 
 
 class EagerQList(list):
@@ -188,7 +190,12 @@ class EagerQList(list):
         """
         If self is a `EagerQList` of `Iterable[T]` flatten concatenates all iterables into a
         single list and returns a new `EagerQList[T]`.
-        Returns: `EagerQList[T]`
+
+        Returns:
+            `EagerQList[T]`
+
+        Raises:
+            TypeError when elements of Lazy are not iterables.
         """
         def inner():
             for elem in self:
@@ -305,3 +312,92 @@ class EagerQList(list):
                         yield from it1
                         return
         return EagerQList(inner())
+
+    def all(self, mapper: Optional[Callable[[T], Booly]] = None) -> bool:
+        """
+        Goes through the entire list and checks if all elements are `Truthy`.
+        `Booly` is a type that evaluates to something that is either `True` (`Truthy`) or `False` (`Falsy`).
+        For example in Python an empty list evaluates to `False` (empty list is `Falsy`).
+
+        Args:
+            mapper (Optional[Callable[[T], Booly]]): function that maps `T` to `Booly` which is a type that
+             can be interpreted as either True or False. If not passed, identity function is used.
+
+        Returns:
+            `True` if all elements of the `Lazy` are `Truthy`. `False` otherwise.
+        """
+        def identity(x):
+            return x
+        mapper = identity if mapper is None else mapper
+        for elem in self:
+            if not mapper(elem):
+                return False
+        return True
+
+    def any(self, mapper: Optional[Callable[[T], Booly]] = None) -> bool:
+        """
+        Goes through the entire list and checks if any element is `Truthy`.
+        `Booly` is a type that evaluates to something that is either `True` (`Truthy`) or `False` (`Falsy`).
+        For example in Python an empty list evaluates to `False` (empty list is `Falsy`).
+
+        Args:
+            mapper (Optional[Callable[[T], Booly]]): function that maps `T` to `Booly` which is a type that
+             can be interpreted as either True or False. If not passed, identity function is used.
+
+        Returns:
+            `True` if there is at least one element in the `Lazy` that is `Truthy`. `False` otherwise.
+        """
+        def identity(x):
+            return x
+
+        mapper = identity if mapper is None else mapper
+        for elem in self:
+            if mapper(elem):
+                return True
+        return False
+
+    def full_flatten(self, break_str: bool = True, preserve_type: Optional[Type] = None) -> "EagerQList[T]":
+        """
+        When self is an iterable of nested iterables, all the iterables are flattened to a single iterable.
+        Recursive type annotation of `self` may be imagined to look like this: Lazy[T | Iterable[T | Iterable[T | ...]]].
+
+
+        Args:
+            break_str (bool, optional): If `True`, strings are flattened into individual characters. Defaults to `True`.
+            preserve_type (Optional[Type], optional): Type to exclude from flattening (i.e., treated as non-iterable). For example,
+             setting this to `str` makes `break_str` effectively `False`. Defaults to `None`.
+
+        Returns:
+            `EagerQList[T]` with all nested iterables flattened to a single iterable.
+
+        Examples:
+            >>> EagerQList(['abc', ['def', 'ghi']]).full_flatten()
+            ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i']
+
+            >>> EagerQList(['abc', ['def', 'ghi']]).full_flatten(break_str=False)
+            ['abc', 'def', 'ghi']
+
+            >>> EagerQList(['abc', ['def', 'ghi']]).full_flatten(preserve_type=list)
+            ['a', 'b', 'c', ['def', 'ghi']]
+        """
+
+        def inner():
+            for elem in self:
+                if preserve_type is not None and isinstance(elem, preserve_type):
+                    yield elem
+                elif isinstance(elem, str):
+                    if break_str:
+                        if len(elem) == 1:
+                            yield elem
+                        else:
+                            yield from EagerQList(elem).full_flatten(break_str=break_str, preserve_type=preserve_type)
+                    else:
+                        yield elem
+                elif isinstance(elem, Iterable):
+                    yield from EagerQList(elem).full_flatten(break_str=break_str, preserve_type=preserve_type)
+                else:
+                    yield elem
+        return EagerQList(inner())
+
+if __name__ == '__main__':
+    EagerQList([[1, 2], 3]).flatten().foreach(print)

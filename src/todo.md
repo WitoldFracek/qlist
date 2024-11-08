@@ -5,14 +5,14 @@ QList, Lazy, EagerQList
 [ ] [ ] [ ] tested
 
 ### all
-[ ] [x] [ ] implemented \
-[ ] [ ] [ ] documented \
-[ ] [ ] [ ] tested
+[x] [x] [x] implemented \
+[x] [x] [x] documented \
+[x] [x] [x] tested
 
 ### any
-[ ] [ ] [ ] implemented \
-[ ] [ ] [ ] documented \
-[ ] [ ] [ ] tested
+[x] [x] [x] implemented \
+[x] [x] [x] documented \
+[x] [x] [x] tested
 
 ### scan
 [ ] [ ] [ ] implemented \
@@ -30,9 +30,9 @@ QList, Lazy, EagerQList
 [ ] [ ] [ ] tested
 
 ### full_flatten
-[x] [x] [ ] implemented \
-[x] [x] [ ] documented \
-[x] [x] [ ] tested
+[x] [x] [x] implemented \
+[x] [x] [x] documented \
+[x] [x] [x] tested
 
 ### merge
 [x] [x] [x] implemented \

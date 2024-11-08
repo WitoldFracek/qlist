@@ -261,3 +261,56 @@ def test_merge():
     expected = EagerQList()
     res = EagerQList().merge([], lambda left, right: False)
     assert expected == res
+
+
+def test_full_flatten():
+    expected = EagerQList(['a', 'b', 'c'])
+    res = EagerQList('abc').full_flatten()
+    assert expected == res
+
+    assert EagerQList([[1, 2, 3]]).flatten() == EagerQList([[1, 2, 3]]).full_flatten()
+
+    expected = EagerQList([97, 97, 97, "b", "b", "b", "c", "c", "c", "d", "d", "d", " "])
+    res = EagerQList([b"aaa", ["bbb"], [["ccc"], "ddd"], "", [[[" "]], []]]).full_flatten()
+    assert res == expected
+
+    expected = EagerQList(['abc', 'def', 'ghi'])
+    res = EagerQList([['abc', 'def'], 'ghi']).full_flatten(break_str=False)
+    assert res == expected
+
+    expected = EagerQList([[], ['abc'], [True, False]])
+    res = EagerQList([[], ['abc'], [True, False]]).full_flatten(preserve_type=list)
+    assert res == expected
+
+    expected = EagerQList()
+    res = EagerQList([[], [[]], [[], []]]).full_flatten()
+    assert res == expected
+
+    expected = EagerQList(['a', 'b', 'c', ['def', 'ghi']])
+    res = EagerQList(['abc', ['def', 'ghi']]).full_flatten(preserve_type=list)
+    assert res == expected
+
+    expected = EagerQList(['abc', ['def', 'ghi']])
+    res = EagerQList([('abc',), ['def', 'ghi']]).full_flatten(preserve_type=list, break_str=False)
+    assert res == expected
+
+
+def test_all():
+    assert EagerQList([1, True, [1, 2, 3]]).all()
+    assert EagerQList().all()
+    assert EagerQList([True, True, True]).all()
+    assert EagerQList([False, False, False]).all(mapper=lambda x: not x)
+    assert EagerQList(['abc', 'def', 'gdi']).all(mapper=lambda s: len(s) > 1)
+    assert not EagerQList([False, False, False]).all()
+    assert not EagerQList(['', 'a', 'aa']).all()
+    assert EagerQList(range(10)).filter(lambda x: x % 2 == 1).map(lambda x: x * 2).all(lambda x: x % 2 == 0)
+
+def test_any():
+    assert EagerQList([1, True, [1, 2, 3]]).any()
+    assert not EagerQList().any()
+    assert EagerQList([True, False, False]).any()
+    assert EagerQList([True, True, False]).any(mapper=lambda x: not x)
+    assert EagerQList(['abc', 'def', 'gdi']).any(mapper=lambda s: len(s) > 1)
+    assert not EagerQList([False, False, False]).any()
+    assert EagerQList(['', 'a', 'aa']).any()
+    assert EagerQList(range(10)).filter(lambda x: x < 5).all(lambda x: x % 2 == 0)

@@ -288,6 +288,13 @@ def test_flatten():
     res = QList([[[1, 2], [1, 2], [1, 2]]]).flatten().collect()
     assert expected == res
 
+    try:
+        QList([1, 2, 3]).flatten()
+    except TypeError:
+        assert True
+    else:
+        assert False
+
 
 def test_cycle():
     expected = QList([1, 2, 3, 1, 2, 3, 1])
@@ -394,4 +401,25 @@ def test_full_flatten():
     expected = QList(['abc', ['def', 'ghi']])
     res = Lazy([('abc',), ['def', 'ghi']]).full_flatten(preserve_type=list, break_str=False).collect()
     assert res == expected
+
+
+def test_all():
+    assert QList([1, True, [1, 2, 3]]).all()
+    assert QList().all()
+    assert QList([True, True, True]).all()
+    assert QList([False, False, False]).all(mapper=lambda x: not x)
+    assert QList(['abc', 'def', 'gdi']).all(mapper=lambda s: len(s) > 1)
+    assert not QList([False, False, False]).all()
+    assert not QList(['', 'a', 'aa']).all()
+    assert QList(range(10)).filter(lambda x: x % 2 == 1).map(lambda x: x * 2).all(lambda x: x % 2 == 0)
+
+def test_any():
+    assert QList([1, True, [1, 2, 3]]).any()
+    assert not QList().any()
+    assert QList([True, False, False]).any()
+    assert QList([True, True, False]).any(mapper=lambda x: not x)
+    assert QList(['abc', 'def', 'gdi']).any(mapper=lambda s: len(s) > 1)
+    assert not QList([False, False, False]).any()
+    assert QList(['', 'a', 'aa']).any()
+    assert QList(range(10)).filter(lambda x: x < 5).all(lambda x: x % 2 == 0)
 

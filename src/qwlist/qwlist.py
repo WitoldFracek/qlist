@@ -157,7 +157,8 @@ class Lazy(Generic[T]):
         Args:
             other: iterable to zip with this `Lazy` object.
 
-        Returns: `Lazy[tuple[T, K]]`
+        Returns:
+            `Lazy[tuple[T, K]]`
 
         Examples:
             >>> Lazy([1, 2, 3]).zip(['a', 'b', 'c']).collect()
@@ -170,7 +171,8 @@ class Lazy(Generic[T]):
         Evaluates the `Lazy` object into `QList`.
         Same as calling `qlist()`
 
-        Returns: `QList[T]`
+        Returns:
+            `QList[T]`
 
         """
         return QList(x for x in self.gen)
@@ -181,10 +183,12 @@ class Lazy(Generic[T]):
     def skip(self, n: int) -> "Lazy[T]":
         """
         Skips n first elements of the `Lazy` object.
+
         Args:
             n: numbers of elements to skip. Should be non-negative
 
-        Returns: `Lazy[T]`
+        Returns:
+            `Lazy[T]`
 
         Examples:
             >>> Lazy(range(10)).skip(2).collect()
@@ -202,7 +206,8 @@ class Lazy(Generic[T]):
         Args:
             n: numbers of elements to skip. Should be non-negative
 
-        Returns: `Lazy[T]`
+        Returns:
+            `Lazy[T]`
 
         Examples:
             >>> Lazy(range(10)).take(2).collect()
@@ -224,7 +229,7 @@ class Lazy(Generic[T]):
             `Lazy[T]`
 
         Raises:
-            TypeError when elements of Lazy are not an iterable.
+            TypeError when elements of Lazy are not iterables.
 
         Examples:
             >>> Lazy([[1, 2], [3, 4]]).flatten().collect()
@@ -375,6 +380,18 @@ class Lazy(Generic[T]):
         return Lazy(inner())
 
     def all(self, mapper: Optional[Callable[[T], Booly]] = None) -> bool:
+        """
+        Goes through the entire generator and checks if all elements are `Truthy`.
+        `Booly` is a type that evaluates to something that is either `True` (`Truthy`) or `False` (`Falsy`).
+        For example in Python an empty list evaluates to `False` (empty list is `Falsy`).
+
+        Args:
+            mapper (Optional[Callable[[T], Booly]]): function that maps `T` to `Booly` which is a type that
+             can be interpreted as either True or False. If not passed, identity function is used.
+
+        Returns:
+            `True` if all elements of the `Lazy` are `Truthy`. `False` otherwise.
+        """
         def identity(x):
             return x
         mapper = identity if mapper is None else mapper
@@ -383,8 +400,27 @@ class Lazy(Generic[T]):
                 return False
         return True
 
-    def any(self, mapper: Optional[Callable[[T], Booly]]):
-        raise NotImplemented()
+    def any(self, mapper: Optional[Callable[[T], Booly]] = None) -> bool:
+        """
+        Goes through the entire generator and checks if any element is `Truthy`.
+        `Booly` is a type that evaluates to something that is either `True` (`Truthy`) or `False` (`Falsy`).
+        For example in Python an empty list evaluates to `False` (empty list is `Falsy`).
+
+        Args:
+            mapper (Optional[Callable[[T], Booly]]): function that maps `T` to `Booly` which is a type that
+             can be interpreted as either True or False. If not passed, identity function is used.
+
+        Returns:
+            `True` if there is at least one element in the `Lazy` that is `Truthy`. `False` otherwise.
+        """
+        def identity(x):
+            return x
+
+        mapper = identity if mapper is None else mapper
+        for elem in self.gen:
+            if mapper(elem):
+                return True
+        return False
 
     def full_flatten(self, break_str: bool = True, preserve_type: Optional[Type] = None) -> "Lazy[T]":
         """
@@ -723,7 +759,7 @@ class QList(list):
             `Lazy[T]`
 
         Raises:
-            TypeError when elements of QList are not iterable.
+            TypeError when elements of QList are not iterables.
         """
         def inner():
             for elem in self:
@@ -865,6 +901,49 @@ class QList(list):
                         return
         return Lazy(inner())
 
+    def all(self, mapper: Optional[Callable[[T], Booly]] = None) -> bool:
+        """
+        Goes through the entire list and checks if all elements are `Truthy`.
+        `Booly` is a type that evaluates to something that is either `True` (`Truthy`) or `False` (`Falsy`).
+        For example in Python an empty list evaluates to `False` (empty list is `Falsy`).
+
+        Args:
+            mapper (Optional[Callable[[T], Booly]]): function that maps `T` to `Booly` which is a type that
+             can be interpreted as either True or False. If not passed, identity function is used.
+
+        Returns:
+            `True` if all elements of the `Lazy` are `Truthy`. `False` otherwise.
+        """
+        def identity(x):
+            return x
+        mapper = identity if mapper is None else mapper
+        for elem in self:
+            if not mapper(elem):
+                return False
+        return True
+
+    def any(self, mapper: Optional[Callable[[T], Booly]] = None) -> bool:
+        """
+        Goes through the entire list and checks if any element is `Truthy`.
+        `Booly` is a type that evaluates to something that is either `True` (`Truthy`) or `False` (`Falsy`).
+        For example in Python an empty list evaluates to `False` (empty list is `Falsy`).
+
+        Args:
+            mapper (Optional[Callable[[T], Booly]]): function that maps `T` to `Booly` which is a type that
+             can be interpreted as either True or False. If not passed, identity function is used.
+
+        Returns:
+            `True` if there is at least one element in the `Lazy` that is `Truthy`. `False` otherwise.
+        """
+        def identity(x):
+            return x
+
+        mapper = identity if mapper is None else mapper
+        for elem in self:
+            if mapper(elem):
+                return True
+        return False
+
     def full_flatten(self, break_str: bool = True, preserve_type: Optional[Type] = None) -> Lazy[T]:
         """
         When self is an iterable of nested iterables, all the iterables are flattened to a single iterable.
@@ -880,13 +959,13 @@ class QList(list):
             `Lazy[T]` with all nested iterables flattened to a single iterable.
 
         Examples:
-            >>> Lazy(['abc', ['def', 'ghi']]).full_flatten().collect()
+            >>> QList(['abc', ['def', 'ghi']]).full_flatten().collect()
             ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i']
 
-            >>> Lazy(['abc', ['def', 'ghi']]).full_flatten(break_str=False).collect()
+            >>> QList(['abc', ['def', 'ghi']]).full_flatten(break_str=False).collect()
             ['abc', 'def', 'ghi']
 
-            >>> Lazy(['abc', ['def', 'ghi']]).full_flatten(preserve_type=list).collect()
+            >>> QList(['abc', ['def', 'ghi']]).full_flatten(preserve_type=list).collect()
             ['a', 'b', 'c', ['def', 'ghi']]
         """
 
@@ -910,5 +989,5 @@ class QList(list):
 
 
 if __name__ == '__main__':
-    QList([1, 2, 3]).flatten().collect()
+    QList([1, 2, 3]).full_flatten().collect()
 
