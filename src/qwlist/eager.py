@@ -399,5 +399,24 @@ class EagerQList(list):
                     yield elem
         return EagerQList(inner())
 
+    def take_while(self, pred: Callable[[T], bool]) -> "Lazy[T]":
+        """
+        Creates a new EagerQList that contains elements based on a predicate. Takes a function as an argument.
+        It will call this function on each element of the iterator, and yield elements while the function
+        returns `True`. After `False` is returned, iteration stops, and the rest of the elements is ignored.
+
+        Args:
+            pred (Callable[[T], bool]): `function (T) -> bool`
+
+        Returns:
+            `EagerQList[T]`
+        """
+        def inner():
+            for elem in self:
+                if not pred(elem):
+                    return
+                yield elem
+        return EagerQList(inner())
+
 if __name__ == '__main__':
     EagerQList([[1, 2], 3]).flatten().foreach(print)

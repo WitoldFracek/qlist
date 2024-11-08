@@ -305,6 +305,7 @@ def test_all():
     assert not EagerQList(['', 'a', 'aa']).all()
     assert EagerQList(range(10)).filter(lambda x: x % 2 == 1).map(lambda x: x * 2).all(lambda x: x % 2 == 0)
 
+
 def test_any():
     assert EagerQList([1, True, [1, 2, 3]]).any()
     assert not EagerQList().any()
@@ -313,4 +314,22 @@ def test_any():
     assert EagerQList(['abc', 'def', 'gdi']).any(mapper=lambda s: len(s) > 1)
     assert not EagerQList([False, False, False]).any()
     assert EagerQList(['', 'a', 'aa']).any()
-    assert EagerQList(range(10)).filter(lambda x: x < 5).all(lambda x: x % 2 == 0)
+    assert EagerQList(range(10)).filter(lambda x: x < 5).any(lambda x: x % 2 == 0)
+
+
+def test_take_while():
+    expected = EagerQList([0, 1, 2])
+    res = EagerQList(range(10)).take_while(lambda n: n < 3)
+    assert res == expected
+
+    expected = EagerQList()
+    res = EagerQList(range(10)).take_while(lambda n: isinstance(n, str))
+    assert res == expected
+
+    expected = EagerQList()
+    res = EagerQList([]).take_while(lambda x: x > 2)
+    assert res == expected
+
+    expected = EagerQList(range(10))
+    res = EagerQList(range(5)).take_while(lambda x: x < 100).chain([5, 6, 7, 8, 9])
+    assert res == expected

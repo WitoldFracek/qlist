@@ -289,7 +289,7 @@ def test_flatten():
     assert expected == res
 
     try:
-        QList([1, 2, 3]).flatten()
+        QList([1, 2, 3]).flatten().collect()
     except TypeError:
         assert True
     else:
@@ -413,6 +413,7 @@ def test_all():
     assert not QList(['', 'a', 'aa']).all()
     assert QList(range(10)).filter(lambda x: x % 2 == 1).map(lambda x: x * 2).all(lambda x: x % 2 == 0)
 
+
 def test_any():
     assert QList([1, True, [1, 2, 3]]).any()
     assert not QList().any()
@@ -421,5 +422,23 @@ def test_any():
     assert QList(['abc', 'def', 'gdi']).any(mapper=lambda s: len(s) > 1)
     assert not QList([False, False, False]).any()
     assert QList(['', 'a', 'aa']).any()
-    assert QList(range(10)).filter(lambda x: x < 5).all(lambda x: x % 2 == 0)
+    assert QList(range(10)).filter(lambda x: x < 5).any(lambda x: x % 2 == 0)
+
+
+def test_take_while():
+    expected = QList([0, 1, 2])
+    res = QList(range(10)).take_while(lambda n: n < 3).collect()
+    assert res == expected
+
+    expected = QList()
+    res = QList(range(10)).take_while(lambda n: isinstance(n, str)).collect()
+    assert res == expected
+
+    expected = QList()
+    res = QList().take_while(lambda x: x > 2).collect()
+    assert res == expected
+
+    expected = QList(range(10))
+    res = QList(range(5)).take_while(lambda x: x < 100).chain([5, 6, 7, 8, 9]).collect()
+    assert res == expected
 

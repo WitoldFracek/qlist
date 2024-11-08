@@ -492,8 +492,9 @@ class Lazy(Generic[T]):
     def take_while(self, pred: Callable[[T], bool]) -> "Lazy[T]":
         """
         Creates a new Lazy that yields elements based on a predicate. Takes a function as an argument.
+        Creates a new Lazy that yields elements based on a predicate. Takes a function as an argument.
         It will call this function on each element of the iterator, and yield elements while the function
-        returns `True`. After `False` is returned, iteration stops, and the rest of the elements are ignored.
+        returns `True`. After `False` is returned, iteration stops, and the rest of the elements is ignored.
 
         Args:
             pred (Callable[[T], bool]): `function (T) -> bool`
@@ -1006,6 +1007,25 @@ class QList(list):
                     yield elem
         return Lazy(inner())
 
+    def take_while(self, pred: Callable[[T], bool]) -> "Lazy[T]":
+        """
+        Creates a Lazy that yields elements based on a predicate. Takes a function as an argument.
+        It will call this function on each element of the iterator, and yield elements while the function
+        returns `True`. After `False` is returned, iteration stops, and the rest of the elements is ignored.
+
+        Args:
+            pred (Callable[[T], bool]): `function (T) -> bool`
+
+        Returns:
+            `Lazy[T]`
+        """
+        def inner():
+            for elem in self:
+                if not pred(elem):
+                    return
+                yield elem
+        return Lazy(inner())
+
 
 if __name__ == '__main__':
     def naturals(start):
@@ -1014,10 +1034,14 @@ if __name__ == '__main__':
             yield current
             current += 1
 
-    for n in Lazy(naturals(0)).take(10):
-        print(n)
-
-    primes = Lazy(naturals(2)).filter(lambda n: Lazy(naturals(2)).take_while(lambda p: p * p <= n).all(lambda x: n % x != 0))
-    for p in primes.take(100).skip(80):
+    primes = (
+        Lazy(naturals(2))
+        .filter(lambda n: (
+            Lazy(naturals(2))
+            .take_while(lambda p: p * p <= n)
+            .all(lambda x: n % x != 0)
+        ))
+    )
+    for p in primes.skip(1000).take(10):
         print(p)
 

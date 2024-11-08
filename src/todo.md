@@ -1,8 +1,8 @@
 QList, Lazy, EagerQList
 ### take_while
-[ ] [ ] [ ] implemented \
-[ ] [ ] [ ] documented \
-[ ] [ ] [ ] tested
+[x] [x] [x] implemented \
+[x] [x] [x] documented \
+[x] [x] [x] tested
 
 ### all
 [x] [x] [x] implemented \

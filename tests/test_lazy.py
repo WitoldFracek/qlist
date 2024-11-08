@@ -374,6 +374,7 @@ def test_all():
     assert not Lazy([False, False, False]).all()
     assert not Lazy(['', 'a', 'aa']).all()
 
+
 def test_any():
     assert Lazy([1, True, [1, 2, 3]]).any()
     assert not Lazy([]).any()
@@ -382,3 +383,21 @@ def test_any():
     assert Lazy(['abc', 'def', 'gdi']).any(mapper=lambda s: len(s) > 1)
     assert not Lazy([False, False, False]).any()
     assert Lazy(['', 'a', 'aa']).any()
+
+
+def test_take_while():
+    expected = QList([0, 1, 2])
+    res = Lazy(range(10)).take_while(lambda n: n < 3).collect()
+    assert res == expected
+
+    expected = QList()
+    res = Lazy(range(10)).take_while(lambda n: isinstance(n, str)).collect()
+    assert res == expected
+
+    expected = QList()
+    res = Lazy([]).take_while(lambda x: x > 2).collect()
+    assert res == expected
+
+    expected = QList(range(10))
+    res = Lazy(range(5)).take_while(lambda x: x < 100).chain([5, 6, 7, 8, 9]).collect()
+    assert res == expected
