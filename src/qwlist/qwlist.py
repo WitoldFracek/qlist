@@ -104,8 +104,8 @@ class Lazy(Generic[T]):
 
         Args:
             operation: `function: (K, T) -> K`. Given the initial value `init` applies the
-                given combination operator on each element yielded by the Lazy object,
-                treating the result as a first argument in the next step.
+                given combination operator on each element yielded by the `Lazy` object,
+                treating the result as the first argument in the next step.
             init: initial value for the combination operator.
 
         Returns: `K`
@@ -118,6 +118,32 @@ class Lazy(Generic[T]):
         for elem in self.gen:
             acc = operation(acc, elem)
         return acc
+
+    def scan(self, operation: Callable[[K, T], K], state: K) -> "Lazy[K]":
+        """
+        Given the combination operator creates a new `Lazy[K]` object by processing
+        constituent parts of `self`, yielding intermediate steps and building up the final value.
+        Scan is similar to fold but returns all intermediate states instead of just the final result.
+
+        Args:
+            operation: `function: (K, T) -> K`. Given the initial `state` applies the given
+             combination operator on each element yielded by the `Lazy` object, yielding the result and
+             then treating it as the first argument in the next step.
+            state (K): initial value for the state.
+
+        Returns:
+            `Lazy[K]` - iterable with all intermediate steps of the `operation`.
+
+        Examples:
+            >>> Lazy([1, 2, 3]).scan(lambda acc, x: acc + x, 0).collect()
+            [1, 3, 6]
+
+        """
+        def inner(s):
+            for elem in self.gen:
+                s = operation(s, elem)
+                yield s
+        return Lazy(inner(state))
 
     def foreach(self, action: Callable[[T], None]):
         """
@@ -718,7 +744,7 @@ class QList(list):
             operation: `function: (K, T) -> K`
                 Given the initial value `init` applies the
                 given combination operator on each element of the `QList`,
-                treating the result as a first argument in the next step.
+                treating the result as the first argument in the next step.
             init: initial value for the combination operator.
 
         Returns: `K`
@@ -754,6 +780,32 @@ class QList(list):
         for elem in self[::-1]:
             acc = operation(acc, elem)
         return acc
+
+    def scan(self, operation: Callable[[K, T], K], state: K) -> "Lazy[K]":
+        """
+        Given the combination operator creates a new `Lazy[K]` object by processing
+        constituent parts of `self`, yielding intermediate steps and building up the final value.
+        Scan is similar to fold but returns all intermediate states instead of just the final result.
+
+        Args:
+            operation: `function: (K, T) -> K`. Given the initial `state` applies the given
+             combination operator on each element of `self`, yielding the result and
+             then treating it as the first argument in the next step.
+            state (K): initial value for the state.
+
+        Returns:
+            `Lazy[K]` - iterable with all intermediate steps of the `operation`.
+
+        Examples:
+            >>> QList([1, 2, 3]).scan(lambda acc, x: acc + x, 0).collect()
+            [1, 3, 6]
+
+        """
+        def inner(s):
+            for elem in self:
+                s = operation(s, elem)
+                yield s
+        return Lazy(inner(state))
 
     def len(self) -> int:
         """
@@ -1228,5 +1280,5 @@ if __name__ == '__main__':
             .all(lambda x: n % x != 0)
         ))
     )
-    print(Lazy([[1, 2, 3], [2, 3]]).min())
+    print(QList([1, 2, 3]).scan(lambda acc, x: acc + x, 0).collect())
 

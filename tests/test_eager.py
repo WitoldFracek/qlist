@@ -123,6 +123,8 @@ def test_fold():
     res = EagerQList(range(10)).fold(lambda acc, x: 0, 0)
     assert 0 == res
 
+    assert 0 == EagerQList().fold(lambda acc, x: acc + x, 0)
+
 
 def test_fold_right():
     expected = 6
@@ -374,3 +376,25 @@ def test_max():
     assert EagerQList(range(10)).max() == 9
     assert EagerQList().max() is None
     assert EagerQList(['a', 'aaa', 'aa']).max(key=len) == 'aaa'
+
+
+def test_scan():
+    expected = EagerQList([1, 3, 6])
+    res = EagerQList([1, 2, 3]).scan(lambda acc, x: acc + x, 0)
+    assert res == expected
+
+    expected = EagerQList(['1', '12', '123'])
+    res = EagerQList(['1', '2', '3']).scan(lambda acc, x: acc + x, '')
+    assert res == expected
+
+    expected = EagerQList(['1', '21', '321'])
+    res = EagerQList(['1', '2', '3']).scan(lambda acc, x: x + acc, '')
+    assert res == expected
+
+    expected = EagerQList([0, 0, 0, 0, 0])
+    res = EagerQList(range(5)).scan(lambda acc, x: 0, 0)
+    assert res == expected
+
+    expected = EagerQList()
+    res = EagerQList().scan(lambda acc, x: x, 0)
+    assert res == expected

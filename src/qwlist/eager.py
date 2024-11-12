@@ -104,7 +104,7 @@ class EagerQList(list):
             operation: `function: (K, T) -> K`
                 Given the initial value `init` applies the
                 given combination operator on each element of the EagerQList,
-                treating the result as a first argument in the next step.
+                treating the result as the first argument in the next step.
             init: initial value for the combination operator.
 
         Returns: `K`
@@ -140,6 +140,32 @@ class EagerQList(list):
         for elem in self[::-1]:
             acc = operation(acc, elem)
         return acc
+
+    def scan(self, operation: Callable[[K, T], K], state: K) -> "EagerQList[K]":
+        """
+        Given the combination operator creates a new `EagerQList[K]` object by processing
+        constituent parts of `self`, yielding intermediate steps and building up the final value.
+        Scan is similar to fold but returns all intermediate states instead of just the final result.
+
+        Args:
+            operation: `function: (K, T) -> K`. Given the initial `state` applies the given
+             combination operator on each element of `self`, yielding the result and
+             then treating it as the first argument in the next step.
+            state (K): initial value for the state.
+
+        Returns:
+            `Lazy[K]` - iterable with all intermediate steps of the `operation`.
+
+        Examples:
+            >>> EagerQList([1, 2, 3]).scan(lambda acc, x: acc + x, 0)
+            [1, 3, 6]
+
+        """
+        def inner(s):
+            for elem in self:
+                s = operation(s, elem)
+                yield s
+        return EagerQList(inner(state))
 
     def len(self):
         return len(self)
@@ -525,4 +551,4 @@ class EagerQList(list):
         return acc
 
 if __name__ == '__main__':
-    print(EagerQList([(1, 2), (3,)]).sum())
+    print(EagerQList([1, 2, 3]).scan(lambda acc, x: acc + x, 0))

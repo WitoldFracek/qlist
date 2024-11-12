@@ -15,9 +15,9 @@ QList, Lazy, EagerQList
 [x] [x] [x] tested
 
 ### scan
-[ ] [ ] [ ] implemented \
-[ ] [ ] [ ] documented \
-[ ] [ ] [ ] tested
+[x] [x] [x] implemented \
+[x] [x] [x] documented \
+[x] [x] [x] tested
 
 ### min
 [x] [x] [x] implemented \

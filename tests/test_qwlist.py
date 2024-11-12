@@ -123,6 +123,8 @@ def test_fold():
     res = QList(range(10)).fold(lambda acc, x: 0, 0)
     assert 0 == res
 
+    assert 0 == QList().fold(lambda acc, x: acc + x, 0)
+
 
 def test_fold_right():
     expected = 6
@@ -482,4 +484,26 @@ def test_max():
     assert QList(range(10)).max() == 9
     assert QList([]).max() is None
     assert QList(['a', 'aaa', 'aa']).max(key=len) == 'aaa'
+
+
+def test_scan():
+    expected = QList([1, 3, 6])
+    res = QList([1, 2, 3]).scan(lambda acc, x: acc + x, 0).collect()
+    assert res == expected
+
+    expected = QList(['1', '12', '123'])
+    res = QList(['1', '2', '3']).scan(lambda acc, x: acc + x, '').collect()
+    assert res == expected
+
+    expected = QList(['1', '21', '321'])
+    res = QList(['1', '2', '3']).scan(lambda acc, x: x + acc, '').collect()
+    assert res == expected
+
+    expected = QList([0, 0, 0, 0, 0])
+    res = QList(range(5)).scan(lambda acc, x: 0, 0).collect()
+    assert res == expected
+
+    expected = QList()
+    res = QList([]).scan(lambda acc, x: x, 0).collect()
+    assert res == expected
 
