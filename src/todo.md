@@ -20,14 +20,14 @@ QList, Lazy, EagerQList
 [ ] [ ] [ ] tested
 
 ### min
-[ ] [ ] [ ] implemented \
-[ ] [ ] [ ] documented \
-[ ] [ ] [ ] tested
+[x] [x] [x] implemented \
+[x] [x] [x] documented \
+[x] [x] [x] tested
 
 ### max
-[ ] [ ] [ ] implemented \
-[ ] [ ] [ ] documented \
-[ ] [ ] [ ] tested
+[x] [x] [x] implemented \
+[x] [x] [x] documented \
+[x] [x] [x] tested
 
 ### sum
 [x] [x] [x] implemented \

@@ -471,3 +471,15 @@ def test_batch_by():
     res = QList(range(4)).batch_by(lambda x: True).collect()
     assert res == expected
 
+
+def test_min():
+    assert QList(range(10)).min() == 0
+    assert QList([]).min() is None
+    assert QList(['a', 'aaa', 'aa']).min(key=len) == 'a'
+
+
+def test_max():
+    assert QList(range(10)).max() == 9
+    assert QList([]).max() is None
+    assert QList(['a', 'aaa', 'aa']).max(key=len) == 'aaa'
+

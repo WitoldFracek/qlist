@@ -462,6 +462,59 @@ class Lazy(Generic[T]):
                 return True
         return False
 
+    def min(self, key: Optional[Callable[[T], SupportsLessThan]] = None) -> Optional[T]:
+        """
+        Returns the smallest element from the iterable. If the key function is not passed, identity
+        function is used in which case `T` must support `LessThan` operator.
+
+        Args:
+            key (Optional[Callable[[T], SupportsLessThan]): function `(T) -> SupportsLessThan` that represents
+             the relation of partial order between elements.
+
+        Returns:
+            the smallest element of the iterable or `None` if the iterable is empty.
+        """
+        def identity(x):
+            return x
+        key = identity if key is None else key
+
+        it = self.iter()
+        try:
+            best = next(it)
+        except StopIteration:
+            return None
+        for elem in it:
+            if key(elem) < key(best):
+                best = elem
+        return best
+
+    def max(self, key: Optional[Callable[[T], SupportsLessThan]] = None) -> Optional[T]:
+        """
+        Returns the biggest element from the iterable. If the key function is not passed, identity
+        function is used in which case `T` must support `LessThan` operator.
+
+        Args:
+            key (Optional[Callable[[T], SupportsLessThan]): function `(T) -> SupportsLessThan` that represents
+             the relation of partial order between elements.
+
+        Returns:
+            the biggest element of the iterable or `None` if the iterable is empty.
+        """
+
+        def identity(x):
+            return x
+        key = identity if key is None else key
+
+        it = self.iter()
+        try:
+            best = next(it)
+        except StopIteration:
+            return None
+        for elem in it:
+            if key(best) < key(elem):
+                best = elem
+        return best
+
     def full_flatten(self, break_str: bool = True, preserve_type: Optional[Type] = None) -> "Lazy[T]":
         """
         When self is an iterable of nested iterables, all the iterables are flattened to a single iterable.
@@ -1031,6 +1084,55 @@ class QList(list):
                 return True
         return False
 
+    def min(self, key: Optional[Callable[[T], SupportsLessThan]] = None) -> Optional[T]:
+        """
+        Returns the smallest element from the iterable. If the key function is not passed, identity
+        function is used in which case `T` must support `LessThan` operator.
+
+        Args:
+            key (Optional[Callable[[T], SupportsLessThan]): function `(T) -> SupportsLessThan` that represents
+             the relation of partial order between elements.
+
+        Returns:
+            the smallest element of the iterable or `None` if the iterable is empty.
+        """
+        def identity(x):
+            return x
+        key = identity if key is None else key
+
+        if self.len() == 0:
+            return None
+        best = self[0]
+        for elem in self[1:]:
+            if key(elem) < key(best):
+                best = elem
+        return best
+
+    def max(self, key: Optional[Callable[[T], SupportsLessThan]] = None) -> Optional[T]:
+        """
+        Returns the biggest element from the iterable. If the key function is not passed, identity
+        function is used in which case `T` must support `LessThan` operator.
+
+        Args:
+            key (Optional[Callable[[T], SupportsLessThan]): function `(T) -> SupportsLessThan` that represents
+             the relation of partial order between elements.
+
+        Returns:
+            the biggest element of the iterable or `None` if the iterable is empty.
+        """
+
+        def identity(x):
+            return x
+        key = identity if key is None else key
+
+        if self.len() == 0:
+            return None
+        best = self[0]
+        for elem in self[1:]:
+            if key(best) < key(elem):
+                best = elem
+        return best
+
     def full_flatten(self, break_str: bool = True, preserve_type: Optional[Type] = None) -> Lazy[T]:
         """
         When self is an iterable of nested iterables, all the iterables are flattened to a single iterable.
@@ -1126,6 +1228,5 @@ if __name__ == '__main__':
             .all(lambda x: n % x != 0)
         ))
     )
-    print(QList(['a1', 'b1', 'b2', 'a2', 'a3', 'b3']).batch_by(lambda s: s[0]).collect())
-    print(Lazy([]).batch_by(str).collect())
+    print(Lazy([[1, 2, 3], [2, 3]]).min())
 

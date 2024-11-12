@@ -431,3 +431,15 @@ def test_batch_by():
     expected = QList([0, 1, 2, 3])
     res = Lazy(range(4)).batch_by(lambda x: True).collect()
     assert res == expected
+
+
+def test_min():
+    assert Lazy(range(10)).min() == 0
+    assert Lazy([]).min() is None
+    assert Lazy(['a', 'aaa', 'aa']).min(key=len) == 'a'
+
+
+def test_max():
+    assert Lazy(range(10)).max() == 9
+    assert Lazy([]).max() is None
+    assert Lazy(['a', 'aaa', 'aa']).max(key=len) == 'aaa'

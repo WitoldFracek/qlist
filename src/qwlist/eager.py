@@ -393,6 +393,58 @@ class EagerQList(list):
                 return True
         return False
 
+    def min(self, key: Optional[Callable[[T], SupportsLessThan]] = None) -> Optional[T]:
+        """
+        Returns the smallest element from the iterable. If the key function is not passed, identity
+        function is used in which case `T` must support `LessThan` operator.
+
+        Args:
+            key (Optional[Callable[[T], SupportsLessThan]): function `(T) -> SupportsLessThan` that represents
+             the relation of partial order between elements.
+
+        Returns:
+            the smallest element of the iterable or `None` if the iterable is empty.
+        """
+
+        def identity(x):
+            return x
+
+        key = identity if key is None else key
+
+        if self.len() == 0:
+            return None
+        best = self[0]
+        for elem in self[1:]:
+            if key(elem) < key(best):
+                best = elem
+        return best
+
+    def max(self, key: Optional[Callable[[T], SupportsLessThan]] = None) -> Optional[T]:
+        """
+        Returns the biggest element from the iterable. If the key function is not passed, identity
+        function is used in which case `T` must support `LessThan` operator.
+
+        Args:
+            key (Optional[Callable[[T], SupportsLessThan]): function `(T) -> SupportsLessThan` that represents
+             the relation of partial order between elements.
+
+        Returns:
+            the biggest element of the iterable or `None` if the iterable is empty.
+        """
+
+        def identity(x):
+            return x
+
+        key = identity if key is None else key
+
+        if self.len() == 0:
+            return None
+        best = self[0]
+        for elem in self[1:]:
+            if key(best) < key(elem):
+                best = elem
+        return best
+
     def full_flatten(self, break_str: bool = True, preserve_type: Optional[Type] = None) -> "EagerQList[T]":
         """
         When self is an iterable of nested iterables, all the iterables are flattened to a single iterable.
@@ -436,7 +488,7 @@ class EagerQList(list):
                     yield elem
         return EagerQList(inner())
 
-    def take_while(self, pred: Callable[[T], bool]) -> "Lazy[T]":
+    def take_while(self, pred: Callable[[T], bool]) -> "EagerQList[T]":
         """
         Creates a new EagerQList that contains elements based on a predicate. Takes a function as an argument.
         It will call this function on each element of the iterator, and yield elements while the function

@@ -362,3 +362,15 @@ def test_batch_by():
     expected = EagerQList([0, 1, 2, 3])
     res = EagerQList(range(4)).batch_by(lambda x: True)
     assert res == expected
+
+
+def test_min():
+    assert EagerQList(range(10)).min() == 0
+    assert EagerQList().min() is None
+    assert EagerQList(['a', 'aaa', 'aa']).min(key=len) == 'a'
+
+
+def test_max():
+    assert EagerQList(range(10)).max() == 9
+    assert EagerQList().max() is None
+    assert EagerQList(['a', 'aaa', 'aa']).max(key=len) == 'aaa'
