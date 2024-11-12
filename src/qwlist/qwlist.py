@@ -4,6 +4,7 @@ T = TypeVar('T')
 K = TypeVar('K')
 SupportsLessThan = TypeVar("SupportsLessThan")
 SupportsAdd = TypeVar("SupportsAdd")
+SupportsEq = TypeVar("SupportsEq")
 Booly = TypeVar('Booly')
 
 
@@ -307,6 +308,45 @@ class Lazy(Generic[T]):
                     group = QList()
             if group:
                 yield group
+        return Lazy(inner())
+
+    def batch_by(self, grouper: Callable[[T], SupportsEq]) -> "Lazy[QList[T]]":
+        """
+        Batches elements of `self` based on the output of the grouper function. Elements are thrown
+        to the same group as long as the grouper function returns the same key (keys must support equality checks).
+        When a new key is returned a new batch (group) is created.
+
+        Args:
+            grouper (Callable[[T], SupportsEq]): function `(T) -> SupportsEq` that provides the keys
+             used to group elements, where the key type must support equality comparisons.
+
+        Returns:
+            `Lazy[QList[T]]`
+
+        Examples:
+            >>> Lazy(['a1', 'b1', 'b2', 'a2', 'a3', 'b3']).batch_by(lambda s: s[0]).collect()
+            [['a1'], ['b1', 'b2'], ['a2', 'a3'], ['b3']]
+            >>> Lazy(['a1', 'b1', 'b2', 'a2', 'a3', 'b3']).batch_by(lambda s: s[1]).collect()
+            [['a1', 'b1'], ['b2', 'a2'], ['a3', 'b3']]
+        """
+        def inner():
+            it = self.iter()
+            try:
+                first = next(it)
+            except StopIteration:
+                return
+            batch = QList([first])
+            key = grouper(first)
+            for elem in it:
+                new_key = grouper(elem)
+                if new_key == key:
+                    batch.append(elem)
+                else:
+                    yield batch
+                    batch = QList([elem])
+                    key = new_key
+            if batch:
+                yield batch
         return Lazy(inner())
 
     def chain(self, other: Iterable[T]) -> "Lazy[T]":
@@ -840,6 +880,42 @@ class QList(list):
                 yield QList(self[i:i+size])
         return Lazy(inner())
 
+    def batch_by(self, grouper: Callable[[T], SupportsEq]) -> "Lazy[QList[T]]":
+        """
+        Batches elements of `self` based on the output of the grouper function. Elements are thrown
+        to the same group as long as the grouper function returns the same key (keys must support equality checks).
+        When a new key is returned a new batch (group) is created.
+
+        Args:
+            grouper (Callable[[T], SupportsEq]): function `(T) -> SupportsEq` that provides the keys
+             used to group elements, where the key type must support equality comparisons.
+
+        Returns:
+            `Lazy[QList[T]]`
+
+        Examples:
+            >>> QList(['a1', 'b1', 'b2', 'a2', 'a3', 'b3']).batch_by(lambda s: s[0]).collect()
+            [['a1'], ['b1', 'b2'], ['a2', 'a3'], ['b3']]
+            >>> QList(['a1', 'b1', 'b2', 'a2', 'a3', 'b3']).batch_by(lambda s: s[1]).collect()
+            [['a1', 'b1'], ['b2', 'a2'], ['a3', 'b3']]
+        """
+        def inner():
+            if self.len() == 0:
+                return
+            batch = QList([self[0]])
+            key = grouper(self[0])
+            for elem in self[1:]:
+                new_key = grouper(elem)
+                if new_key == key:
+                    batch.append(elem)
+                else:
+                    yield batch
+                    batch = QList([elem])
+                    key = new_key
+            if batch:
+                yield batch
+        return Lazy(inner())
+
     def chain(self, other: Iterable[T]) -> Lazy[T]:
         """
         Chains `self` with `other`, returning a Lazy[T] with all elements from both iterables.
@@ -1050,5 +1126,6 @@ if __name__ == '__main__':
             .all(lambda x: n % x != 0)
         ))
     )
-    print(Lazy(['a', 'b', 1]).sum())
+    print(QList(['a1', 'b1', 'b2', 'a2', 'a3', 'b3']).batch_by(lambda s: s[0]).collect())
+    print(Lazy([]).batch_by(str).collect())
 

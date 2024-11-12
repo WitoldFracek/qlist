@@ -409,3 +409,25 @@ def test_sum():
     assert Lazy([]).sum() is None
     assert Lazy(range(3)).map(str).sum() == '012'
     assert Lazy(range(4)).fold(lambda acc, x: acc + x, 0) == Lazy(range(4)).sum()
+
+
+def test_batch_by():
+    expected = QList()
+    res = Lazy([]).batch_by(int).collect()
+    assert res == expected
+
+    expected = QList([[0], [1], [2]])
+    res = Lazy(range(3)).batch_by(lambda x: x).collect()
+    assert res == expected
+
+    expected = QList([['a1'], ['b1', 'b2'], ['a2', 'a3'], ['b3']])
+    res = Lazy(['a1', 'b1', 'b2', 'a2', 'a3', 'b3']).batch_by(lambda s: s[0]).collect()
+    assert res == expected
+
+    expected = QList([['a1', 'b1'], ['b2', 'a2'], ['a3', 'b3']])
+    res = Lazy(['a1', 'b1', 'b2', 'a2', 'a3', 'b3']).batch_by(lambda s: s[1]).collect()
+    assert res == expected
+
+    expected = QList([0, 1, 2, 3])
+    res = Lazy(range(4)).batch_by(lambda x: True).collect()
+    assert res == expected

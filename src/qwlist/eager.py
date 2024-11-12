@@ -6,6 +6,7 @@ T = TypeVar('T')
 K = TypeVar('K')
 SupportsLessThan = TypeVar("SupportsLessThan")
 SupportsAdd = TypeVar("SupportsAdd")
+SupportsEq = TypeVar("SupportsEq")
 Booly = TypeVar('Booly')
 
 
@@ -240,6 +241,42 @@ class EagerQList(list):
             for i in range(0, self.len(), size):
                 yield EagerQList(self[i:i + size])
 
+        return EagerQList(inner())
+
+    def batch_by(self, grouper: Callable[[T], SupportsEq]) -> "EagerQList[EagerQList[T]]":
+        """
+        Batches elements of `self` based on the output of the grouper function. Elements are thrown
+        to the same group as long as the grouper function returns the same key (keys must support equality checks).
+        When a new key is returned a new batch (group) is created.
+
+        Args:
+            grouper (Callable[[T], SupportsEq]): function `(T) -> SupportsEq` that provides the keys
+             used to group elements, where the key type must support equality comparisons.
+
+        Returns:
+            `EagerQList[EagerQList[T]]`
+
+        Examples:
+            >>> EagerQList(['a1', 'b1', 'b2', 'a2', 'a3', 'b3']).batch_by(lambda s: s[0])
+            [['a1'], ['b1', 'b2'], ['a2', 'a3'], ['b3']]
+            >>> EagerQList(['a1', 'b1', 'b2', 'a2', 'a3', 'b3']).batch_by(lambda s: s[1])
+            [['a1', 'b1'], ['b2', 'a2'], ['a3', 'b3']]
+        """
+        def inner():
+            if self.len() == 0:
+                return
+            batch = EagerQList([self[0]])
+            key = grouper(self[0])
+            for elem in self[1:]:
+                new_key = grouper(elem)
+                if new_key == key:
+                    batch.append(elem)
+                else:
+                    yield batch
+                    batch = EagerQList([elem])
+                    key = new_key
+            if batch:
+                yield batch
         return EagerQList(inner())
 
     def chain(self, other: Iterable[T]) -> "EagerQList[T]":

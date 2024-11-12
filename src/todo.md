@@ -55,9 +55,9 @@ QList, Lazy, EagerQList
 [x] [x] [x] tested
 
 ### batch_by
-[ ] [ ] [ ] implemented \
-[ ] [ ] [ ] documented \
-[ ] [ ] [ ] tested
+[x] [x] [x] implemented \
+[x] [x] [x] documented \
+[x] [x] [x] tested
 
 ### window
 [ ] [ ] [ ] implemented \

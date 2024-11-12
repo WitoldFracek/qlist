@@ -340,3 +340,25 @@ def test_sum():
     assert EagerQList([1]).sum() == 1
     assert EagerQList().sum() is None
     assert EagerQList(range(4)).fold(lambda acc, x: acc + x, 0) == EagerQList(range(4)).sum()
+
+
+def test_batch_by():
+    expected = EagerQList()
+    res = EagerQList().batch_by(int)
+    assert res == expected
+
+    expected = EagerQList([[0], [1], [2]])
+    res= EagerQList(range(3)).batch_by(lambda x: x)
+    assert res == expected
+
+    expected = EagerQList([['a1'], ['b1', 'b2'], ['a2', 'a3'], ['b3']])
+    res = EagerQList(['a1', 'b1', 'b2', 'a2', 'a3', 'b3']).batch_by(lambda s: s[0])
+    assert res == expected
+
+    expected = EagerQList([['a1', 'b1'], ['b2', 'a2'], ['a3', 'b3']])
+    res = EagerQList(['a1', 'b1', 'b2', 'a2', 'a3', 'b3']).batch_by(lambda s: s[1])
+    assert res == expected
+
+    expected = EagerQList([0, 1, 2, 3])
+    res = EagerQList(range(4)).batch_by(lambda x: True)
+    assert res == expected
