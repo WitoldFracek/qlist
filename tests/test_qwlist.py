@@ -442,3 +442,10 @@ def test_take_while():
     res = QList(range(5)).take_while(lambda x: x < 100).chain([5, 6, 7, 8, 9]).collect()
     assert res == expected
 
+
+def test_sum():
+    assert QList(range(4)).sum() == 6
+    assert QList([1]).sum() == 1
+    assert QList().sum() is None
+    assert QList(range(4)).fold(lambda acc, x: acc + x, 0) == QList(range(4)).sum()
+

@@ -29,6 +29,11 @@ QList, Lazy, EagerQList
 [ ] [ ] [ ] documented \
 [ ] [ ] [ ] tested
 
+### sum
+[x] [x] [x] implemented \
+[x] [x] [x] documented \
+[x] [x] [x] tested
+
 ### full_flatten
 [x] [x] [x] implemented \
 [x] [x] [x] documented \
@@ -48,6 +53,16 @@ QList, Lazy, EagerQList
 [x] [x] [x] implemented \
 [x] [x] [x] documented \
 [x] [x] [x] tested
+
+### batch_by
+[ ] [ ] [ ] implemented \
+[ ] [ ] [ ] documented \
+[ ] [ ] [ ] tested
+
+### window
+[ ] [ ] [ ] implemented \
+[ ] [ ] [ ] documented \
+[ ] [ ] [ ] tested
 
 ### iter
 [x] [x] [x] implemented \

@@ -418,5 +418,22 @@ class EagerQList(list):
                 yield elem
         return EagerQList(inner())
 
+    def sum(self) -> Optional[SupportsAdd]:
+        """
+        Sums all the elements and returns the sum. Returns None if `self` is empty.
+        Elements of `self` must support addition.
+
+        Returns: `Optional[SupportsAdd]`
+        """
+        it = self.iter()
+        acc = None
+        try:
+            acc = next(it)
+        except StopIteration:
+            return acc
+        for elem in it:
+            acc = acc + elem
+        return acc
+
 if __name__ == '__main__':
-    EagerQList([[1, 2], 3]).flatten().foreach(print)
+    print(EagerQList([(1, 2), (3,)]).sum())

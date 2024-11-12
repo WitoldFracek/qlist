@@ -463,31 +463,22 @@ class Lazy(Generic[T]):
                     yield elem
         return Lazy(inner())
 
-    def sum(self, init: Optional[T] = None) -> T:
+    def sum(self) -> Optional[SupportsAdd]:
         """
+        Sums all the elements and returns the sum. Returns None if `self` is empty.
+        Elements of `self` must support addition.
 
-        Args:
-            init (Optional[T]): - if set to None the first element of the iterable is the first component of the addition.
-             If set to anything other than None `init` is treated as the first component of the addition. Defaults to None.
-
-        Raises:
-            Exception when called on an empty Lazy without specifying the `init` argument
-
-        Returns: sum off all the elements starting with the init
+        Returns: `Optional[SupportsAdd]`
         """
-        if init is not None:
-            ret = init
-            for elem in self.gen:
-                ret = ret + elem
-            return ret
-        it = iter(self.gen)
+        it = self.iter()
+        acc = None
         try:
-            ret = next(it)
+            acc = next(it)
         except StopIteration:
-            raise Exception("calling sum on an empty Lazy without specifying the initial element. Either pass the init argument or call sum on nonempty Lazy")
+            return acc
         for elem in it:
-            ret = ret + elem
-        return ret
+            acc = acc + elem
+        return acc
 
     def take_while(self, pred: Callable[[T], bool]) -> "Lazy[T]":
         """
@@ -1026,6 +1017,23 @@ class QList(list):
                 yield elem
         return Lazy(inner())
 
+    def sum(self) -> Optional[SupportsAdd]:
+        """
+        Sums all the elements and returns the sum. Returns None if `self` is empty.
+        Elements of `self` must support addition.
+
+        Returns: `Optional[SupportsAdd]`
+        """
+        it = self.iter()
+        acc = None
+        try:
+            acc = next(it)
+        except StopIteration:
+            return acc
+        for elem in it:
+            acc = acc + elem
+        return acc
+
 
 if __name__ == '__main__':
     def naturals(start):
@@ -1042,6 +1050,5 @@ if __name__ == '__main__':
             .all(lambda x: n % x != 0)
         ))
     )
-    for p in primes.skip(1000).take(10):
-        print(p)
+    print(Lazy(['a', 'b', 1]).sum())
 

@@ -333,3 +333,10 @@ def test_take_while():
     expected = EagerQList(range(10))
     res = EagerQList(range(5)).take_while(lambda x: x < 100).chain([5, 6, 7, 8, 9])
     assert res == expected
+
+
+def test_sum():
+    assert EagerQList(range(4)).sum() == 6
+    assert EagerQList([1]).sum() == 1
+    assert EagerQList().sum() is None
+    assert EagerQList(range(4)).fold(lambda acc, x: acc + x, 0) == EagerQList(range(4)).sum()
