@@ -1,3 +1,4 @@
+from collections import deque
 from typing import TypeVar, Iterable, Callable, overload, Iterator, Optional, Type
 
 from src.qwlist import QList
@@ -550,5 +551,32 @@ class EagerQList(list):
             acc = acc + elem
         return acc
 
+    def window(self, window_size: int) -> "EagerQList[EagerQList[T]]":
+        """
+        Creates a new `EagerQList` of sliding windows of size `window_size`. If `window_size`
+        is greater than the total length of `self` an empty iterator is returned.
+
+        Args:
+            window_size (int): the size of the sliding window. Must be greater than 0.
+
+        Returns:
+            `EagerQList[EagerQList[T]]` - iterable of all sliding windows.
+        """
+        assert window_size > 0, f'window size must be greater than 0 but got {window_size}.'
+        def inner(n: int):
+            if self.len() < n:
+                return
+            if self.len() == n:
+                yield self
+                return
+            window = deque(maxlen=n)
+            for elem in self[:n]:
+                window.append(elem)
+            yield EagerQList(window)
+            for elem in self[n:]:
+                window.append(elem)
+                yield EagerQList(window)
+        return EagerQList(inner(n=window_size))
+
 if __name__ == '__main__':
-    print(EagerQList([1, 2, 3]).scan(lambda acc, x: acc + x, 0))
+    print(EagerQList([1, 2, 3]).window(2))

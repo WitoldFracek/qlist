@@ -60,9 +60,9 @@ QList, Lazy, EagerQList
 [x] [x] [x] tested
 
 ### window
-[ ] [ ] [ ] implemented \
-[ ] [ ] [ ] documented \
-[ ] [ ] [ ] tested
+[x] [x] [x] implemented \
+[x] [x] [x] documented \
+[x] [x] [x] tested
 
 ### iter
 [x] [x] [x] implemented \

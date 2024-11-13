@@ -1,4 +1,5 @@
 from typing import TypeVar, Generic, Iterable, Callable, overload, Optional, Iterator, Type
+from collections import deque
 
 T = TypeVar('T')
 K = TypeVar('K')
@@ -618,6 +619,32 @@ class Lazy(Generic[T]):
                     return
                 yield elem
         return Lazy(inner())
+
+    def window(self, window_size: int) -> "Lazy[QList[T]]":
+        """
+        Creates a new `Lazy` of sliding windows of size `window_size`. If `window_size`
+        is greater than the total length of `self` an empty iterator is returned.
+
+        Args:
+            window_size (int): the size of the sliding window. Must be greater than 0.
+
+        Returns:
+            `Lazy[QList[T]]` - iterable of all sliding windows.
+        """
+        assert window_size > 0, f'window size must be greater than 0 but got {window_size}.'
+        def inner(n: int):
+            window = deque(maxlen=n)
+            it = self.iter()
+            try:
+                for _ in range(n):
+                    window.append(next(it))
+            except StopIteration:
+                return
+            yield QList(window)
+            for elem in it:
+                window.append(elem)
+                yield QList(window)
+        return Lazy(inner(n=window_size))
 
 
 # ----------------- QList ----------------------------------------------
@@ -1264,6 +1291,33 @@ class QList(list):
             acc = acc + elem
         return acc
 
+    def window(self, window_size: int) -> "Lazy[QList[T]]":
+        """
+        Creates a new `Lazy` of sliding windows of size `window_size`. If `window_size`
+        is greater than the total length of `self` an empty iterator is returned.
+
+        Args:
+            window_size (int): the size of the sliding window. Must be greater than 0.
+
+        Returns:
+            `Lazy[QList[T]]` - iterable of all sliding windows.
+        """
+        assert window_size > 0, f'window size must be greater than 0 but got {window_size}.'
+        def inner(n: int):
+            if self.len() < n:
+                return
+            if self.len() == n:
+                yield self
+                return
+            window = deque(maxlen=n)
+            for elem in self[:n]:
+                window.append(elem)
+            yield QList(window)
+            for elem in self[n:]:
+                window.append(elem)
+                yield QList(window)
+        return Lazy(inner(n=window_size))
+
 
 if __name__ == '__main__':
     def naturals(start):
@@ -1280,5 +1334,6 @@ if __name__ == '__main__':
             .all(lambda x: n % x != 0)
         ))
     )
-    print(QList([1, 2, 3]).scan(lambda acc, x: acc + x, 0).collect())
+    acc_sum = QList(range(10)).window(3).collect()
+    print(acc_sum)
 

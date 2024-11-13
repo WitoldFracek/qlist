@@ -467,3 +467,40 @@ def test_scan():
     expected = QList()
     res = Lazy([]).scan(lambda acc, x: x, 0).collect()
     assert res == expected
+
+
+def test_window():
+    expected = QList()
+    res = Lazy([]).window(2).collect()
+    assert res == expected
+
+    expected = QList()
+    res = Lazy(range(10)).window(100).collect()
+    assert res == expected
+
+    expected = QList([[0, 1], [1, 2], [2, 3]])
+    res = Lazy(range(4)).window(2).collect()
+    assert res == expected
+
+    expected = QList([[0, 1, 2]])
+    res = Lazy(range(3)).window(3).collect()
+    assert res == expected
+
+    try:
+        Lazy(range(10)).window(-4).collect()
+    except Exception:
+        assert True
+    else:
+        assert False
+
+    expected = QList([[[0, 1, 2], [1, 2, 3]]])
+    res = Lazy(range(4)).window(3).window(2).collect()
+    assert res == expected
+
+    expected = QList([[i] for i in range(4)])
+    res = Lazy(range(4)).window(1).collect()
+    assert res == expected
+
+    expected = QList()
+    res = Lazy(range(5)).window(6).collect()
+    assert res == expected

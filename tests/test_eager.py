@@ -398,3 +398,40 @@ def test_scan():
     expected = EagerQList()
     res = EagerQList().scan(lambda acc, x: x, 0)
     assert res == expected
+
+
+def test_window():
+    expected = EagerQList()
+    res = EagerQList().window(2)
+    assert res == expected
+
+    expected = EagerQList()
+    res = EagerQList(range(10)).window(100)
+    assert res == expected
+
+    expected = EagerQList([[0, 1], [1, 2], [2, 3]])
+    res = EagerQList(range(4)).window(2)
+    assert res == expected
+
+    expected = EagerQList([[0, 1, 2]])
+    res = EagerQList(range(3)).window(3)
+    assert res == expected
+
+    try:
+        EagerQList(range(10)).window(-4)
+    except Exception:
+        assert True
+    else:
+        assert False
+
+    expected = EagerQList([[[0, 1, 2], [1, 2, 3]]])
+    res = EagerQList(range(4)).window(3).window(2)
+    assert res == expected
+
+    expected = EagerQList([[i] for i in range(4)])
+    res = EagerQList(range(4)).window(1)
+    assert res == expected
+
+    expected = EagerQList()
+    res = EagerQList(range(5)).window(6)
+    assert res == expected
