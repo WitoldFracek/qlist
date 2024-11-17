@@ -69,6 +69,5 @@ QList, Lazy, EagerQList
 [x] [x] [x] documented \
 [x] [x] [x] tested
 
-
-
-w assertach jest res == expected kolejność
+w assertach jest res == expected
+^ kolejność
