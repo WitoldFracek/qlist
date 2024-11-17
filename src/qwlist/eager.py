@@ -1,7 +1,6 @@
 from collections import deque
 from typing import TypeVar, Iterable, Callable, overload, Iterator, Optional, Type, Tuple, List
-
-from src.qwlist import QList
+from .qwlist import QList
 
 T = TypeVar('T')
 K = TypeVar('K')
