@@ -430,7 +430,7 @@ def test_batch_by():
     res = Lazy(['a1', 'b1', 'b2', 'a2', 'a3', 'b3']).batch_by(lambda s: s[1]).collect()
     assert res == expected
 
-    expected = QList([0, 1, 2, 3])
+    expected = QList([[0, 1, 2, 3]])
     res = Lazy(range(4)).batch_by(lambda x: True).collect()
     assert res == expected
 

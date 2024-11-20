@@ -361,7 +361,7 @@ def test_batch_by():
     res = EagerQList(['a1', 'b1', 'b2', 'a2', 'a3', 'b3']).batch_by(lambda s: s[1])
     assert res == expected
 
-    expected = EagerQList([0, 1, 2, 3])
+    expected = EagerQList([[0, 1, 2, 3]])
     res = EagerQList(range(4)).batch_by(lambda x: True)
     assert res == expected
 
