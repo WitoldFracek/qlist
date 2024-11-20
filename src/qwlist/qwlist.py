@@ -235,6 +235,7 @@ class Lazy(Generic[T]):
     def take(self, n: int) -> "Lazy[T]":
         """
         Takes `n` first elements of `self`.
+
         Args:
             n (int): numbers of elements to take. Should be non-negative.
 
@@ -941,6 +942,7 @@ class QList(list):
     def take(self, n: int) -> Lazy[T]:
         """
         Takes `n` first elements of `self`.
+
         Args:
             n (int): numbers of elements to take. Should be non-negative.
 
