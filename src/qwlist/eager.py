@@ -29,6 +29,37 @@ class EagerQList(list):
             return EagerQList(super().__getitem__(item))
         return super().__getitem__(item)
 
+    def get(self, index: int) -> Optional[T]:
+        """
+        Safely get the element on the specified index. If the index is out of bounds `None` is returned.
+
+        Args:
+            index (int): index of the element to take
+
+        Returns:
+            Element at the specified index or `None` if index is out of bounds.
+
+        """
+        if 0 > index >= self.len():
+            return None
+        return self[index]
+
+    def get_or(self, index: int, default: T) -> T:
+        """
+        Safely get the element on the specified index. If the index is out of bounds `default` is returned.
+
+        Args:
+            index (int): index of the element to take
+            default (T): value to return if the index is out of bounds
+
+        Returns:
+            Element at the specified index or `default` if index is out of bounds.
+
+        """
+        if 0 > index >= self.len():
+            return default
+        return self[index]
+
     def iter(self) -> Iterator[T]:
         """
         Changes `self` into `Iterator[T]` by calling the `iter()` function.
