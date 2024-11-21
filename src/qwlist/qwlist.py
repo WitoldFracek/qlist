@@ -696,7 +696,7 @@ class QList(list):
             Element at the specified index or `None` if index is out of bounds.
 
         """
-        if 0 > index >= self.len():
+        if index < 0 or index >= self.len():
             return None
         return self[index]
 
@@ -712,7 +712,7 @@ class QList(list):
             Element at the specified index or `default` if index is out of bounds.
 
         """
-        if 0 > index >= self.len():
+        if index < 0 or index >= self.len():
             return default
         return self[index]
 
