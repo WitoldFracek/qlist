@@ -660,6 +660,20 @@ class Lazy(Generic[T]):
                 yield QList(window)
         return Lazy(inner(n=window_size))
 
+    def first(self) -> Optional[T]:
+        """
+        Tries to access the first element of `self`. Returns `None` if `self` is empty.
+
+        Returns:
+            First element of `self` or `None` if `self` is empty.
+        """
+        it = self.iter()
+        try:
+            return next(it)
+        except StopIteration:
+            pass
+        return None
+
 
 # ----------------- QList ----------------------------------------------
 
@@ -685,28 +699,13 @@ class QList(list):
             return QList(super().__getitem__(item))
         return super().__getitem__(item)
 
-    def get(self, index: int) -> Optional[T]:
-        """
-        Safely get the element on the specified index. If the index is out of bounds `None` is returned.
-
-        Args:
-            index (int): index of the element to take
-
-        Returns:
-            Element at the specified index or `None` if index is out of bounds.
-
-        """
-        if index < 0 or index >= self.len():
-            return None
-        return self[index]
-
-    def get_or(self, index: int, default: T) -> T:
+    def get(self, index: int, default: Optional[T] = None) -> Optional[T]:
         """
         Safely get the element on the specified index. If the index is out of bounds `default` is returned.
 
         Args:
             index (int): index of the element to take
-            default (T): value to return if the index is out of bounds
+            default (Optional[T]): value to return if the index is out of bounds. Defaults to `None`
 
         Returns:
             Element at the specified index or `default` if index is out of bounds.
@@ -1403,6 +1402,8 @@ if __name__ == '__main__':
             .all(lambda x: n % x != 0)
         ))
     )
-    acc_sum = QList(range(10)).window(3).collect()
-    print(acc_sum)
+    lazy = Lazy(range(10))
+    print(lazy.first())
+    print(lazy.first())
+    print(lazy.first())
 
