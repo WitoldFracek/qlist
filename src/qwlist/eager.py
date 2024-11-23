@@ -31,7 +31,7 @@ class EagerQList(list):
 
     def get(self, index: int, default: Optional[T] = None) -> Optional[T]:
         """
-        Safely get the element on the specified index. If the index is out of bounds `default` is returned.
+        Safely gets the element on the specified index. If the index is out of bounds `default` is returned.
 
         Args:
             index (int): index of the element to take

@@ -674,9 +674,26 @@ class Lazy(Generic[T]):
             pass
         return None
 
+    def get(self, index: int, default: Optional[T] = None) -> Optional[T]:
+        """
+        Safely gets the element on the specified index. If the index is out of bounds `default` is returned.
+        This is an `O(n)` operation that consumes the iterator!
 
-# ----------------- QList ----------------------------------------------
+        Args:
+            index (int): index of the element to take
+            default (Optional[T]): value to return if the index is out of bounds. Defaults to `None`
 
+        Returns:
+            Element at the specified index or `default` if index is out of bounds.
+        """
+        if index < 0:
+            return default
+        for i, elem in self.enumerate():
+            if i == index:
+                return elem
+        return default
+
+# ---------------------------------------------- QList ----------------------------------------------
 
 class QList(list):
     """
@@ -701,7 +718,7 @@ class QList(list):
 
     def get(self, index: int, default: Optional[T] = None) -> Optional[T]:
         """
-        Safely get the element on the specified index. If the index is out of bounds `default` is returned.
+        Safely gets the element on the specified index. If the index is out of bounds `default` is returned.
 
         Args:
             index (int): index of the element to take

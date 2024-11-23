@@ -437,17 +437,17 @@ def test_window():
     assert res == expected
 
 
-def test_get_and_get_at():
+def test_get():
     assert EagerQList().get(-1) is None
     assert EagerQList().get(0) is None
     assert EagerQList().get(10) is None
-    assert EagerQList(range(1, 10)).get(0) == 1
-    assert EagerQList(range(1, 10)).get(9) == 10
-    assert EagerQList(range(1, 10)).get(10) is None
+    assert EagerQList(range(1, 11)).get(0) == 1
+    assert EagerQList(range(1, 11)).get(9) == 10
+    assert EagerQList(range(1, 11)).get(10) is None
 
     assert EagerQList().get(-1, default=100) == 100
     assert EagerQList().get(0, default=100) == 100
     assert EagerQList().get(10, default=100) == 100
-    assert EagerQList(range(1, 10)).get(0, default=100) == 1
-    assert EagerQList(range(1, 10)).get(9, default=100) == 10
-    assert EagerQList(range(1, 10)).get(10, default=100) == 100
+    assert EagerQList(range(1, 11)).get(0, default=100) == 1
+    assert EagerQList(range(1, 11)).get(9, default=100) == 10
+    assert EagerQList(range(1, 11)).get(10, default=100) == 100

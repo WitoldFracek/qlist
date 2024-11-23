@@ -504,3 +504,24 @@ def test_window():
     expected = QList()
     res = Lazy(range(5)).window(6).collect()
     assert res == expected
+
+
+def test_first():
+    assert Lazy(range(10)).first() == 0
+    assert Lazy([]).first() is None
+
+
+def test_get():
+    assert Lazy([]).get(-1) is None
+    assert Lazy([]).get(0) is None
+    assert Lazy([]).get(10) is None
+    assert Lazy(range(1, 11)).get(0) == 1
+    assert Lazy(range(1, 11)).get(9) == 10
+    assert Lazy(range(1, 11)).get(10) is None
+
+    assert Lazy([]).get(-1, default=100) == 100
+    assert Lazy([]).get(0, default=100) == 100
+    assert Lazy([]).get(10, default=100) == 100
+    assert Lazy(range(1, 11)).get(0, default=100) == 1
+    assert Lazy(range(1, 11)).get(9, default=100) == 10
+    assert Lazy(range(1, 11)).get(10, default=100) == 100

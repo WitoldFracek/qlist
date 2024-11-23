@@ -548,19 +548,19 @@ def test_window():
     assert res == expected
 
 
-def test_get_and_get_at():
+def test_get():
     assert QList().get(-1) is None
     assert QList().get(0) is None
     assert QList().get(10) is None
-    assert QList(range(1, 10)).get(0) == 1
-    assert QList(range(1, 10)).get(9) == 10
-    assert QList(range(1, 10)).get(10) is None
+    assert QList(range(1, 11)).get(0) == 1
+    assert QList(range(1, 11)).get(9) == 10
+    assert QList(range(1, 11)).get(10) is None
 
-    assert QList().get_or(-1, 100) == 100
-    assert QList().get_or(0, 100) == 100
-    assert QList().get_or(10, 100) == 100
-    assert QList(range(1, 10)).get_or(0, 100) == 1
-    assert QList(range(1, 10)).get_or(9, 100) == 10
-    assert QList(range(1, 10)).get_or(10, 100) == 100
+    assert QList().get(-1, default=100) == 100
+    assert QList().get(0, default=100) == 100
+    assert QList().get(10, default=100) == 100
+    assert QList(range(1, 11)).get(0, default=100) == 1
+    assert QList(range(1, 11)).get(9, default=100) == 10
+    assert QList(range(1, 11)).get(10, default=100) == 100
 
 
