@@ -1,5 +1,6 @@
 from typing import TypeVar, Generic, Iterable, Callable, overload, Optional, Iterator, Type, Tuple, List
 from collections import deque
+from unittest.mock import right
 
 T = TypeVar('T')
 K = TypeVar('K')
@@ -692,6 +693,50 @@ class Lazy(Generic[T]):
             if i == index:
                 return elem
         return default
+
+    def uncons(self) -> Optional[Tuple[T, "Lazy[T]"]]:
+        """
+        Splits `self` into head and tail. Returns `None` if `self` is emtpy.
+
+        Returns:
+            Head and tail of `self` or `None` is `self` is empty.
+
+        """
+        it = self.iter()
+        try:
+            head = next(it)
+        except StopIteration:
+            return None
+        return head, Lazy(it)
+
+    def split_when(self, pred: Callable[[T], bool]) -> Optional[Tuple["QList[T]", "Lazy[T]"]]:
+        """
+        Splits the lazy sequence into two parts at the first element satisfying the predicate.
+        The element that satisfies the predicate is included in the left part, which is fully evaluated,
+        while the right part remains lazy, allowing for operations on infinite sequences.
+
+        Args:
+            pred (Callable[[T], bool]): `function (T) -> bool` that returns `True`
+                if the element is the split point.
+
+        Returns:
+            A tuple where:
+                - The first element is a fully evaluated `QList` containing all elements up to and
+                  including the split point.
+                - The second element is a lazily evaluated sequence of all elements after the split point.
+                - Returns `None` if `self` is empty.
+                - If no element satisfies the predicate, the left part contains all elements from `self` and
+                the right part is an empty lazy sequence.
+        """
+        left = QList()
+        it = self.iter()
+        for elem in it:
+            left.append(elem)
+            if pred(elem):
+                return left, Lazy(it)
+        if not left:
+            return None
+        return left, Lazy([])
 
 # ---------------------------------------------- QList ----------------------------------------------
 
@@ -1419,8 +1464,9 @@ if __name__ == '__main__':
             .all(lambda x: n % x != 0)
         ))
     )
-    lazy = Lazy(range(10))
-    print(lazy.first())
-    print(lazy.first())
-    print(lazy.first())
+    split = primes.split_when(lambda x: x > 10)
+    if split is not None:
+        left, right = split
+        print(left)
+        print(right.take(10).collect())
 
