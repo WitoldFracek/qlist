@@ -720,9 +720,9 @@ class Lazy(Generic[T]):
 
         Returns:
             A tuple where the first element is a fully evaluated `QList` containing all elements up to and
-            including the split point, and the second element is a lazily evaluated sequence of all
-            elements after the split point. Returns `None` if `self` is empty. If no element satisfies the
-            predicate, the left part contains all elements from `self` and the right part is an empty lazy sequence.
+             including the split point, and the second element is a lazily evaluated sequence of all
+             elements after the split point. Returns `None` if `self` is empty. If no element satisfies the
+             predicate, the left part contains all elements from `self` and the right part is an empty lazy sequence.
         """
         left = QList()
         it = self.iter()
