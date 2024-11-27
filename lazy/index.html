@@ -499,6 +499,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#src.qwlist.qwlist.Lazy.split_when" class="md-nav__link">
+    split_when()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#src.qwlist.qwlist.Lazy.sum" class="md-nav__link">
     sum()
   </a>
@@ -515,6 +522,13 @@
         <li class="md-nav__item">
   <a href="#src.qwlist.qwlist.Lazy.take_while" class="md-nav__link">
     take_while()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#src.qwlist.qwlist.Lazy.uncons" class="md-nav__link">
+    uncons()
   </a>
   
 </li>
@@ -802,6 +816,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#src.qwlist.qwlist.Lazy.split_when" class="md-nav__link">
+    split_when()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#src.qwlist.qwlist.Lazy.sum" class="md-nav__link">
     sum()
   </a>
@@ -818,6 +839,13 @@
         <li class="md-nav__item">
   <a href="#src.qwlist.qwlist.Lazy.take_while" class="md-nav__link">
     take_while()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#src.qwlist.qwlist.Lazy.uncons" class="md-nav__link">
+    uncons()
   </a>
   
 </li>
@@ -1563,7 +1591,48 @@ again may cause errors</strong> due to the draining of the generator.</p>
 <span class="normal">691</span>
 <span class="normal">692</span>
 <span class="normal">693</span>
-<span class="normal">694</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Lazy</span><span class="p">(</span><span class="n">Generic</span><span class="p">[</span><span class="n">T</span><span class="p">]):</span>
+<span class="normal">694</span>
+<span class="normal">695</span>
+<span class="normal">696</span>
+<span class="normal">697</span>
+<span class="normal">698</span>
+<span class="normal">699</span>
+<span class="normal">700</span>
+<span class="normal">701</span>
+<span class="normal">702</span>
+<span class="normal">703</span>
+<span class="normal">704</span>
+<span class="normal">705</span>
+<span class="normal">706</span>
+<span class="normal">707</span>
+<span class="normal">708</span>
+<span class="normal">709</span>
+<span class="normal">710</span>
+<span class="normal">711</span>
+<span class="normal">712</span>
+<span class="normal">713</span>
+<span class="normal">714</span>
+<span class="normal">715</span>
+<span class="normal">716</span>
+<span class="normal">717</span>
+<span class="normal">718</span>
+<span class="normal">719</span>
+<span class="normal">720</span>
+<span class="normal">721</span>
+<span class="normal">722</span>
+<span class="normal">723</span>
+<span class="normal">724</span>
+<span class="normal">725</span>
+<span class="normal">726</span>
+<span class="normal">727</span>
+<span class="normal">728</span>
+<span class="normal">729</span>
+<span class="normal">730</span>
+<span class="normal">731</span>
+<span class="normal">732</span>
+<span class="normal">733</span>
+<span class="normal">734</span>
+<span class="normal">735</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Lazy</span><span class="p">(</span><span class="n">Generic</span><span class="p">[</span><span class="n">T</span><span class="p">]):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Object representing lazy evaluation of called methods.</span>
 
@@ -2246,6 +2315,47 @@ again may cause errors</strong> due to the draining of the generator.</p>
             <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="n">index</span><span class="p">:</span>
                 <span class="k">return</span> <span class="n">elem</span>
         <span class="k">return</span> <span class="n">default</span>
+
+    <span class="k">def</span> <span class="nf">uncons</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">T</span><span class="p">,</span> <span class="s2">&quot;Lazy[T]&quot;</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Splits `self` into head and tail. Returns `None` if `self` is emtpy.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Head and tail of `self` or `None` is `self` is empty.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">it</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">iter</span><span class="p">()</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">head</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">it</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">StopIteration</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="n">head</span><span class="p">,</span> <span class="n">Lazy</span><span class="p">(</span><span class="n">it</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">split_when</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pred</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">T</span><span class="p">],</span> <span class="nb">bool</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="s2">&quot;QList[T]&quot;</span><span class="p">,</span> <span class="s2">&quot;Lazy[T]&quot;</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Splits the lazy sequence into two parts at the first element satisfying the predicate.</span>
+<span class="sd">        The element that satisfies the predicate is included in the left part, which is fully evaluated,</span>
+<span class="sd">        while the right part remains lazy, allowing for operations on infinite sequences.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            pred (Callable[[T], bool]): `function (T) -&gt; bool` that returns `True`</span>
+<span class="sd">                if the element is the split point.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A tuple where the first element is a fully evaluated `QList` containing all elements up to and</span>
+<span class="sd">             including the split point, and the second element is a lazily evaluated sequence of all</span>
+<span class="sd">             elements after the split point. Returns `None` if `self` is empty. If no element satisfies the</span>
+<span class="sd">             predicate, the left part contains all elements from `self` and the right part is an empty lazy sequence.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">left</span> <span class="o">=</span> <span class="n">QList</span><span class="p">()</span>
+        <span class="n">it</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">iter</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="n">it</span><span class="p">:</span>
+            <span class="n">left</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">elem</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">pred</span><span class="p">(</span><span class="n">elem</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">left</span><span class="p">,</span> <span class="n">Lazy</span><span class="p">(</span><span class="n">it</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">left</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="n">left</span><span class="p">,</span> <span class="n">Lazy</span><span class="p">([])</span>
 </code></pre></div></td></tr></table></div>
             </details>
 
@@ -5323,6 +5433,139 @@ then treating it as the first argument in the next step.</p>
 
 
 
+<h2 id="src.qwlist.qwlist.Lazy.split_when" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">split_when</span><span class="p">(</span><span class="n">pred</span><span class="p">)</span></code>
+
+</h2>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Splits the lazy sequence into two parts at the first element satisfying the predicate.
+The element that satisfies the predicate is included in the left part, which is fully evaluated,
+while the right part remains lazy, allowing for operations on infinite sequences.</p>
+
+
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>pred</code></td>
+          <td>
+                <code><span title="typing.Callable">Callable</span>[[<span title="src.qwlist.qwlist.T">T</span>], bool]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p><code>function (T) -&gt; bool</code> that returns <code>True</code>
+if the element is the split point.</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code><span title="typing.Optional">Optional</span>[<span title="typing.Tuple">Tuple</span>[<a class="autorefs autorefs-internal" title="src.qwlist.qwlist.QList" href="../qlist/#src.qwlist.qwlist.QList">QList</a>[<span title="src.qwlist.qwlist.T">T</span>], <a class="autorefs autorefs-internal" title="src.qwlist.qwlist.Lazy" href="#src.qwlist.qwlist.Lazy">Lazy</a>[<span title="src.qwlist.qwlist.T">T</span>]]]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>A tuple where the first element is a fully evaluated <code>QList</code> containing all elements up to and
+including the split point, and the second element is a lazily evaluated sequence of all
+elements after the split point. Returns <code>None</code> if <code>self</code> is empty. If no element satisfies the
+predicate, the left part contains all elements from <code>self</code> and the right part is an empty lazy sequence.</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+          <details class="quote">
+            <summary>Source code in <code>src\qwlist\qwlist.py</code></summary>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">711</span>
+<span class="normal">712</span>
+<span class="normal">713</span>
+<span class="normal">714</span>
+<span class="normal">715</span>
+<span class="normal">716</span>
+<span class="normal">717</span>
+<span class="normal">718</span>
+<span class="normal">719</span>
+<span class="normal">720</span>
+<span class="normal">721</span>
+<span class="normal">722</span>
+<span class="normal">723</span>
+<span class="normal">724</span>
+<span class="normal">725</span>
+<span class="normal">726</span>
+<span class="normal">727</span>
+<span class="normal">728</span>
+<span class="normal">729</span>
+<span class="normal">730</span>
+<span class="normal">731</span>
+<span class="normal">732</span>
+<span class="normal">733</span>
+<span class="normal">734</span>
+<span class="normal">735</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">split_when</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pred</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">T</span><span class="p">],</span> <span class="nb">bool</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="s2">&quot;QList[T]&quot;</span><span class="p">,</span> <span class="s2">&quot;Lazy[T]&quot;</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Splits the lazy sequence into two parts at the first element satisfying the predicate.</span>
+<span class="sd">    The element that satisfies the predicate is included in the left part, which is fully evaluated,</span>
+<span class="sd">    while the right part remains lazy, allowing for operations on infinite sequences.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        pred (Callable[[T], bool]): `function (T) -&gt; bool` that returns `True`</span>
+<span class="sd">            if the element is the split point.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        A tuple where the first element is a fully evaluated `QList` containing all elements up to and</span>
+<span class="sd">         including the split point, and the second element is a lazily evaluated sequence of all</span>
+<span class="sd">         elements after the split point. Returns `None` if `self` is empty. If no element satisfies the</span>
+<span class="sd">         predicate, the left part contains all elements from `self` and the right part is an empty lazy sequence.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">left</span> <span class="o">=</span> <span class="n">QList</span><span class="p">()</span>
+    <span class="n">it</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">iter</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="n">it</span><span class="p">:</span>
+        <span class="n">left</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">elem</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">pred</span><span class="p">(</span><span class="n">elem</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">left</span><span class="p">,</span> <span class="n">Lazy</span><span class="p">(</span><span class="n">it</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">left</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    <span class="k">return</span> <span class="n">left</span><span class="p">,</span> <span class="n">Lazy</span><span class="p">([])</span>
+</code></pre></div></td></tr></table></div>
+          </details>
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+
 <h2 id="src.qwlist.qwlist.Lazy.sum" class="doc doc-heading">
           <code class="highlight language-python"><span class="nb">sum</span><span class="p">()</span></code>
 
@@ -5635,6 +5878,81 @@ predicate returns <code>False</code>.</p>
                 <span class="k">return</span>
             <span class="k">yield</span> <span class="n">elem</span>
     <span class="k">return</span> <span class="n">Lazy</span><span class="p">(</span><span class="n">inner</span><span class="p">())</span>
+</code></pre></div></td></tr></table></div>
+          </details>
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+
+<h2 id="src.qwlist.qwlist.Lazy.uncons" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">uncons</span><span class="p">()</span></code>
+
+</h2>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Splits <code>self</code> into head and tail. Returns <code>None</code> if <code>self</code> is emtpy.</p>
+
+
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code><span title="typing.Optional">Optional</span>[<span title="typing.Tuple">Tuple</span>[<span title="src.qwlist.qwlist.T">T</span>, <a class="autorefs autorefs-internal" title="src.qwlist.qwlist.Lazy" href="#src.qwlist.qwlist.Lazy">Lazy</a>[<span title="src.qwlist.qwlist.T">T</span>]]]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Head and tail of <code>self</code> or <code>None</code> is <code>self</code> is empty.</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+          <details class="quote">
+            <summary>Source code in <code>src\qwlist\qwlist.py</code></summary>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">696</span>
+<span class="normal">697</span>
+<span class="normal">698</span>
+<span class="normal">699</span>
+<span class="normal">700</span>
+<span class="normal">701</span>
+<span class="normal">702</span>
+<span class="normal">703</span>
+<span class="normal">704</span>
+<span class="normal">705</span>
+<span class="normal">706</span>
+<span class="normal">707</span>
+<span class="normal">708</span>
+<span class="normal">709</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">uncons</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">T</span><span class="p">,</span> <span class="s2">&quot;Lazy[T]&quot;</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Splits `self` into head and tail. Returns `None` if `self` is emtpy.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Head and tail of `self` or `None` is `self` is empty.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">it</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">iter</span><span class="p">()</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">head</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">it</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">StopIteration</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    <span class="k">return</span> <span class="n">head</span><span class="p">,</span> <span class="n">Lazy</span><span class="p">(</span><span class="n">it</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
           </details>
   </div>
