@@ -1,10 +1,12 @@
-import sys;
-
-from src.qwlist.eager import EagerQList
-
-sys.path.append('../src')
+import sys; sys.path.append('../src')
 from src.qwlist.qwlist import QList, Lazy
-import pytest
+
+
+def naturals():
+    current = 0
+    while True:
+        yield current
+        current += 1
 
 
 def test_lazy_from_iterable_constructor():
@@ -525,3 +527,51 @@ def test_get():
     assert Lazy(range(1, 11)).get(0, default=100) == 1
     assert Lazy(range(1, 11)).get(9, default=100) == 10
     assert Lazy(range(1, 11)).get(10, default=100) == 100
+
+
+def test_uncons():
+    assert Lazy([]).uncons() is None
+
+    expected = (0, QList([1, 2, 3]))
+    head, tail = Lazy(range(4)).uncons()
+    res = (head, tail.collect())
+    assert res == expected
+
+    expected = (0, QList())
+    head, tail = Lazy([0]).uncons()
+    res = (head, tail.collect())
+    assert res == expected
+
+    assert Lazy(range(4)).filter(lambda x: x > 5).uncons() is None
+
+    nat = Lazy(naturals())
+    head, tail = nat.uncons()
+    assert head == 0
+    head, tail = tail.uncons()
+    assert head == 1
+    head, tail = tail.uncons()
+    assert head == 2
+
+
+def test_split_when():
+    assert Lazy([]).split_when(lambda x: True) is None
+
+    expected = (QList([0]), QList([1, 2, 3]))
+    left, right = Lazy(range(4)).split_when(lambda x: True)
+    res = (left, right.collect())
+    assert res == expected
+
+    expected = (QList([0, 1, 2]), QList([3, 4, 5]))
+    left, right = Lazy(range(6)).split_when(lambda x: x == 2)
+    res = (left, right.collect())
+    assert res == expected
+
+    expected = (QList([0, 1, 2]), QList())
+    left, right = Lazy(range(3)).split_when(lambda x: x == 2)
+    res = (left, right.collect())
+    assert res == expected
+
+    left, right = Lazy(naturals()).split_when(lambda x: x == 2)
+    assert left == QList([0, 1, 2])
+    left, right = right.split_when(lambda x: x == 5)
+    assert left == QList([3, 4, 5])

@@ -1,6 +1,5 @@
 from typing import TypeVar, Generic, Iterable, Callable, overload, Optional, Iterator, Type, Tuple, List
 from collections import deque
-from unittest.mock import right
 
 T = TypeVar('T')
 K = TypeVar('K')
@@ -720,13 +719,10 @@ class Lazy(Generic[T]):
                 if the element is the split point.
 
         Returns:
-            A tuple where:
-                - The first element is a fully evaluated `QList` containing all elements up to and
-                  including the split point.
-                - The second element is a lazily evaluated sequence of all elements after the split point.
-                - Returns `None` if `self` is empty.
-                - If no element satisfies the predicate, the left part contains all elements from `self` and
-                the right part is an empty lazy sequence.
+            A tuple where the first element is a fully evaluated `QList` containing all elements up to and
+            including the split point, and the second element is a lazily evaluated sequence of all
+            elements after the split point. Returns `None` if `self` is empty. If no element satisfies the
+            predicate, the left part contains all elements from `self` and the right part is an empty lazy sequence.
         """
         left = QList()
         it = self.iter()
