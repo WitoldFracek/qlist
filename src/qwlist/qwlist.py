@@ -1452,14 +1452,12 @@ if __name__ == '__main__':
             yield current
             current += 1
 
-    primes = (
-        Lazy(naturals(2))
-        .filter(lambda n: (
-            Lazy(naturals(2))
-            .take_while(lambda p: p * p <= n)
-            .all(lambda x: n % x != 0)
-        ))
+    primes = Lazy(naturals(2)).filter(
+        lambda n: Lazy(naturals(2))
+        .take_while(lambda p: p * p <= n)
+        .all(lambda x: n % x != 0)
     )
+
     split = primes.split_when(lambda x: x > 10)
     if split is not None:
         left, right = split
