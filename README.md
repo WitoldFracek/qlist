@@ -66,7 +66,7 @@ primes = Lazy(naturals(2)).filter(
 )
 ```
 Yes, that’s an infinite iterator. And no, it won’t crash your program (unless you ask it for infinite 
-output—then all bets are off). It elegantly showcases how Qwery List handles infinite iterators with grace.
+output - then all bets are off). It elegantly showcases how Qwery List handles infinite iterators with grace.
 
 ## Overview of some of the unique methods
 Qwery List not only allows you to use some of the standard Python built-in functions in a fluent way but also 
