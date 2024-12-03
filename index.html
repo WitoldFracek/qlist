@@ -575,117 +575,117 @@ while keeping your code clean and readable.</p>
 <p>In Python, we're accustomed to using list comprehensions and generators for lazy evaluation. 
 Let's explore why Qwery List might just become your new best friend.
 Consider a simple scenario: converting a list of strings to integers, filtering even numbers, and summing them up. 
-Traditionally, you might write:</p>
-<pre><code class="language-python">nums = ['1', '2', '3', '4', '5', '6', '7']
-s = sum([int(n) for n in nums if int(n) % 2 == 0])
-</code></pre>
-<p>Notice the repeated use of <code>int()</code>. Sure, casting to int is quick, but what if you were running a time-consuming 
-function? You might turn to <code>map</code> and <code>filter</code>:</p>
-<pre><code class="language-python">mapped_data = map(long_taking_operation, data)
-filtered_data = filter(lambda x: x % 2 == 0, mapped_data)
-s = sum(filtered_data)
-</code></pre>
-<p>This approach is better but introduces readability challenges, especially when chaining operations:</p>
-<pre><code class="language-python">s = sum(filter(lambda x: x % 2 == 0, map(long_taking_operation, data)))
-</code></pre>
-<p>Readable? Barely. Maintainable? Questionable. Enter Qwery List!</p>
-<pre><code class="language-python">nums = QList(['1', '2', '3', '4', '5', '6', '7'])
-s = nums.map(long_taking_operation).filter(lambda x: x % 2 == 0).sum()
-</code></pre>
-<p>Not only does this look cleaner, but it also flows naturally from left to right.</p>
+Traditionally, you might write:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">nums</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="s1">&#39;2&#39;</span><span class="p">,</span> <span class="s1">&#39;3&#39;</span><span class="p">,</span> <span class="s1">&#39;4&#39;</span><span class="p">,</span> <span class="s1">&#39;5&#39;</span><span class="p">,</span> <span class="s1">&#39;6&#39;</span><span class="p">,</span> <span class="s1">&#39;7&#39;</span><span class="p">]</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="n">s</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">([</span><span class="nb">int</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">nums</span> <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">])</span>
+</code></pre></div>
+Notice the repeated use of <code>int()</code>. Sure, casting to int is quick, but what if you were running a time-consuming 
+function? You might turn to <code>map</code> and <code>filter</code>:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">mapped_data</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="n">long_taking_operation</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="n">filtered_data</span> <span class="o">=</span> <span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="n">mapped_data</span><span class="p">)</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="n">s</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">filtered_data</span><span class="p">)</span>
+</code></pre></div>
+This approach is better but introduces readability challenges, especially when chaining operations:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">s</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">map</span><span class="p">(</span><span class="n">long_taking_operation</span><span class="p">,</span> <span class="n">data</span><span class="p">)))</span>
+</code></pre></div>
+Readable? Barely. Maintainable? Questionable. Enter Qwery List!
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">nums</span> <span class="o">=</span> <span class="n">QList</span><span class="p">([</span><span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="s1">&#39;2&#39;</span><span class="p">,</span> <span class="s1">&#39;3&#39;</span><span class="p">,</span> <span class="s1">&#39;4&#39;</span><span class="p">,</span> <span class="s1">&#39;5&#39;</span><span class="p">,</span> <span class="s1">&#39;6&#39;</span><span class="p">,</span> <span class="s1">&#39;7&#39;</span><span class="p">])</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="n">s</span> <span class="o">=</span> <span class="n">nums</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">long_taking_operation</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+</code></pre></div>
+Not only does this look cleaner, but it also flows naturally from left to right.</p>
 <h2 id="from-simple-to-sophisticated">From simple to sophisticated</h2>
 <p>The previous example was straightforward, and you might stick to Python's built-in tools for such cases.
-But when dealing with more advanced scenarios, Qwery List truly shines. Let’s see it in action:</p>
-<pre><code class="language-python"># Pandas DataFrame with team names and IDs
-teams_df = pd.DataFrame()
-allowed_teams = ['Team A', 'Rascals', 'True Pythonists']
-
-batches = (
-    Lazy(teams_df.iterrows())
-    .map(lambda pair: pair[1])                            # Extract the DataFrame row, ignore the index
-    .map(lambda row: (row['team_name'], row['team_id']))  # Create (team_name, team_id) tuples
-    .filter(lambda pair: pair[0] in allowed_teams)        # Keep only allowed teams
-    .batch(20)                                            # Group into batches
-)
-</code></pre>
-<p>Here, we used <code>Lazy</code> instead of <code>QList</code>. Why? While <code>QList</code> is an extension of Python's standard <code>list</code>, 
+But when dealing with more advanced scenarios, Qwery List truly shines. Let’s see it in action:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># Pandas DataFrame with team names and IDs</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="n">teams_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="n">allowed_teams</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Team A&#39;</span><span class="p">,</span> <span class="s1">&#39;Rascals&#39;</span><span class="p">,</span> <span class="s1">&#39;True Pythonists&#39;</span><span class="p">]</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="n">batches</span> <span class="o">=</span> <span class="p">(</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>    <span class="n">Lazy</span><span class="p">(</span><span class="n">teams_df</span><span class="o">.</span><span class="n">iterrows</span><span class="p">())</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>    <span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">pair</span><span class="p">:</span> <span class="n">pair</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>                            <span class="c1"># Extract the DataFrame row, ignore the index</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>    <span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;team_name&#39;</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;team_id&#39;</span><span class="p">]))</span>  <span class="c1"># Create (team_name, team_id) tuples</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>    <span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">pair</span><span class="p">:</span> <span class="n">pair</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="n">allowed_teams</span><span class="p">)</span>        <span class="c1"># Keep only allowed teams</span>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>    <span class="o">.</span><span class="n">batch</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>                                            <span class="c1"># Group into batches</span>
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="p">)</span>
+</code></pre></div>
+Here, we used <code>Lazy</code> instead of <code>QList</code>. Why? While <code>QList</code> is an extension of Python's standard <code>list</code>, 
 <code>Lazy</code> introduces true <strong>lazy evaluation</strong>. Operations are only computed when needed, and even the creation of the 
 iterator is deferred.</p>
-<p>Consider this infinite prime number generator:</p>
-<pre><code class="language-python">def naturals(start: int):
-    current = start
-    while True:
-        yield current
-        current += 1
-
-primes = Lazy(naturals(2)).filter(
-    lambda n: Lazy(naturals(2))
-    .take_while(lambda p: p * p &lt;= n)
-    .all(lambda x: n % x != 0)
-)
-</code></pre>
-<p>Yes, that’s an infinite iterator. And no, it won’t crash your program (unless you ask it for infinite 
+<p>Consider this infinite prime number generator:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="k">def</span> <span class="nf">naturals</span><span class="p">(</span><span class="n">start</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>    <span class="n">current</span> <span class="o">=</span> <span class="n">start</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>        <span class="k">yield</span> <span class="n">current</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>        <span class="n">current</span> <span class="o">+=</span> <span class="mi">1</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="n">primes</span> <span class="o">=</span> <span class="n">Lazy</span><span class="p">(</span><span class="n">naturals</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>    <span class="k">lambda</span> <span class="n">n</span><span class="p">:</span> <span class="n">Lazy</span><span class="p">(</span><span class="n">naturals</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>    <span class="o">.</span><span class="n">take_while</span><span class="p">(</span><span class="k">lambda</span> <span class="n">p</span><span class="p">:</span> <span class="n">p</span> <span class="o">*</span> <span class="n">p</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="p">)</span>
+<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>    <span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">n</span> <span class="o">%</span> <span class="n">x</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span>
+<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="p">)</span>
+</code></pre></div>
+Yes, that’s an infinite iterator. And no, it won’t crash your program (unless you ask it for infinite 
 output - then all bets are off). It elegantly showcases how Qwery List handles infinite iterators with grace.</p>
 <h2 id="overview-of-some-of-the-unique-methods">Overview of some of the unique methods</h2>
 <p>Qwery List not only allows you to use some of the standard Python built-in functions in a fluent way but also 
 offers a range of unique methods that elevate your programming game. Here's a quick overview:</p>
 <h3 id="boolean-quantifiers">Boolean Quantifiers</h3>
-<p>Both <code>QList</code> and <code>Lazy</code> have <code>any</code> and <code>all</code> methods, making it easy to evaluate boolean conditions across elements.</p>
-<pre><code class="language-python">Lazy([True, True, False]).all()            # returns False
-Lazy([True, True, False]).any()            # returns True
-Lazy([2, 4, 6]).all(lambda x: x % 2 == 0)  # returns True - all numbers are even
-</code></pre>
+<p>Both <code>QList</code> and <code>Lazy</code> have <code>any</code> and <code>all</code> methods, making it easy to evaluate boolean conditions across elements.
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="n">Lazy</span><span class="p">([</span><span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">])</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>            <span class="c1"># returns False</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="n">Lazy</span><span class="p">([</span><span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">])</span><span class="o">.</span><span class="n">any</span><span class="p">()</span>            <span class="c1"># returns True</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="n">Lazy</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">])</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>  <span class="c1"># returns True - all numbers are even</span>
+</code></pre></div></p>
 <h3 id="math-operations-max-and-min">Math Operations: <code>max</code> and <code>min</code></h3>
-<p>Find the maximum or minimum value of an iterable with or without a custom key function:</p>
-<pre><code class="language-python">Lazy([1, 2, 3, 4]).max()                          # returns 4
-Lazy([1, 2, 3, 4]).min()                          # returns 1
-Lazy([1, 2, 3, 4]).max(key=lambda x: abs(3 - x))  # returns 1
-</code></pre>
+<p>Find the maximum or minimum value of an iterable with or without a custom key function:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="n">Lazy</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>                          <span class="c1"># returns 4</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="n">Lazy</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>                          <span class="c1"># returns 1</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="n">Lazy</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">abs</span><span class="p">(</span><span class="mi">3</span> <span class="o">-</span> <span class="n">x</span><span class="p">))</span>  <span class="c1"># returns 1</span>
+</code></pre></div></p>
 <h3 id="chaining-iterators">Chaining iterators</h3>
-<p>Qwery List allows you to seamlessly chain finite and infinite iterators.</p>
-<pre><code class="language-python">primes = Lazy(naturals(2)).filter(
-    lambda n: Lazy(naturals(2))
-    .take_while(lambda p: p * p &lt;= n)
-    .all(lambda x: n % x != 0)
-)
-
-# add three zeros at the beginning of the prime numbers
-chained = Lazy([0, 0, 0]).chain(primes)
-</code></pre>
+<p>Qwery List allows you to seamlessly chain finite and infinite iterators.
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="n">primes</span> <span class="o">=</span> <span class="n">Lazy</span><span class="p">(</span><span class="n">naturals</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>    <span class="k">lambda</span> <span class="n">n</span><span class="p">:</span> <span class="n">Lazy</span><span class="p">(</span><span class="n">naturals</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>    <span class="o">.</span><span class="n">take_while</span><span class="p">(</span><span class="k">lambda</span> <span class="n">p</span><span class="p">:</span> <span class="n">p</span> <span class="o">*</span> <span class="n">p</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="p">)</span>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>    <span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">n</span> <span class="o">%</span> <span class="n">x</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span>
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="p">)</span>
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="c1"># add three zeros at the beginning of the prime numbers</span>
+<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="n">chained</span> <span class="o">=</span> <span class="n">Lazy</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">chain</span><span class="p">(</span><span class="n">primes</span><span class="p">)</span>
+</code></pre></div></p>
 <h3 id="sorting-capabilities">Sorting capabilities</h3>
-<p>Qwery List offers a new <code>sorted</code> and <code>merge</code> methods which come in handy for dealing with ordered data.</p>
-<pre><code class="language-python">sorted_list = QList([2, 5, 3, 1, 4]).sorted()
-# [1, 2, 3, 4, 5]
-
-merged_list = QList([1, 2, 5, 7, 8]).merge([3, 4, 6, 9], lambda left, right: left &lt; right).collect()
-# [1, 2, 3, 4, 5, 6, 7, 8, 9]
-</code></pre>
+<p>Qwery List offers a new <code>sorted</code> and <code>merge</code> methods which come in handy for dealing with ordered data.
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="n">sorted_list</span> <span class="o">=</span> <span class="n">QList</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span><span class="o">.</span><span class="n">sorted</span><span class="p">()</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="c1"># [1, 2, 3, 4, 5]</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="n">merged_list</span> <span class="o">=</span> <span class="n">QList</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">])</span><span class="o">.</span><span class="n">merge</span><span class="p">([</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">9</span><span class="p">],</span> <span class="k">lambda</span> <span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">:</span> <span class="n">left</span> <span class="o">&lt;</span> <span class="n">right</span><span class="p">)</span><span class="o">.</span><span class="n">collect</span><span class="p">()</span>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="c1"># [1, 2, 3, 4, 5, 6, 7, 8, 9]</span>
+</code></pre></div></p>
 <h3 id="pure-functional-style">"Pure" functional style</h3>
-<p>Qwery List offers methods such as <code>fold</code> and <code>uncons</code> that are well known from functional languages.</p>
-<pre><code class="language-python">head, tail = Lazy([1, 2, 3, 4]).uncons()
-# head = 1
-# tail = Lazy([2, 3, 4])
-</code></pre>
-<pre><code class="language-python">from typing import List, Dict, TypeVar
-K = TypeVar('K')
-V = TypeVar('V')
-
-def update_dict(data: Dict[K, List[V]], key: K, value: V) -&gt; Dict[K, List[V]]:
-    if key in data:
-        data[key].append(value)
-    else:
-        data[key] = [value]
-    return data
-
-values = QList([('name', 'Alex'), ('country', 'Poland'), ('name', 'David')])
-data = values.fold(lambda acc, x: update_dict(acc, *x), {})
-# {'name': ['Alex', 'David'], 'country': ['Poland']}
-</code></pre>
+<p>Qwery List offers methods such as <code>fold</code> and <code>uncons</code> that are well known from functional languages.
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="n">head</span><span class="p">,</span> <span class="n">tail</span> <span class="o">=</span> <span class="n">Lazy</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span><span class="o">.</span><span class="n">uncons</span><span class="p">()</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="c1"># head = 1</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="c1"># tail = Lazy([2, 3, 4])</span>
+</code></pre></div></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">TypeVar</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="n">K</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s1">&#39;K&#39;</span><span class="p">)</span>
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="n">V</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s1">&#39;V&#39;</span><span class="p">)</span>
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="k">def</span> <span class="nf">update_dict</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">K</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">V</span><span class="p">]],</span> <span class="n">key</span><span class="p">:</span> <span class="n">K</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">V</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="n">K</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">V</span><span class="p">]]:</span>
+<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>    <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a>        <span class="n">data</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>    <span class="k">else</span><span class="p">:</span>
+<a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a>        <span class="n">data</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">value</span><span class="p">]</span>
+<a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a>    <span class="k">return</span> <span class="n">data</span>
+<a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a>
+<a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a><span class="n">values</span> <span class="o">=</span> <span class="n">QList</span><span class="p">([(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;Alex&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;country&#39;</span><span class="p">,</span> <span class="s1">&#39;Poland&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;David&#39;</span><span class="p">)])</span>
+<a id="__codelineno-11-13" name="__codelineno-11-13" href="#__codelineno-11-13"></a><span class="n">data</span> <span class="o">=</span> <span class="n">values</span><span class="o">.</span><span class="n">fold</span><span class="p">(</span><span class="k">lambda</span> <span class="n">acc</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">update_dict</span><span class="p">(</span><span class="n">acc</span><span class="p">,</span> <span class="o">*</span><span class="n">x</span><span class="p">),</span> <span class="p">{})</span>
+<a id="__codelineno-11-14" name="__codelineno-11-14" href="#__codelineno-11-14"></a><span class="c1"># {&#39;name&#39;: [&#39;Alex&#39;, &#39;David&#39;], &#39;country&#39;: [&#39;Poland&#39;]}</span>
+</code></pre></div>
 <hr />
 <h1 id="installation">Installation</h1>
-<p>This package is available on <a href="https://pypi.org/project/qwlist/">PyPI</a></p>
-<pre><code>pip install qwlist
-</code></pre>
+<p>This package is available on <a href="https://pypi.org/project/qwlist/">PyPI</a>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>pip install qwlist
+</code></pre></div></p>
 <hr />
 <h2 id="side-note">Side note</h2>
 <p>This syntax resembles <strong>Rust</strong> syntax:</p>
@@ -697,32 +697,27 @@ data = values.fold(lambda acc, x: update_dict(acc, *x), {})
 <tr>
 <td>
 
-
-<pre><code class="language-rust">let xs = vec![1, 2, 3, 4];
-let double_xs: Vec&lt;i32&gt; = xs
-    .iter()
-    .map(|&amp;x| x * 2)
-    .collect();
-println!(&quot;{double_xs:?}&quot;);
-// [2, 4, 6, 8]
-
-</code></pre>
-
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="kd">let</span><span class="w"> </span><span class="n">xs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="fm">vec!</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">];</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="kd">let</span><span class="w"> </span><span class="n">double_xs</span><span class="p">:</span><span class="w"> </span><span class="nb">Vec</span><span class="o">&lt;</span><span class="kt">i32</span><span class="o">&gt;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">xs</span>
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="w">    </span><span class="p">.</span><span class="n">iter</span><span class="p">()</span>
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="w">    </span><span class="p">.</span><span class="n">map</span><span class="p">(</span><span class="o">|&amp;</span><span class="n">x</span><span class="o">|</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span>
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="w">    </span><span class="p">.</span><span class="n">collect</span><span class="p">();</span>
+<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;{double_xs:?}&quot;</span><span class="p">);</span>
+<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a><span class="c1">// [2, 4, 6, 8]</span>
+</code></pre></div>
 
 </td>
 <td>
 
-
-<pre><code class="language-python">xs = QList([1, 2, 3, 4])
-double_xs = (
-    xs
-    .map(lambda x: x * 2)
-    .collect()
-)
-print(double_xs)
-# [2, 4, 6, 8]
-</code></pre>
-
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="n">xs</span> <span class="o">=</span> <span class="n">QList</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="n">double_xs</span> <span class="o">=</span> <span class="p">(</span>
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>    <span class="n">xs</span>
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>    <span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span>
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>    <span class="o">.</span><span class="n">collect</span><span class="p">()</span>
+<a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a><span class="p">)</span>
+<a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a><span class="nb">print</span><span class="p">(</span><span class="n">double_xs</span><span class="p">)</span>
+<a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a><span class="c1"># [2, 4, 6, 8]</span>
+</code></pre></div>
 
 </td>
 </tr>
