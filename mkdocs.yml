@@ -38,3 +38,8 @@ plugins:
 
 extra_css:
   - navbar.css
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.superfences
