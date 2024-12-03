@@ -31,7 +31,7 @@ nav:
       - QList: qlist.md
       - Lazy: lazy.md
       - EagerQList: eager.md
-  - Qitek: cat200.png
+  - Qitek: qitek.md
 
 plugins:
   - mkdocstrings
