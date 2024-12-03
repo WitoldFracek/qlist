@@ -3,8 +3,8 @@ site_name: Qwery List
 
 theme:
   site_name: "Qwery List"
-  logo: cat200.png
-  favicon: cat200.png
+  logo: qitek.png
+  favicon: qitek.png
   name: "material"
   palette:
     - scheme: slate

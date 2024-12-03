@@ -1,5 +1,5 @@
-![qitek](./cat200.png)
+![qitek](./qitek.png)
 
 ## Qitek
 
-**Designed by:** *Witold Frącek*
+**Designed by:** *Chat GPT* (placeholder while I wait for a real artist)

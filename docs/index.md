@@ -1,5 +1,3 @@
-![Qitek](cat200.png)
-
 # Qwery List
 Welcome to Qwery List (or qwlist for short) - the Python library that puts the "fun" back in functional programming
 by bringing Rust-style iterators to Python!
@@ -187,5 +185,7 @@ print(double_xs)
 </td>
 </tr>
 </table>
+
+<img src="qitek.png">
 
 
