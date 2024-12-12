@@ -1,4 +1,4 @@
-from typing import TypeVar, Generic, Iterable, Callable, overload, Optional, Iterator, Type, Tuple, List
+from typing import TypeVar, Generic, Iterable, Callable, overload, Optional, Iterator, Type, Tuple, List, Hashable
 from collections import deque
 
 T = TypeVar('T')
@@ -1172,6 +1172,17 @@ class QList(list):
                 yield batch
         return Lazy(inner())
 
+    def group_by(self, grouper: Callable[[T], Hashable]) -> Lazy["QList[T]"]:
+        def inner():
+            groups = {}
+            for elem in self:
+                key = grouper(elem)
+                if key not in groups:
+                    groups[key] = QList()
+                groups[key].append(elem)
+            yield from (value for value in groups.values())
+        return Lazy(inner())
+
     def chain(self, other: Iterable[T]) -> Lazy[T]:
         """
         Chains `self` with `other`, returning a new `Lazy[T]` with all elements from both iterables.
@@ -1444,6 +1455,12 @@ class QList(list):
                 yield QList(window)
         return Lazy(inner(n=window_size))
 
+    def flat_fold(self, combination: Callable[[K, T], "QList[K]"], init: K) -> Lazy[K]:
+        acc = QList([init])
+        for elem in self:
+            acc = acc.flatmap(lambda x, e=elem: combination(x, e))
+        return acc
+
 
 if __name__ == '__main__':
     def naturals(start):
@@ -1458,9 +1475,13 @@ if __name__ == '__main__':
         .all(lambda x: n % x != 0)
     )
 
-    split = primes.split_when(lambda x: x > 10)
-    if split is not None:
-        left, right = split
-        print(left)
-        print(right.take(10).collect())
+    res = QList([1, 2, 3, 4])[1:].flat_fold(lambda acc, x: QList([acc + x, acc * x]), 1).collect()
+    print(res)
+
+    res = QList(['a', 'a', 'b', 'b', 'a']).group_by(lambda x: x).collect()
+    print(res)
+    res = QList(['a', 'a', 'b', 'b', 'a']).batch_by(lambda x: x).collect()
+    print(res)
+    # [13, 36, 24, 80, 12, 32, 20, 64]
+    # [10, 24, 13, 36, 9, 20, 10, 24]
 
