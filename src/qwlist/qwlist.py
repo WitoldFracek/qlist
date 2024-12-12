@@ -1456,6 +1456,39 @@ class QList(list):
         return Lazy(inner(n=window_size))
 
     def flat_fold(self, combination: Callable[[K, T], "QList[K]"], init: K) -> Lazy[K]:
+        """
+        This method reduces `self` by repeatedly applying a `combination` function
+        to each element and an accumulated intermediate result. The `combination` function
+        returns a sequence of intermediate results (flattened before the next iteration),
+        which are used as inputs for subsequent steps.
+
+        **Other names:** foldM, monadic_fold.
+
+        Args:
+            combination (Callable[[K, T], QList[K]]): `function (K, T) -> QList[K]` that takes the
+             current accumulated value and the next element of the collection, and returns a list
+             of intermediate results. In the first step, `init` and the first element of the collection
+             are passed to `combination`. In subsequent steps, each intermediate result from the previous
+             step is paired with the next element of the collection until it is fully processed.
+            init (K): initial value for the combination operator.
+
+        Returns:
+            Lazy[K]: The final value obtained by repeatedly applying `combination` across all elements
+             of the collection, with intermediate results flattened at each step.
+
+        Examples:
+            In this example the resulting list is a list of all possible scores achieved
+            either by suming or multiplying the numbers (for example one of the elements would
+            be
+
+            >>> QList([2, 3]).flat_fold(lambda acc, x: QList([acc + x, acc * x]), 1).collect()
+            [6, 9, 5, 6]
+
+
+            And another example
+            >>> a = 1
+            a
+        """
         acc = QList([init])
         for elem in self:
             acc = acc.flatmap(lambda x, e=elem: combination(x, e))
@@ -1475,7 +1508,7 @@ if __name__ == '__main__':
         .all(lambda x: n % x != 0)
     )
 
-    res = QList([1, 2, 3, 4])[1:].flat_fold(lambda acc, x: QList([acc + x, acc * x]), 1).collect()
+    res = QList([1, 2, 3])[1:].flat_fold(lambda acc, x: QList([acc + x]), 1).collect()
     print(res)
 
     res = QList(['a', 'a', 'b', 'b', 'a']).group_by(lambda x: x).collect()
