@@ -111,8 +111,24 @@ merged_list = QList([1, 2, 5, 7, 8]).merge([3, 4, 6, 9], lambda left, right: lef
 # [1, 2, 3, 4, 5, 6, 7, 8, 9]
 ```
 
-### "Pure" functional style
-Qwery List offers methods such as `fold` and `uncons` that are well known from functional languages.
+### Grouping capabilities
+Query List offers a bunch of grouping capabilities such as `window`, `batch`, `batch_by`, `group_by`.
+```python
+QList([1, 2, 3, 4, 5]).window(2).collect()
+# [[1, 2], [2, 3], [3, 4], [4, 5]]
+
+QList([1, 2, 3, 4, 5]).batch(2).collect()
+# [[1, 2], [3, 4], [5]]
+
+QList(['a1', 'b1', 'b2', 'a2', 'a3', 'b3']).batch_by(lambda s: s[0]).collect()
+# [['a1'], ['b1', 'b2'], ['a2', 'a3'], ['b3']]
+
+QList(['a1', 'b1', 'b2', 'a2', 'a3', 'b3']).group_by(lambda s: s[0]).collect()
+# [['a1', 'a2', 'a3'], ['b1', 'b2', 'b3']]
+```
+
+### Pure functional style
+Qwery List offers methods such as `fold`, `flat_fold` and `uncons` that are well known from functional languages.
 ```python
 head, tail = Lazy([1, 2, 3, 4]).uncons()
 # head = 1
@@ -136,6 +152,11 @@ data = values.fold(lambda acc, x: update_dict(acc, *x), {})
 # {'name': ['Alex', 'David'], 'country': ['Poland']}
 ```
 
+
+```python
+QList([2, 3]).flat_fold(lambda acc, x: [acc + x, acc * x], 1).collect()
+# [6, 9, 5, 6]
+```
 ---
 
 # Installation
