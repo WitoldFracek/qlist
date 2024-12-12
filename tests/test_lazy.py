@@ -575,3 +575,39 @@ def test_split_when():
     assert left == QList([0, 1, 2])
     left, right = right.split_when(lambda x: x == 5)
     assert left == QList([3, 4, 5])
+
+
+def test_flat_fold():
+    expected = QList()
+    res = Lazy(range(10)).flat_fold(lambda acc, x: [], 0).collect()
+    assert res == expected
+
+    expected = QList([6])
+    res = Lazy([1, 2, 3]).flat_fold(lambda acc, x: [acc + x], 0).collect()
+    assert res == expected
+
+    expected = QList([10, 24, 13, 36, 9, 20, 10, 24])
+    res = Lazy([2, 3, 4]).flat_fold(lambda acc, x: [acc + x, acc * x], 1).collect()
+    assert res == expected
+
+    expected = QList([0])
+    res = Lazy([]).flat_fold(lambda acc, x: [acc + x, acc - x, acc * x], 0)
+    assert res == expected
+
+
+def test_group_by():
+    expected = QList()
+    res = Lazy([]).group_by(lambda x: x).collect()
+    assert res == expected
+
+    expected = QList([QList([1, 3, 5]), QList([2, 4])])
+    res = Lazy([1, 2, 3, 4, 5]).group_by(lambda x: x % 2).collect()
+    assert res == expected
+
+    expected = QList([QList([1, 2, 3])])
+    res = Lazy([1, 2, 3]).group_by(lambda x: 1).collect()
+    assert res == expected
+
+    expected = QList([QList([1]), QList([2]), QList([3])])
+    res = Lazy([1, 2, 3]).group_by(lambda x: x).collect()
+    assert res == expected
