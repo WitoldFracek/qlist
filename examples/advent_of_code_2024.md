@@ -149,3 +149,33 @@ def sol_b() -> int:
         .sum()
     )
 ```
+
+
+```python
+from src.qwlist import QList
+
+class Dog:
+    def __init__(self, name, age, owner):
+        ...
+
+names = QList(['Burek', 'Azor'])
+ages = QList([12, 10, 4])
+owners = QList(['Witek', 'Wojtek'])
+    
+dogs = []
+for name in names:
+    for age in ages:
+        for owner in owners:
+            dogs.append(Dog(name, age, owner))
+
+dogs = names.flatmap(lambda name:
+    ages.flatmap(lambda age:
+        owners.map(lambda owner:
+            Dog(name, age, owner)
+        )
+    )
+)
+
+
+
+```

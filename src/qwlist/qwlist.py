@@ -1747,13 +1747,3 @@ if __name__ == '__main__':
         .all(lambda x: n % x != 0)
     )
 
-    res = QList([2, 3, 4]).flat_fold(lambda acc, x: QList([acc + x, acc - x]), 1).collect()
-    print(res)
-
-    res = QList(['a', 'a', 'b', 'b', 'a']).group_by(lambda x: x).collect()
-    print(res)
-    res = QList(['a', 'a', 'b', 'b', 'a']).batch_by(lambda x: x).collect()
-    print(res)
-    # [13, 36, 24, 80, 12, 32, 20, 64]
-    # [10, 24, 13, 36, 9, 20, 10, 24]
-
