@@ -3,6 +3,7 @@ from collections import deque
 
 T = TypeVar('T')
 K = TypeVar('K')
+R = TypeVar('R')
 SupportsLessThan = TypeVar("SupportsLessThan")
 SupportsAdd = TypeVar("SupportsAdd")
 SupportsEq = TypeVar("SupportsEq")
@@ -803,6 +804,81 @@ class Lazy(Generic[T]):
             acc = acc.flatmap(lambda x, e=elem: combination(x, e))
         return acc
 
+    def product(self, other: Iterable[K]) -> "Lazy[Tuple[T, K]]":
+        """
+        Computes the Cartesian product of `self` and `other`.
+
+        Args:
+            other (Iterable[K]): iterable to make the cartesian product with.
+
+        Returns:
+            A new Lazy of pairs from Cartesian product.
+        """
+        def inner():
+            for t in self:
+                for k in other:
+                    yield t, k
+        return Lazy(inner())
+
+    def product_with(self, other: Iterable[K], operation: Callable[[T, K], R]) -> "Lazy[R]":
+        """
+        Applies a given operation to every pair of elements from the Cartesian product
+        of `self` and `other`, returning a new Lazy iterable of the results.
+        This method "lifts" the provided `operation` from working on individual elements
+        to working on pairs of elements produced from the Cartesian product. It is equivalent
+        to calling `self.product(other).map(lambda pair: operation(*pair))`.
+
+        Args:
+            other (Iterable[T]): The iterable to combine with `self` in a Cartesian product.
+            operation (Callable[[T, K], R]): `function: (T, K) -> R` that takes a pair of elements,
+             one from `self` and one from `other`, and returns a result of type `R`.
+
+        Returns:
+            A new Lazy containing the results of applying `operation`
+            to each pair in the Cartesian product.
+
+        Example:
+            >>> lazy1 = Lazy([1, 2])
+            >>> lazy2 = Lazy(['a', 'b'])
+            >>> result = lazy1.product_with(lazy2, lambda x, y: f"{x}{y}")
+            >>> list(result)
+            ['1a', '1b', '2a', '2b']
+        """
+        def inner():
+            for t in self:
+                for k in other:
+                    yield operation(t, k)
+        return Lazy(inner())
+
+    def zip_with(self, other: Iterable[K], operation: Callable[[T, K], R]) -> "Lazy[R]":
+        """
+        Applies a given `operation` to pairs of elements from `self` and `other`, created by zipping them together.
+
+        This method "lifts" the provided `operation` from working on individual elements
+        to working on pairs of elements formed by zipping the two iterables. It is equivalent
+        to calling `self.zip(other).map(lambda pair: operation(*pair))`.
+
+        Args:
+            other (Iterable[K]): The iterable to zip with `self`.
+            operation (Callable[[T, K], R]): `function: (T, K) -> R` that takes a pair of elements,
+            one from `self` and one from `other`, and returns a result of type `R`.
+
+        Returns:
+            Lazy[R]: A new Lazy containing the results of applying `operation`
+            to each pair in the zipped iterables.
+
+        Example:
+            >>> lazy1 = Lazy([1, 2, 3])
+            >>> lazy2 = Lazy(['a', 'b'])
+            >>> result = lazy1.zip_with(lazy2, lambda x, y: f"{x}{y}")
+            >>> list(result)
+            ['1a', '2b']
+        """
+        def inner():
+            for t, k in self.zip(other):
+                yield operation(t, k)
+        return Lazy(inner())
+
 # ---------------------------------------------- QList ----------------------------------------------
 
 class QList(list):
@@ -1581,6 +1657,81 @@ class QList(list):
         for elem in self:
             acc = acc.flatmap(lambda x, e=elem: combination(x, e))
         return acc
+
+    def product(self, other: Iterable[K]) -> Lazy[Tuple[T, K]]:
+        """
+        Computes the Cartesian product of `self` and `other`.
+
+        Args:
+            other (Iterable[K]): iterable to make the cartesian product with.
+
+        Returns:
+            A new Lazy of pairs from Cartesian product.
+        """
+        def inner():
+            for t in self:
+                for k in other:
+                    yield t, k
+        return Lazy(inner())
+
+    def product_with(self, other: Iterable[K], operation: Callable[[T, K], R]) -> Lazy[R]:
+        """
+        Applies a given operation to every pair of elements from the Cartesian product
+        of `self` and `other`, returning a new Lazy iterable of the results.
+        This method "lifts" the provided `operation` from working on individual elements
+        to working on pairs of elements produced from the Cartesian product. It is equivalent
+        to calling `self.product(other).map(lambda pair: operation(*pair))`.
+
+        Args:
+            other (Iterable[T]): The iterable to combine with `self` in a Cartesian product.
+            operation (Callable[[T, K], R]): `function: (T, K) -> R` that takes a pair of elements,
+             one from `self` and one from `other`, and returns a result of type `R`.
+
+        Returns:
+            A new Lazy containing the results of applying `operation`
+            to each pair in the Cartesian product.
+
+        Example:
+            >>> qlist1 = QList([1, 2])
+            >>> qlist2 = QList(['a', 'b'])
+            >>> result = qlist1.product_with(qlist2, lambda x, y: f"{x}{y}")
+            >>> list(result)
+            ['1a', '1b', '2a', '2b']
+        """
+        def inner():
+            for t in self:
+                for k in other:
+                    yield operation(t, k)
+        return Lazy(inner())
+
+    def zip_with(self, other: Iterable[K], operation: Callable[[T, K], R]) -> Lazy[R]:
+        """
+        Applies a given `operation` to pairs of elements from `self` and `other`, created by zipping them together.
+
+        This method "lifts" the provided `operation` from working on individual elements
+        to working on pairs of elements formed by zipping the two iterables. It is equivalent
+        to calling `self.zip(other).map(lambda pair: operation(*pair))`.
+
+        Args:
+            other (Iterable[K]): The iterable to zip with `self`.
+            operation (Callable[[T, K], R]): `function: (T, K) -> R` that takes a pair of elements,
+            one from `self` and one from `other`, and returns a result of type `R`.
+
+        Returns:
+            Lazy[R]: A new Lazy containing the results of applying `operation`
+            to each pair in the zipped iterables.
+
+        Example:
+            >>> qlist1 = QList([1, 2, 3])
+            >>> qlist2 = QList(['a', 'b'])
+            >>> result = qlist1.zip_with(qlist2, lambda x, y: f"{x}{y}")
+            >>> list(result)
+            ['1a', '2b']
+        """
+        def inner():
+            for t, k in self.zip(other):
+                yield operation(t, k)
+        return Lazy(inner())
 
 
 if __name__ == '__main__':
