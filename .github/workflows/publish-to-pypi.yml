@@ -2,6 +2,9 @@ name: Publish Qwery List to PyPI
 
 on:
   push:
+    branches:
+      - main
+      - support/python3.9-3.11
     tags:
       - "v*"
 
@@ -17,7 +20,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: ">=3.9"
+          python-version: ">=3.12"
 
       - name: Install dependencies
         run: |
@@ -38,7 +41,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
-        python-version: ">=3.9"
+        python-version: ">=3.12"
     - name: Install pypa/build
       run: >-
         python3 -m

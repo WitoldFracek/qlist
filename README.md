@@ -165,6 +165,17 @@ This package is available on [PyPI](https://pypi.org/project/qwlist/)
 pip install qwlist
 ```
 
+# Versioning
+Starting with version 2.0.0, `qwlist` uses the new generic syntax introduced in Python 3.12. 
+This change introduces a breaking change for compatibility with older Python versions. 
+
+For Python versions earlier than 3.12, please use `qwlist` version 1.5.0 or older.
+
+| python version | compatible qwlist version |
+|:--------------:|:-------------------------:|
+|    \>= 3.12    |         \>= 2.0.0         |
+|   3.9 - 3.11   |         <= 1.5.0          |
+
 ---
 
 ## Side note

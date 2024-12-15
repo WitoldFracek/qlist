@@ -1,17 +1,21 @@
 from collections import deque
-from typing import TypeVar, Iterable, Callable, overload, Iterator, Optional, Type, Tuple, List, Hashable
+from typing import Iterable, Callable, overload, Iterator, Optional, Type, Tuple, List, Hashable, Protocol
 from .qwlist import QList
 
-T = TypeVar('T')
-K = TypeVar('K')
-R = TypeVar('R')
-SupportsLessThan = TypeVar("SupportsLessThan")
-SupportsAdd = TypeVar("SupportsAdd")
-SupportsEq = TypeVar("SupportsEq")
-Booly = TypeVar('Booly')
+
+class SupportsLessThan(Protocol):
+    def __lt__(self, other) -> bool: ...
 
 
-class EagerQList(list):
+class SupportsAdd(Protocol):
+    def __add__(self, other): ...
+
+
+class SupportsEq(Protocol):
+    def __eq__(self, other) -> bool: ...
+
+
+class EagerQList[T](list):
     """
     `EagerQList` is a python list extension that adds several chainable, methods to the standard `list`.
 
@@ -90,7 +94,7 @@ class EagerQList(list):
         """
         return EagerQList(elem for elem in self if pred(elem))
 
-    def map(self, mapper: Callable[[T], K]) -> "EagerQList[K]":
+    def map[K](self, mapper: Callable[[T], K]) -> "EagerQList[K]":
         """
         Returns an `EagerQList` containing all values from `self` with
         the mapping function applied on them.
@@ -116,7 +120,7 @@ class EagerQList(list):
         for elem in self:
             action(elem)
 
-    def fold(self, operation: Callable[[K, T], K], init: K) -> K:
+    def fold[K](self, operation: Callable[[K, T], K], init: K) -> K:
         """
         Given the combination operator reduces `self` by processing
         its constituent parts, building up the final value.
@@ -141,7 +145,7 @@ class EagerQList(list):
             acc = operation(acc, elem)
         return acc
 
-    def fold_right(self, operation: Callable[[K, T], K], init: K) -> K:
+    def fold_right[K](self, operation: Callable[[K, T], K], init: K) -> K:
         """
         Given the combination operator reduces `self` by processing
         its constituent parts, building up the final value.
@@ -155,7 +159,7 @@ class EagerQList(list):
 
         Returns:
             The final value created from calling the `operation` on consecutive elements of `self`
-             starting from the last element.
+            starting from the last element.
 
         Examples:
             >>> s = EagerQList([1, 2, 3]).fold_right(lambda acc, x: acc + x, 0)
@@ -166,7 +170,7 @@ class EagerQList(list):
             acc = operation(acc, elem)
         return acc
 
-    def scan(self, operation: Callable[[K, T], K], state: K) -> "EagerQList[K]":
+    def scan[K](self, operation: Callable[[K, T], K], state: K) -> "EagerQList[K]":
         """
         Given the combination operator creates a new `EagerQList[K]` by processing
         constituent parts of `self`, yielding intermediate steps and building up the final value.
@@ -174,8 +178,8 @@ class EagerQList(list):
 
         Args:
             operation: `function: (K, T) -> K`. Given the initial `state` applies the given
-             combination operator on each element yielded by the `Lazy` object, yielding the result and
-             then treating it as the first argument in the next step.
+                combination operator on each element yielded by the `Lazy` object, yielding the result and
+                then treating it as the first argument in the next step.
             state (K): initial value for the state.
 
         Returns:
@@ -202,7 +206,7 @@ class EagerQList(list):
         """
         return len(self)
 
-    def flatmap(self, mapper: Callable[[T], Iterable[K]]) -> "EagerQList[K]":
+    def flatmap[K](self, mapper: Callable[[T], Iterable[K]]) -> "EagerQList[K]":
         """
         Applies the mapper function to each of the yielded elements and flattens the results.
 
@@ -218,11 +222,11 @@ class EagerQList(list):
         """
         return EagerQList(x for elem in self for x in mapper(elem))
 
-    def zip(self, other: Iterable[K]) -> "EagerQList[Tuple[T, K]]":
+    def zip[K](self, other: Iterable[K]) -> "EagerQList[Tuple[T, K]]":
         """
         Combines `self` with the given `Iterable` elementwise as tuples.
-         The returned `EagerQList` contains at most the number of elements of
-         the shorter sequence (`self` or `other`).
+        The returned `EagerQList` contains at most the number of elements of
+        the shorter sequence (`self` or `other`).
 
         Args:
             other (Iterable[K]): iterable to zip with `self`.
@@ -236,7 +240,7 @@ class EagerQList(list):
         """
         return EagerQList(zip(self, other))
 
-    def sorted(self, key: Callable[[T], SupportsLessThan] = None, reverse: bool = False) -> "EagerQList[T]":
+    def sorted[S: SupportsLessThan](self, key: Callable[[T], S] = None, reverse: bool = False) -> "EagerQList[T]":
         """
         Returns a new `EagerQList` containing all items from the original list in ascending order.
 
@@ -244,7 +248,7 @@ class EagerQList(list):
         flag can be set to request the result in descending order.
 
         Args:
-            key (Callable[[T], SupportsLessThan]): `function: (T) -> SupportsLessThan`. Defaults to `None`.
+            key (Callable[[T], S]): `function: (T) -> S where S: SupportsLessThan`. Defaults to `None`.
             reverse: if set to `True` sorts values in descending order. Defaults to `False`.
 
         Returns:
@@ -300,7 +304,7 @@ class EagerQList(list):
 
         Returns:
             New `EagerQList` of batches (`EagerQList`) of given `size`.
-             Last batch may have fewer elements.
+                Last batch may have fewer elements.
 
         Examples:
             >>> EagerQList(range(5)).batch(2)
@@ -314,15 +318,15 @@ class EagerQList(list):
 
         return EagerQList(inner())
 
-    def batch_by(self, grouper: Callable[[T], SupportsEq]) -> "EagerQList[EagerQList[T]]":
+    def batch_by[S: SupportsEq](self, grouper: Callable[[T], S]) -> "EagerQList[EagerQList[T]]":
         """
         Batches elements of `self` based on the output of the grouper function. Elements are thrown
         to the same group as long as the grouper function returns the same key (keys must support equality checks).
         When a new key is returned a new batch (group) is created.
 
         Args:
-            grouper (Callable[[T], SupportsEq]): `function: (T) -> SupportsEq` that provides the keys
-             used to group elements, where the key type must support equality comparisons.
+            grouper (Callable[[T], S]): `function: (T) -> S` that provides the keys
+                used to group elements, where the key type must support equality comparisons.
 
         Returns:
             New `EagerQList[EagerQList[T]]` with elements batched based on the `grouper` key.
@@ -350,7 +354,7 @@ class EagerQList(list):
                 yield batch
         return EagerQList(inner())
 
-    def group_by(self, grouper: Callable[[T], Hashable]) -> "EagerQList[EagerQList[T]]":
+    def group_by[H: Hashable](self, grouper: Callable[[T], H]) -> "EagerQList[EagerQList[T]]":
         """
         Groups elements of `self` based on the output of the grouper function.
         Elements that produce the same key when passed to the grouper function are grouped together.
@@ -358,12 +362,12 @@ class EagerQList(list):
         as they are used as dictionary keys to organize the groups.
 
         Args:
-            grouper (Callable[[T], Hashable]): `function: (T) -> Hashable` that provides the keys
-             used to group elements, where the key type must be hashable and be able to serve as a dict key.
+            grouper (Callable[[T], H]): `function: (T) -> H` that provides the keys
+                used to group elements, where the key type must be hashable and be able to serve as a dict key.
 
         Returns:
             New `Lazy[EagerQList[T]]` object containing `EagerQList` instances, where each list
-             represents a group of elements that share the same key.
+            represents a group of elements that share the same key.
         """
         def inner():
             groups = {}
@@ -398,14 +402,14 @@ class EagerQList(list):
     def merge(self, other: Iterable[T], merger: Callable[[T, T], bool]) -> "EagerQList[T]":
         """
         Merges `self` with `other`, maintaining the order of elements based on the merger function. It starts by
-         taking the first elements from `self` and `other`, calling the merger function with these elements as arguments.
-         If the output is True, the first element is yielded; otherwise, the second element is yielded. If `self` is
-         empty, the remaining elements from `other` are yielded, and vice versa.
+        taking the first elements from `self` and `other`, calling the merger function with these elements as arguments.
+        If the output is True, the first element is yielded; otherwise, the second element is yielded. If `self` is
+        empty, the remaining elements from `other` are yielded, and vice versa.
 
         Args:
             other: Iterable[T] - an iterable to be merged with `self`.
             merger: function (T, T) -> bool - a function that takes two arguments (left and right). If the output is True,
-        the left argument is yielded; otherwise, the right argument is yielded.
+                the left argument is yielded; otherwise, the right argument is yielded.
 
         Returns:
             New `EagerQList` containing the merged elements.
@@ -448,20 +452,20 @@ class EagerQList(list):
                         return
         return EagerQList(inner())
 
-    def all(self, mapper: Optional[Callable[[T], Booly]] = None) -> bool:
+    def all[B](self, mapper: Optional[Callable[[T], B]] = None) -> bool:
         """
         Goes through the entire list and checks if all elements are `Truthy`.
-        `Booly` is a type that evaluates to something that is either `True` (`Truthy`) or `False` (`Falsy`).
+        `B` is a type that evaluates to something that is either `True` (`Truthy`) or `False` (`Falsy`).
         For example in Python an empty list evaluates to `False` (empty list is `Falsy`).
 
         Args:
-            mapper (Optional[Callable[[T], Booly]]): function that maps `T` to `Booly` which is a type that
-             can be interpreted as either True or False. If not passed, identity function is used.
+            mapper (Optional[Callable[[T], B]]): function that maps `T` to `B` which is a type that
+                can be interpreted as either True or False. If not passed, identity function is used.
 
         Returns:
             `True` if all elements of the `Lazy` are `Truthy`. `False` otherwise.
         """
-        def identity(x):
+        def identity(x: T) -> T:
             return x
         mapper = identity if mapper is None else mapper
         for elem in self:
@@ -469,20 +473,20 @@ class EagerQList(list):
                 return False
         return True
 
-    def any(self, mapper: Optional[Callable[[T], Booly]] = None) -> bool:
+    def any[B](self, mapper: Optional[Callable[[T], B]] = None) -> bool:
         """
         Goes through the entire list and checks if any element is `Truthy`.
-        `Booly` is a type that evaluates to something that is either `True` (`Truthy`) or `False` (`Falsy`).
+        `B` is a type that evaluates to something that is either `True` (`Truthy`) or `False` (`Falsy`).
         For example in Python an empty list evaluates to `False` (empty list is `Falsy`).
 
         Args:
-            mapper (Optional[Callable[[T], Booly]]): function that maps `T` to `Booly` which is a type that
-             can be interpreted as either True or False. If not passed, identity function is used.
+            mapper (Optional[Callable[[T], B]]): function that maps `T` to `B` which is a type that
+                can be interpreted as either True or False. If not passed, identity function is used.
 
         Returns:
             `True` if there is at least one element in the `Lazy` that is `Truthy`. `False` otherwise.
         """
-        def identity(x):
+        def identity(x: T) -> T:
             return x
 
         mapper = identity if mapper is None else mapper
@@ -491,20 +495,20 @@ class EagerQList(list):
                 return True
         return False
 
-    def min(self, key: Optional[Callable[[T], SupportsLessThan]] = None) -> Optional[T]:
+    def min[S: SupportsLessThan](self, key: Optional[Callable[[T], S]] = None) -> Optional[T]:
         """
         Returns the smallest element from `self`. If the key function is not passed, identity
         function is used in which case `T` must support `LessThan` operator.
 
         Args:
-            key (Optional[Callable[[T], SupportsLessThan]): function `(T) -> SupportsLessThan` that represents
-             the relation of partial order between elements.
+            key (Optional[Callable[[T], S]): function `(T) -> S where S: SupportsLessThan` that represents
+                the relation of partial order between elements.
 
         Returns:
             The smallest element from `self` or `None` if `self` is empty.
         """
 
-        def identity(x):
+        def identity(x: T) -> T:
             return x
 
         key = identity if key is None else key
@@ -517,20 +521,20 @@ class EagerQList(list):
                 best = elem
         return best
 
-    def max(self, key: Optional[Callable[[T], SupportsLessThan]] = None) -> Optional[T]:
+    def max[S: SupportsLessThan](self, key: Optional[Callable[[T], S]] = None) -> Optional[T]:
         """
         Returns the biggest element from the iterable. If the key function is not passed, identity
         function is used in which case `T` must support `LessThan` operator.
 
         Args:
-            key (Optional[Callable[[T], SupportsLessThan]): function `(T) -> SupportsLessThan` that represents
-             the relation of partial order between elements.
+            key (Optional[Callable[[T], S]): function `(T) -> S where S: SupportsLessThan` that represents
+                the relation of partial order between elements.
 
         Returns:
             the biggest element from `self` or `None` if `self` is empty.
         """
 
-        def identity(x):
+        def identity(x: T) -> T:
             return x
 
         key = identity if key is None else key
@@ -552,7 +556,7 @@ class EagerQList(list):
         Args:
             break_str (bool): If `True`, strings are flattened into individual characters. Defaults to `True`.
             preserve_type (Optional[Type]): Type to exclude from flattening (i.e., treated as non-iterable). For example,
-             setting this to `str` makes `break_str` effectively `False`. Defaults to `None`.
+                setting this to `str` makes `break_str` effectively `False`. Defaults to `None`.
 
         Returns:
             New `EagerQList` with all nested iterables flattened to a single iterable.
@@ -597,7 +601,7 @@ class EagerQList(list):
 
         Returns:
             New `EagerQList` containing elements from the original sequence, stopping at the first element for which the
-             predicate returns `False`.
+                predicate returns `False`.
         """
         def inner():
             for elem in self:
@@ -606,7 +610,7 @@ class EagerQList(list):
                 yield elem
         return EagerQList(inner())
 
-    def sum(self) -> Optional[SupportsAdd]:
+    def sum(self) -> Optional[T]:
         """
         Sums all the elements and returns the sum. Returns `None` if `self` is empty.
         Elements of `self` must support addition.
@@ -651,7 +655,7 @@ class EagerQList(list):
                 yield EagerQList(window)
         return EagerQList(inner(n=window_size))
 
-    def flat_fold(self, combination: Callable[[K, T], Iterable[K]], init: K) -> "EagerQList[K]":
+    def flat_fold[K](self, combination: Callable[[K, T], Iterable[K]], init: K) -> "EagerQList[K]":
         """
         This method reduces `self` by repeatedly applying a `combination` function
         to each element and an accumulated intermediate result. The `combination` function
@@ -662,15 +666,15 @@ class EagerQList(list):
 
         Args:
             combination (Callable[[K, T], Iterable[K]]): `function (K, T) -> Iterable[K]` that takes the
-             current accumulated value and the next element of the collection, and returns a list
-             of intermediate results. In the first step, `init` and the first element of the collection
-             are passed to the `combination`. In subsequent steps, each intermediate result from the previous
-             step is paired with the next element of the collection until it is fully processed.
+                current accumulated value and the next element of the collection, and returns a list
+                of intermediate results. In the first step, `init` and the first element of the collection
+                are passed to the `combination`. In subsequent steps, each intermediate result from the previous
+                step is paired with the next element of the collection until it is fully processed.
             init (K): initial value for the combination operator.
 
         Returns:
             EagerQList[K]: The final value obtained by repeatedly applying `combination` across all elements
-             of the collection, with intermediate results flattened at each step.
+            of the collection, with intermediate results flattened at each step.
 
         Examples:
             In this example the resulting list is a list of all possible scores achieved
@@ -695,7 +699,7 @@ class EagerQList(list):
             acc = acc.flatmap(lambda x, e=elem: combination(x, e))
         return acc
 
-    def product(self, other: Iterable[K]) -> "EagerQList[Tuple[T, K]]":
+    def product[K](self, other: Iterable[K]) -> "EagerQList[Tuple[T, K]]":
         """
         Computes the Cartesian product of `self` and `other`.
 
@@ -711,7 +715,7 @@ class EagerQList(list):
                     yield t, k
         return EagerQList(inner())
 
-    def product_with(self, other: Iterable[K], operation: Callable[[T, K], R]) -> "EagerQList[R]":
+    def product_with[K, R](self, other: Iterable[K], operation: Callable[[T, K], R]) -> "EagerQList[R]":
         """
         Applies a given operation to every pair of elements from the Cartesian product
         of `self` and `other`, returning a new Lazy iterable of the results.
@@ -722,7 +726,7 @@ class EagerQList(list):
         Args:
             other (Iterable[T]): The iterable to combine with `self` in a Cartesian product.
             operation (Callable[[T, K], R]): `function: (T, K) -> R` that takes a pair of elements,
-             one from `self` and one from `other`, and returns a result of type `R`.
+                one from `self` and one from `other`, and returns a result of type `R`.
 
         Returns:
             A new EagerQList containing the results of applying `operation`
@@ -740,7 +744,7 @@ class EagerQList(list):
                     yield operation(t, k)
         return EagerQList(inner())
 
-    def zip_with(self, other: Iterable[K], operation: Callable[[T, K], R]) -> "EagerQList[R]":
+    def zip_with[K, R](self, other: Iterable[K], operation: Callable[[T, K], R]) -> "EagerQList[R]":
         """
         Applies a given `operation` to pairs of elements from `self` and `other`, created by zipping them together.
 
@@ -751,7 +755,7 @@ class EagerQList(list):
         Args:
             other (Iterable[K]): The iterable to zip with `self`.
             operation (Callable[[T, K], R]): `function: (T, K) -> R` that takes a pair of elements,
-            one from `self` and one from `other`, and returns a result of type `R`.
+                one from `self` and one from `other`, and returns a result of type `R`.
 
         Returns:
             Lazy[R]: A new EagerQList containing the results of applying `operation`
