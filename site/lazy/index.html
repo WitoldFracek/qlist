@@ -2396,7 +2396,7 @@ again may cause errors</strong> due to the draining of the generator.</p>
 <a id="__codelineno-0-404" name="__codelineno-0-404"></a>
 <a id="__codelineno-0-405" name="__codelineno-0-405"></a><span class="sd">        Returns:</span>
 <a id="__codelineno-0-406" name="__codelineno-0-406"></a><span class="sd">            New `Lazy[QList[T]]` object containing `QList` instances, where each list</span>
-<a id="__codelineno-0-407" name="__codelineno-0-407"></a><span class="sd">            represents a group of elements that share the same key.</span>
+<a id="__codelineno-0-407" name="__codelineno-0-407"></a><span class="sd">                represents a group of elements that share the same key.</span>
 <a id="__codelineno-0-408" name="__codelineno-0-408"></a><span class="sd">        &quot;&quot;&quot;</span>
 <a id="__codelineno-0-409" name="__codelineno-0-409"></a>        <span class="k">def</span> <span class="nf">inner</span><span class="p">():</span>
 <a id="__codelineno-0-410" name="__codelineno-0-410"></a>            <span class="n">groups</span> <span class="o">=</span> <span class="p">{}</span>
@@ -2647,7 +2647,7 @@ again may cause errors</strong> due to the draining of the generator.</p>
 <a id="__codelineno-0-655" name="__codelineno-0-655"></a>
 <a id="__codelineno-0-656" name="__codelineno-0-656"></a><span class="sd">        Returns:</span>
 <a id="__codelineno-0-657" name="__codelineno-0-657"></a><span class="sd">            A new `Lazy` containing elements from the original sequence, stopping at the first element for which the</span>
-<a id="__codelineno-0-658" name="__codelineno-0-658"></a><span class="sd">            predicate returns `False`.</span>
+<a id="__codelineno-0-658" name="__codelineno-0-658"></a><span class="sd">                predicate returns `False`.</span>
 <a id="__codelineno-0-659" name="__codelineno-0-659"></a><span class="sd">        &quot;&quot;&quot;</span>
 <a id="__codelineno-0-660" name="__codelineno-0-660"></a>        <span class="k">def</span> <span class="nf">inner</span><span class="p">():</span>
 <a id="__codelineno-0-661" name="__codelineno-0-661"></a>            <span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">gen</span><span class="p">:</span>
@@ -2742,9 +2742,9 @@ again may cause errors</strong> due to the draining of the generator.</p>
 <a id="__codelineno-0-750" name="__codelineno-0-750"></a>
 <a id="__codelineno-0-751" name="__codelineno-0-751"></a><span class="sd">        Returns:</span>
 <a id="__codelineno-0-752" name="__codelineno-0-752"></a><span class="sd">            A tuple where the first element is a fully evaluated `QList` containing all elements up to and</span>
-<a id="__codelineno-0-753" name="__codelineno-0-753"></a><span class="sd">            including the split point, and the second element is a lazily evaluated sequence of all</span>
-<a id="__codelineno-0-754" name="__codelineno-0-754"></a><span class="sd">            elements after the split point. Returns `None` if `self` is empty. If no element satisfies the</span>
-<a id="__codelineno-0-755" name="__codelineno-0-755"></a><span class="sd">            predicate, the left part contains all elements from `self` and the right part is an empty lazy sequence.</span>
+<a id="__codelineno-0-753" name="__codelineno-0-753"></a><span class="sd">                including the split point, and the second element is a lazily evaluated sequence of all</span>
+<a id="__codelineno-0-754" name="__codelineno-0-754"></a><span class="sd">                elements after the split point. Returns `None` if `self` is empty. If no element satisfies the</span>
+<a id="__codelineno-0-755" name="__codelineno-0-755"></a><span class="sd">                predicate, the left part contains all elements from `self` and the right part is an empty lazy sequence.</span>
 <a id="__codelineno-0-756" name="__codelineno-0-756"></a><span class="sd">        &quot;&quot;&quot;</span>
 <a id="__codelineno-0-757" name="__codelineno-0-757"></a>        <span class="n">left</span> <span class="o">=</span> <span class="n">QList</span><span class="p">()</span>
 <a id="__codelineno-0-758" name="__codelineno-0-758"></a>        <span class="n">it</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">iter</span><span class="p">()</span>
@@ -2775,7 +2775,7 @@ again may cause errors</strong> due to the draining of the generator.</p>
 <a id="__codelineno-0-783" name="__codelineno-0-783"></a>
 <a id="__codelineno-0-784" name="__codelineno-0-784"></a><span class="sd">        Returns:</span>
 <a id="__codelineno-0-785" name="__codelineno-0-785"></a><span class="sd">            Lazy[K]: The final value obtained by repeatedly applying `combination` across all elements</span>
-<a id="__codelineno-0-786" name="__codelineno-0-786"></a><span class="sd">            of the collection, with intermediate results flattened at each step.</span>
+<a id="__codelineno-0-786" name="__codelineno-0-786"></a><span class="sd">                of the collection, with intermediate results flattened at each step.</span>
 <a id="__codelineno-0-787" name="__codelineno-0-787"></a>
 <a id="__codelineno-0-788" name="__codelineno-0-788"></a><span class="sd">        Examples:</span>
 <a id="__codelineno-0-789" name="__codelineno-0-789"></a><span class="sd">            In this example the resulting list is a list of all possible scores achieved</span>
@@ -2831,7 +2831,7 @@ again may cause errors</strong> due to the draining of the generator.</p>
 <a id="__codelineno-0-839" name="__codelineno-0-839"></a>
 <a id="__codelineno-0-840" name="__codelineno-0-840"></a><span class="sd">        Returns:</span>
 <a id="__codelineno-0-841" name="__codelineno-0-841"></a><span class="sd">            A new Lazy containing the results of applying `operation`</span>
-<a id="__codelineno-0-842" name="__codelineno-0-842"></a><span class="sd">            to each pair in the Cartesian product.</span>
+<a id="__codelineno-0-842" name="__codelineno-0-842"></a><span class="sd">                to each pair in the Cartesian product.</span>
 <a id="__codelineno-0-843" name="__codelineno-0-843"></a>
 <a id="__codelineno-0-844" name="__codelineno-0-844"></a><span class="sd">        Examples:</span>
 <a id="__codelineno-0-845" name="__codelineno-0-845"></a><span class="sd">            &gt;&gt;&gt; lazy1 = Lazy([1, 2])</span>
@@ -2860,7 +2860,7 @@ again may cause errors</strong> due to the draining of the generator.</p>
 <a id="__codelineno-0-868" name="__codelineno-0-868"></a>
 <a id="__codelineno-0-869" name="__codelineno-0-869"></a><span class="sd">        Returns:</span>
 <a id="__codelineno-0-870" name="__codelineno-0-870"></a><span class="sd">            Lazy[R]: A new Lazy containing the results of applying `operation`</span>
-<a id="__codelineno-0-871" name="__codelineno-0-871"></a><span class="sd">            to each pair in the zipped iterables.</span>
+<a id="__codelineno-0-871" name="__codelineno-0-871"></a><span class="sd">                to each pair in the zipped iterables.</span>
 <a id="__codelineno-0-872" name="__codelineno-0-872"></a>
 <a id="__codelineno-0-873" name="__codelineno-0-873"></a><span class="sd">        Examples:</span>
 <a id="__codelineno-0-874" name="__codelineno-0-874"></a><span class="sd">            &gt;&gt;&gt; lazy1 = Lazy([1, 2, 3])</span>
@@ -4140,17 +4140,8 @@ step is paired with the next element of the collection until it is fully process
             </td>
             <td>
               <div class="doc-md-description">
-                <p>Lazy[K]: The final value obtained by repeatedly applying <code>combination</code> across all elements</p>
-              </div>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                  <code><a class="autorefs autorefs-internal" title="src.qwlist.qwlist.Lazy" href="#src.qwlist.qwlist.Lazy">Lazy</a>[K]</code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>of the collection, with intermediate results flattened at each step.</p>
+                <p>Lazy[K]: The final value obtained by repeatedly applying <code>combination</code> across all elements
+of the collection, with intermediate results flattened at each step.</p>
               </div>
             </td>
           </tr>
@@ -4239,7 +4230,7 @@ and the resulting value would be a <code>Lazy</code> object with only one elemen
 <a id="__codelineno-0-783" name="__codelineno-0-783"></a>
 <a id="__codelineno-0-784" name="__codelineno-0-784"></a><span class="sd">    Returns:</span>
 <a id="__codelineno-0-785" name="__codelineno-0-785"></a><span class="sd">        Lazy[K]: The final value obtained by repeatedly applying `combination` across all elements</span>
-<a id="__codelineno-0-786" name="__codelineno-0-786"></a><span class="sd">        of the collection, with intermediate results flattened at each step.</span>
+<a id="__codelineno-0-786" name="__codelineno-0-786"></a><span class="sd">            of the collection, with intermediate results flattened at each step.</span>
 <a id="__codelineno-0-787" name="__codelineno-0-787"></a>
 <a id="__codelineno-0-788" name="__codelineno-0-788"></a><span class="sd">    Examples:</span>
 <a id="__codelineno-0-789" name="__codelineno-0-789"></a><span class="sd">        In this example the resulting list is a list of all possible scores achieved</span>
@@ -5128,17 +5119,8 @@ used to group elements, where the key type must be hashable and be able to serve
             </td>
             <td>
               <div class="doc-md-description">
-                <p>New <code>Lazy[QList[T]]</code> object containing <code>QList</code> instances, where each list</p>
-              </div>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                  <code><a class="autorefs autorefs-internal" title="src.qwlist.qwlist.Lazy" href="#src.qwlist.qwlist.Lazy">Lazy</a>[<a class="autorefs autorefs-internal" title="src.qwlist.qwlist.QList" href="../qlist/#src.qwlist.qwlist.QList">QList</a>[T]]</code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>represents a group of elements that share the same key.</p>
+                <p>New <code>Lazy[QList[T]]</code> object containing <code>QList</code> instances, where each list
+represents a group of elements that share the same key.</p>
               </div>
             </td>
           </tr>
@@ -5183,7 +5165,7 @@ used to group elements, where the key type must be hashable and be able to serve
 <a id="__codelineno-0-404" name="__codelineno-0-404"></a>
 <a id="__codelineno-0-405" name="__codelineno-0-405"></a><span class="sd">    Returns:</span>
 <a id="__codelineno-0-406" name="__codelineno-0-406"></a><span class="sd">        New `Lazy[QList[T]]` object containing `QList` instances, where each list</span>
-<a id="__codelineno-0-407" name="__codelineno-0-407"></a><span class="sd">        represents a group of elements that share the same key.</span>
+<a id="__codelineno-0-407" name="__codelineno-0-407"></a><span class="sd">            represents a group of elements that share the same key.</span>
 <a id="__codelineno-0-408" name="__codelineno-0-408"></a><span class="sd">    &quot;&quot;&quot;</span>
 <a id="__codelineno-0-409" name="__codelineno-0-409"></a>    <span class="k">def</span> <span class="nf">inner</span><span class="p">():</span>
 <a id="__codelineno-0-410" name="__codelineno-0-410"></a>        <span class="n">groups</span> <span class="o">=</span> <span class="p">{}</span>
@@ -6066,17 +6048,8 @@ one from <code>self</code> and one from <code>other</code>, and returns a result
             </td>
             <td>
               <div class="doc-md-description">
-                <p>A new Lazy containing the results of applying <code>operation</code></p>
-              </div>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                  <code><a class="autorefs autorefs-internal" title="src.qwlist.qwlist.Lazy" href="#src.qwlist.qwlist.Lazy">Lazy</a>[R]</code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>to each pair in the Cartesian product.</p>
+                <p>A new Lazy containing the results of applying <code>operation</code>
+to each pair in the Cartesian product.</p>
               </div>
             </td>
           </tr>
@@ -6135,7 +6108,7 @@ one from <code>self</code> and one from <code>other</code>, and returns a result
 <a id="__codelineno-0-839" name="__codelineno-0-839"></a>
 <a id="__codelineno-0-840" name="__codelineno-0-840"></a><span class="sd">    Returns:</span>
 <a id="__codelineno-0-841" name="__codelineno-0-841"></a><span class="sd">        A new Lazy containing the results of applying `operation`</span>
-<a id="__codelineno-0-842" name="__codelineno-0-842"></a><span class="sd">        to each pair in the Cartesian product.</span>
+<a id="__codelineno-0-842" name="__codelineno-0-842"></a><span class="sd">            to each pair in the Cartesian product.</span>
 <a id="__codelineno-0-843" name="__codelineno-0-843"></a>
 <a id="__codelineno-0-844" name="__codelineno-0-844"></a><span class="sd">    Examples:</span>
 <a id="__codelineno-0-845" name="__codelineno-0-845"></a><span class="sd">        &gt;&gt;&gt; lazy1 = Lazy([1, 2])</span>
@@ -6542,37 +6515,10 @@ if the element is the split point.</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>A tuple where the first element is a fully evaluated <code>QList</code> containing all elements up to and</p>
-              </div>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                  <code><span title="typing.Optional">Optional</span>[<span title="typing.Tuple">Tuple</span>[<a class="autorefs autorefs-internal" title="src.qwlist.qwlist.QList" href="../qlist/#src.qwlist.qwlist.QList">QList</a>[T], <a class="autorefs autorefs-internal" title="src.qwlist.qwlist.Lazy" href="#src.qwlist.qwlist.Lazy">Lazy</a>[T]]]</code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>including the split point, and the second element is a lazily evaluated sequence of all</p>
-              </div>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                  <code><span title="typing.Optional">Optional</span>[<span title="typing.Tuple">Tuple</span>[<a class="autorefs autorefs-internal" title="src.qwlist.qwlist.QList" href="../qlist/#src.qwlist.qwlist.QList">QList</a>[T], <a class="autorefs autorefs-internal" title="src.qwlist.qwlist.Lazy" href="#src.qwlist.qwlist.Lazy">Lazy</a>[T]]]</code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>elements after the split point. Returns <code>None</code> if <code>self</code> is empty. If no element satisfies the</p>
-              </div>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                  <code><span title="typing.Optional">Optional</span>[<span title="typing.Tuple">Tuple</span>[<a class="autorefs autorefs-internal" title="src.qwlist.qwlist.QList" href="../qlist/#src.qwlist.qwlist.QList">QList</a>[T], <a class="autorefs autorefs-internal" title="src.qwlist.qwlist.Lazy" href="#src.qwlist.qwlist.Lazy">Lazy</a>[T]]]</code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>predicate, the left part contains all elements from <code>self</code> and the right part is an empty lazy sequence.</p>
+                <p>A tuple where the first element is a fully evaluated <code>QList</code> containing all elements up to and
+including the split point, and the second element is a lazily evaluated sequence of all
+elements after the split point. Returns <code>None</code> if <code>self</code> is empty. If no element satisfies the
+predicate, the left part contains all elements from <code>self</code> and the right part is an empty lazy sequence.</p>
               </div>
             </td>
           </tr>
@@ -6617,9 +6563,9 @@ if the element is the split point.</p>
 <a id="__codelineno-0-750" name="__codelineno-0-750"></a>
 <a id="__codelineno-0-751" name="__codelineno-0-751"></a><span class="sd">    Returns:</span>
 <a id="__codelineno-0-752" name="__codelineno-0-752"></a><span class="sd">        A tuple where the first element is a fully evaluated `QList` containing all elements up to and</span>
-<a id="__codelineno-0-753" name="__codelineno-0-753"></a><span class="sd">        including the split point, and the second element is a lazily evaluated sequence of all</span>
-<a id="__codelineno-0-754" name="__codelineno-0-754"></a><span class="sd">        elements after the split point. Returns `None` if `self` is empty. If no element satisfies the</span>
-<a id="__codelineno-0-755" name="__codelineno-0-755"></a><span class="sd">        predicate, the left part contains all elements from `self` and the right part is an empty lazy sequence.</span>
+<a id="__codelineno-0-753" name="__codelineno-0-753"></a><span class="sd">            including the split point, and the second element is a lazily evaluated sequence of all</span>
+<a id="__codelineno-0-754" name="__codelineno-0-754"></a><span class="sd">            elements after the split point. Returns `None` if `self` is empty. If no element satisfies the</span>
+<a id="__codelineno-0-755" name="__codelineno-0-755"></a><span class="sd">            predicate, the left part contains all elements from `self` and the right part is an empty lazy sequence.</span>
 <a id="__codelineno-0-756" name="__codelineno-0-756"></a><span class="sd">    &quot;&quot;&quot;</span>
 <a id="__codelineno-0-757" name="__codelineno-0-757"></a>    <span class="n">left</span> <span class="o">=</span> <span class="n">QList</span><span class="p">()</span>
 <a id="__codelineno-0-758" name="__codelineno-0-758"></a>    <span class="n">it</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">iter</span><span class="p">()</span>
@@ -6896,17 +6842,8 @@ returns <code>True</code>. After <code>False</code> is returned, iteration stops
             </td>
             <td>
               <div class="doc-md-description">
-                <p>A new <code>Lazy</code> containing elements from the original sequence, stopping at the first element for which the</p>
-              </div>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                  <code><a class="autorefs autorefs-internal" title="src.qwlist.qwlist.Lazy" href="#src.qwlist.qwlist.Lazy">Lazy</a>[T]</code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>predicate returns <code>False</code>.</p>
+                <p>A new <code>Lazy</code> containing elements from the original sequence, stopping at the first element for which the
+predicate returns <code>False</code>.</p>
               </div>
             </td>
           </tr>
@@ -6944,7 +6881,7 @@ returns <code>True</code>. After <code>False</code> is returned, iteration stops
 <a id="__codelineno-0-655" name="__codelineno-0-655"></a>
 <a id="__codelineno-0-656" name="__codelineno-0-656"></a><span class="sd">    Returns:</span>
 <a id="__codelineno-0-657" name="__codelineno-0-657"></a><span class="sd">        A new `Lazy` containing elements from the original sequence, stopping at the first element for which the</span>
-<a id="__codelineno-0-658" name="__codelineno-0-658"></a><span class="sd">        predicate returns `False`.</span>
+<a id="__codelineno-0-658" name="__codelineno-0-658"></a><span class="sd">            predicate returns `False`.</span>
 <a id="__codelineno-0-659" name="__codelineno-0-659"></a><span class="sd">    &quot;&quot;&quot;</span>
 <a id="__codelineno-0-660" name="__codelineno-0-660"></a>    <span class="k">def</span> <span class="nf">inner</span><span class="p">():</span>
 <a id="__codelineno-0-661" name="__codelineno-0-661"></a>        <span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">gen</span><span class="p">:</span>
@@ -7350,17 +7287,8 @@ one from <code>self</code> and one from <code>other</code>, and returns a result
             </td>
             <td>
               <div class="doc-md-description">
-                <p>Lazy[R]: A new Lazy containing the results of applying <code>operation</code></p>
-              </div>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                  <code><a class="autorefs autorefs-internal" title="src.qwlist.qwlist.Lazy" href="#src.qwlist.qwlist.Lazy">Lazy</a>[R]</code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>to each pair in the zipped iterables.</p>
+                <p>Lazy[R]: A new Lazy containing the results of applying <code>operation</code>
+to each pair in the zipped iterables.</p>
               </div>
             </td>
           </tr>
@@ -7418,7 +7346,7 @@ one from <code>self</code> and one from <code>other</code>, and returns a result
 <a id="__codelineno-0-868" name="__codelineno-0-868"></a>
 <a id="__codelineno-0-869" name="__codelineno-0-869"></a><span class="sd">    Returns:</span>
 <a id="__codelineno-0-870" name="__codelineno-0-870"></a><span class="sd">        Lazy[R]: A new Lazy containing the results of applying `operation`</span>
-<a id="__codelineno-0-871" name="__codelineno-0-871"></a><span class="sd">        to each pair in the zipped iterables.</span>
+<a id="__codelineno-0-871" name="__codelineno-0-871"></a><span class="sd">            to each pair in the zipped iterables.</span>
 <a id="__codelineno-0-872" name="__codelineno-0-872"></a>
 <a id="__codelineno-0-873" name="__codelineno-0-873"></a><span class="sd">    Examples:</span>
 <a id="__codelineno-0-874" name="__codelineno-0-874"></a><span class="sd">        &gt;&gt;&gt; lazy1 = Lazy([1, 2, 3])</span>

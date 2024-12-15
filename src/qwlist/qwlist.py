@@ -404,7 +404,7 @@ class Lazy[T]:
 
         Returns:
             New `Lazy[QList[T]]` object containing `QList` instances, where each list
-            represents a group of elements that share the same key.
+                represents a group of elements that share the same key.
         """
         def inner():
             groups = {}
@@ -655,7 +655,7 @@ class Lazy[T]:
 
         Returns:
             A new `Lazy` containing elements from the original sequence, stopping at the first element for which the
-            predicate returns `False`.
+                predicate returns `False`.
         """
         def inner():
             for elem in self.gen:
@@ -750,9 +750,9 @@ class Lazy[T]:
 
         Returns:
             A tuple where the first element is a fully evaluated `QList` containing all elements up to and
-            including the split point, and the second element is a lazily evaluated sequence of all
-            elements after the split point. Returns `None` if `self` is empty. If no element satisfies the
-            predicate, the left part contains all elements from `self` and the right part is an empty lazy sequence.
+                including the split point, and the second element is a lazily evaluated sequence of all
+                elements after the split point. Returns `None` if `self` is empty. If no element satisfies the
+                predicate, the left part contains all elements from `self` and the right part is an empty lazy sequence.
         """
         left = QList()
         it = self.iter()
@@ -783,7 +783,7 @@ class Lazy[T]:
 
         Returns:
             Lazy[K]: The final value obtained by repeatedly applying `combination` across all elements
-            of the collection, with intermediate results flattened at each step.
+                of the collection, with intermediate results flattened at each step.
 
         Examples:
             In this example the resulting list is a list of all possible scores achieved
@@ -839,7 +839,7 @@ class Lazy[T]:
 
         Returns:
             A new Lazy containing the results of applying `operation`
-            to each pair in the Cartesian product.
+                to each pair in the Cartesian product.
 
         Examples:
             >>> lazy1 = Lazy([1, 2])
@@ -868,7 +868,7 @@ class Lazy[T]:
 
         Returns:
             Lazy[R]: A new Lazy containing the results of applying `operation`
-            to each pair in the zipped iterables.
+                to each pair in the zipped iterables.
 
         Examples:
             >>> lazy1 = Lazy([1, 2, 3])
@@ -1055,7 +1055,7 @@ class QList[T](list):
 
         Returns:
             The final value created from calling the `operation` on consecutive elements of `self`
-            starting from the last element.
+                starting from the last element.
 
         Examples:
             >>> QList([1, 2, 3]).fold_right(lambda acc, x: acc + x, 0)
@@ -1332,7 +1332,7 @@ class QList[T](list):
 
         Returns:
             New `Lazy[QList[T]]` object containing `QList` instances, where each list
-            represents a group of elements that share the same key.
+                represents a group of elements that share the same key.
         """
         def inner():
             groups = {}
@@ -1635,7 +1635,7 @@ class QList[T](list):
 
         Returns:
             Lazy[K]: The final value obtained by repeatedly applying `combination` across all elements
-            of the collection, with intermediate results flattened at each step.
+                of the collection, with intermediate results flattened at each step.
 
         Examples:
             In this example the resulting list is a list of all possible scores achieved
@@ -1691,7 +1691,7 @@ class QList[T](list):
 
         Returns:
             A new Lazy containing the results of applying `operation`
-            to each pair in the Cartesian product.
+                to each pair in the Cartesian product.
 
         Examples:
             >>> qlist1 = QList([1, 2])
@@ -1720,7 +1720,7 @@ class QList[T](list):
 
         Returns:
             Lazy[R]: A new Lazy containing the results of applying `operation`
-            to each pair in the zipped iterables.
+                to each pair in the zipped iterables.
 
         Examples:
             >>> qlist1 = QList([1, 2, 3])

@@ -1940,7 +1940,7 @@
 <a id="__codelineno-0-159" name="__codelineno-0-159"></a>
 <a id="__codelineno-0-160" name="__codelineno-0-160"></a><span class="sd">        Returns:</span>
 <a id="__codelineno-0-161" name="__codelineno-0-161"></a><span class="sd">            The final value created from calling the `operation` on consecutive elements of `self`</span>
-<a id="__codelineno-0-162" name="__codelineno-0-162"></a><span class="sd">            starting from the last element.</span>
+<a id="__codelineno-0-162" name="__codelineno-0-162"></a><span class="sd">                starting from the last element.</span>
 <a id="__codelineno-0-163" name="__codelineno-0-163"></a>
 <a id="__codelineno-0-164" name="__codelineno-0-164"></a><span class="sd">        Examples:</span>
 <a id="__codelineno-0-165" name="__codelineno-0-165"></a><span class="sd">            &gt;&gt;&gt; s = EagerQList([1, 2, 3]).fold_right(lambda acc, x: acc + x, 0)</span>
@@ -2148,7 +2148,7 @@
 <a id="__codelineno-0-367" name="__codelineno-0-367"></a>
 <a id="__codelineno-0-368" name="__codelineno-0-368"></a><span class="sd">        Returns:</span>
 <a id="__codelineno-0-369" name="__codelineno-0-369"></a><span class="sd">            New `Lazy[EagerQList[T]]` object containing `EagerQList` instances, where each list</span>
-<a id="__codelineno-0-370" name="__codelineno-0-370"></a><span class="sd">            represents a group of elements that share the same key.</span>
+<a id="__codelineno-0-370" name="__codelineno-0-370"></a><span class="sd">                represents a group of elements that share the same key.</span>
 <a id="__codelineno-0-371" name="__codelineno-0-371"></a><span class="sd">        &quot;&quot;&quot;</span>
 <a id="__codelineno-0-372" name="__codelineno-0-372"></a>        <span class="k">def</span> <span class="nf">inner</span><span class="p">():</span>
 <a id="__codelineno-0-373" name="__codelineno-0-373"></a>            <span class="n">groups</span> <span class="o">=</span> <span class="p">{}</span>
@@ -2455,7 +2455,7 @@
 <a id="__codelineno-0-674" name="__codelineno-0-674"></a>
 <a id="__codelineno-0-675" name="__codelineno-0-675"></a><span class="sd">        Returns:</span>
 <a id="__codelineno-0-676" name="__codelineno-0-676"></a><span class="sd">            EagerQList[K]: The final value obtained by repeatedly applying `combination` across all elements</span>
-<a id="__codelineno-0-677" name="__codelineno-0-677"></a><span class="sd">            of the collection, with intermediate results flattened at each step.</span>
+<a id="__codelineno-0-677" name="__codelineno-0-677"></a><span class="sd">                of the collection, with intermediate results flattened at each step.</span>
 <a id="__codelineno-0-678" name="__codelineno-0-678"></a>
 <a id="__codelineno-0-679" name="__codelineno-0-679"></a><span class="sd">        Examples:</span>
 <a id="__codelineno-0-680" name="__codelineno-0-680"></a><span class="sd">            In this example the resulting list is a list of all possible scores achieved</span>
@@ -2511,7 +2511,7 @@
 <a id="__codelineno-0-730" name="__codelineno-0-730"></a>
 <a id="__codelineno-0-731" name="__codelineno-0-731"></a><span class="sd">        Returns:</span>
 <a id="__codelineno-0-732" name="__codelineno-0-732"></a><span class="sd">            A new EagerQList containing the results of applying `operation`</span>
-<a id="__codelineno-0-733" name="__codelineno-0-733"></a><span class="sd">            to each pair in the Cartesian product.</span>
+<a id="__codelineno-0-733" name="__codelineno-0-733"></a><span class="sd">                to each pair in the Cartesian product.</span>
 <a id="__codelineno-0-734" name="__codelineno-0-734"></a>
 <a id="__codelineno-0-735" name="__codelineno-0-735"></a><span class="sd">        Examples:</span>
 <a id="__codelineno-0-736" name="__codelineno-0-736"></a><span class="sd">            &gt;&gt;&gt; list1 = EagerQList([1, 2])</span>
@@ -2540,7 +2540,7 @@
 <a id="__codelineno-0-759" name="__codelineno-0-759"></a>
 <a id="__codelineno-0-760" name="__codelineno-0-760"></a><span class="sd">        Returns:</span>
 <a id="__codelineno-0-761" name="__codelineno-0-761"></a><span class="sd">            Lazy[R]: A new EagerQList containing the results of applying `operation`</span>
-<a id="__codelineno-0-762" name="__codelineno-0-762"></a><span class="sd">            to each pair in the zipped iterables.</span>
+<a id="__codelineno-0-762" name="__codelineno-0-762"></a><span class="sd">                to each pair in the zipped iterables.</span>
 <a id="__codelineno-0-763" name="__codelineno-0-763"></a>
 <a id="__codelineno-0-764" name="__codelineno-0-764"></a><span class="sd">        Examples:</span>
 <a id="__codelineno-0-765" name="__codelineno-0-765"></a><span class="sd">            &gt;&gt;&gt; list1 = EagerQList([1, 2, 3])</span>
@@ -3515,17 +3515,8 @@ step is paired with the next element of the collection until it is fully process
             </td>
             <td>
               <div class="doc-md-description">
-                <p>EagerQList[K]: The final value obtained by repeatedly applying <code>combination</code> across all elements</p>
-              </div>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                  <code><a class="autorefs autorefs-internal" title="src.qwlist.eager.EagerQList" href="#src.qwlist.eager.EagerQList">EagerQList</a>[K]</code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>of the collection, with intermediate results flattened at each step.</p>
+                <p>EagerQList[K]: The final value obtained by repeatedly applying <code>combination</code> across all elements
+of the collection, with intermediate results flattened at each step.</p>
               </div>
             </td>
           </tr>
@@ -3614,7 +3605,7 @@ and the resulting value would be a <code>Lazy</code> object with only one elemen
 <a id="__codelineno-0-674" name="__codelineno-0-674"></a>
 <a id="__codelineno-0-675" name="__codelineno-0-675"></a><span class="sd">    Returns:</span>
 <a id="__codelineno-0-676" name="__codelineno-0-676"></a><span class="sd">        EagerQList[K]: The final value obtained by repeatedly applying `combination` across all elements</span>
-<a id="__codelineno-0-677" name="__codelineno-0-677"></a><span class="sd">        of the collection, with intermediate results flattened at each step.</span>
+<a id="__codelineno-0-677" name="__codelineno-0-677"></a><span class="sd">            of the collection, with intermediate results flattened at each step.</span>
 <a id="__codelineno-0-678" name="__codelineno-0-678"></a>
 <a id="__codelineno-0-679" name="__codelineno-0-679"></a><span class="sd">    Examples:</span>
 <a id="__codelineno-0-680" name="__codelineno-0-680"></a><span class="sd">        In this example the resulting list is a list of all possible scores achieved</span>
@@ -4085,17 +4076,8 @@ last element, treating the result as a first argument in the next step.</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>The final value created from calling the <code>operation</code> on consecutive elements of <code>self</code></p>
-              </div>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                  <code>K</code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>starting from the last element.</p>
+                <p>The final value created from calling the <code>operation</code> on consecutive elements of <code>self</code>
+starting from the last element.</p>
               </div>
             </td>
           </tr>
@@ -4147,7 +4129,7 @@ last element, treating the result as a first argument in the next step.</p>
 <a id="__codelineno-0-159" name="__codelineno-0-159"></a>
 <a id="__codelineno-0-160" name="__codelineno-0-160"></a><span class="sd">    Returns:</span>
 <a id="__codelineno-0-161" name="__codelineno-0-161"></a><span class="sd">        The final value created from calling the `operation` on consecutive elements of `self`</span>
-<a id="__codelineno-0-162" name="__codelineno-0-162"></a><span class="sd">        starting from the last element.</span>
+<a id="__codelineno-0-162" name="__codelineno-0-162"></a><span class="sd">            starting from the last element.</span>
 <a id="__codelineno-0-163" name="__codelineno-0-163"></a>
 <a id="__codelineno-0-164" name="__codelineno-0-164"></a><span class="sd">    Examples:</span>
 <a id="__codelineno-0-165" name="__codelineno-0-165"></a><span class="sd">        &gt;&gt;&gt; s = EagerQList([1, 2, 3]).fold_right(lambda acc, x: acc + x, 0)</span>
@@ -4632,17 +4614,8 @@ used to group elements, where the key type must be hashable and be able to serve
             </td>
             <td>
               <div class="doc-md-description">
-                <p>New <code>Lazy[EagerQList[T]]</code> object containing <code>EagerQList</code> instances, where each list</p>
-              </div>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                  <code><a class="autorefs autorefs-internal" title="src.qwlist.eager.EagerQList" href="#src.qwlist.eager.EagerQList">EagerQList</a>[<a class="autorefs autorefs-internal" title="src.qwlist.eager.EagerQList" href="#src.qwlist.eager.EagerQList">EagerQList</a>[T]]</code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>represents a group of elements that share the same key.</p>
+                <p>New <code>Lazy[EagerQList[T]]</code> object containing <code>EagerQList</code> instances, where each list
+represents a group of elements that share the same key.</p>
               </div>
             </td>
           </tr>
@@ -4687,7 +4660,7 @@ used to group elements, where the key type must be hashable and be able to serve
 <a id="__codelineno-0-367" name="__codelineno-0-367"></a>
 <a id="__codelineno-0-368" name="__codelineno-0-368"></a><span class="sd">    Returns:</span>
 <a id="__codelineno-0-369" name="__codelineno-0-369"></a><span class="sd">        New `Lazy[EagerQList[T]]` object containing `EagerQList` instances, where each list</span>
-<a id="__codelineno-0-370" name="__codelineno-0-370"></a><span class="sd">        represents a group of elements that share the same key.</span>
+<a id="__codelineno-0-370" name="__codelineno-0-370"></a><span class="sd">            represents a group of elements that share the same key.</span>
 <a id="__codelineno-0-371" name="__codelineno-0-371"></a><span class="sd">    &quot;&quot;&quot;</span>
 <a id="__codelineno-0-372" name="__codelineno-0-372"></a>    <span class="k">def</span> <span class="nf">inner</span><span class="p">():</span>
 <a id="__codelineno-0-373" name="__codelineno-0-373"></a>        <span class="n">groups</span> <span class="o">=</span> <span class="p">{}</span>
@@ -5626,17 +5599,8 @@ one from <code>self</code> and one from <code>other</code>, and returns a result
             </td>
             <td>
               <div class="doc-md-description">
-                <p>A new EagerQList containing the results of applying <code>operation</code></p>
-              </div>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                  <code><a class="autorefs autorefs-internal" title="src.qwlist.eager.EagerQList" href="#src.qwlist.eager.EagerQList">EagerQList</a>[R]</code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>to each pair in the Cartesian product.</p>
+                <p>A new EagerQList containing the results of applying <code>operation</code>
+to each pair in the Cartesian product.</p>
               </div>
             </td>
           </tr>
@@ -5695,7 +5659,7 @@ one from <code>self</code> and one from <code>other</code>, and returns a result
 <a id="__codelineno-0-730" name="__codelineno-0-730"></a>
 <a id="__codelineno-0-731" name="__codelineno-0-731"></a><span class="sd">    Returns:</span>
 <a id="__codelineno-0-732" name="__codelineno-0-732"></a><span class="sd">        A new EagerQList containing the results of applying `operation`</span>
-<a id="__codelineno-0-733" name="__codelineno-0-733"></a><span class="sd">        to each pair in the Cartesian product.</span>
+<a id="__codelineno-0-733" name="__codelineno-0-733"></a><span class="sd">            to each pair in the Cartesian product.</span>
 <a id="__codelineno-0-734" name="__codelineno-0-734"></a>
 <a id="__codelineno-0-735" name="__codelineno-0-735"></a><span class="sd">    Examples:</span>
 <a id="__codelineno-0-736" name="__codelineno-0-736"></a><span class="sd">        &gt;&gt;&gt; list1 = EagerQList([1, 2])</span>
@@ -6559,17 +6523,8 @@ one from <code>self</code> and one from <code>other</code>, and returns a result
             </td>
             <td>
               <div class="doc-md-description">
-                <p>Lazy[R]: A new EagerQList containing the results of applying <code>operation</code></p>
-              </div>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                  <code><a class="autorefs autorefs-internal" title="src.qwlist.eager.EagerQList" href="#src.qwlist.eager.EagerQList">EagerQList</a>[R]</code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>to each pair in the zipped iterables.</p>
+                <p>Lazy[R]: A new EagerQList containing the results of applying <code>operation</code>
+to each pair in the zipped iterables.</p>
               </div>
             </td>
           </tr>
@@ -6627,7 +6582,7 @@ one from <code>self</code> and one from <code>other</code>, and returns a result
 <a id="__codelineno-0-759" name="__codelineno-0-759"></a>
 <a id="__codelineno-0-760" name="__codelineno-0-760"></a><span class="sd">    Returns:</span>
 <a id="__codelineno-0-761" name="__codelineno-0-761"></a><span class="sd">        Lazy[R]: A new EagerQList containing the results of applying `operation`</span>
-<a id="__codelineno-0-762" name="__codelineno-0-762"></a><span class="sd">        to each pair in the zipped iterables.</span>
+<a id="__codelineno-0-762" name="__codelineno-0-762"></a><span class="sd">            to each pair in the zipped iterables.</span>
 <a id="__codelineno-0-763" name="__codelineno-0-763"></a>
 <a id="__codelineno-0-764" name="__codelineno-0-764"></a><span class="sd">    Examples:</span>
 <a id="__codelineno-0-765" name="__codelineno-0-765"></a><span class="sd">        &gt;&gt;&gt; list1 = EagerQList([1, 2, 3])</span>

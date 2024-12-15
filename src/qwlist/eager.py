@@ -159,7 +159,7 @@ class EagerQList[T](list):
 
         Returns:
             The final value created from calling the `operation` on consecutive elements of `self`
-            starting from the last element.
+                starting from the last element.
 
         Examples:
             >>> s = EagerQList([1, 2, 3]).fold_right(lambda acc, x: acc + x, 0)
@@ -367,7 +367,7 @@ class EagerQList[T](list):
 
         Returns:
             New `Lazy[EagerQList[T]]` object containing `EagerQList` instances, where each list
-            represents a group of elements that share the same key.
+                represents a group of elements that share the same key.
         """
         def inner():
             groups = {}
@@ -674,7 +674,7 @@ class EagerQList[T](list):
 
         Returns:
             EagerQList[K]: The final value obtained by repeatedly applying `combination` across all elements
-            of the collection, with intermediate results flattened at each step.
+                of the collection, with intermediate results flattened at each step.
 
         Examples:
             In this example the resulting list is a list of all possible scores achieved
@@ -730,7 +730,7 @@ class EagerQList[T](list):
 
         Returns:
             A new EagerQList containing the results of applying `operation`
-            to each pair in the Cartesian product.
+                to each pair in the Cartesian product.
 
         Examples:
             >>> list1 = EagerQList([1, 2])
@@ -759,7 +759,7 @@ class EagerQList[T](list):
 
         Returns:
             Lazy[R]: A new EagerQList containing the results of applying `operation`
-            to each pair in the zipped iterables.
+                to each pair in the zipped iterables.
 
         Examples:
             >>> list1 = EagerQList([1, 2, 3])
