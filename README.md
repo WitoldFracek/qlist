@@ -220,21 +220,7 @@ print(double_xs)
 
 
 ---
-## Story behind this whole idea
-Prime idea? **Vicious mockery**! \
-During studying, I had to do a lot of list comprehensions in Python, alongside
-methods such as `map` or `filter` and although they are quite powerful, using them
-in Python is just annoying. Combining them makes you read the code in an unnatural order going
-from right to left. That is the main reason that for a long time I preferred simple for-loops
-as opposed to using mentioned methods. Until one day my teacher asked the whole class why no one is using
-list comprehensions and higher order functions. \
-"Do you guys know python?" he asked tendentiously. \
-"I would use those functions if they were nicer" I thought.\
-During that period I also learnt Rust and immediately fell for it. Especially with how convenient
-it is to replace for-loops with method calls. And that's how the idea for a python package
-**qwlist** was born.
-
 
 And I have a mascot! Say hello to **Qitek**!
 
-![qitek](./docs/cat200.png)
+![qitek](https://github.com/WitoldFracek/qlist/blob/main/docs/qitek.png)
