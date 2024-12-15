@@ -487,3 +487,73 @@ def test_group_by():
     expected = EagerQList([EagerQList([1]), EagerQList([2]), EagerQList([3])])
     res = EagerQList([1, 2, 3]).group_by(lambda x: x)
     assert res == expected
+
+
+def test_product():
+    expected = EagerQList()
+    res = EagerQList().product([])
+    assert res == expected
+
+    expected = EagerQList()
+    res = EagerQList().product([1, 2, 3])
+    assert res == expected
+
+    expected = EagerQList()
+    res = EagerQList([1, 2, 3]).product([])
+    assert res == expected
+
+    expected = EagerQList([(1, 'a'), (1, 'b'), (1, 'c'), (2, 'a'), (2, 'b'), (2, 'c')])
+    res = EagerQList([1, 2]).product(['a', 'b', 'c'])
+    assert res == expected
+
+    expected = EagerQList([1, 2]).flatmap(lambda n:
+        EagerQList(['a', 'b', 'c']).map(lambda s:
+            (n, s)
+        )
+    )
+    res = EagerQList([1, 2]).product(['a', 'b', 'c'])
+    assert res == expected
+
+
+def test_product_with():
+    expected = EagerQList()
+    res = EagerQList().product_with([], lambda a, b: a + b)
+    assert res == expected
+
+    expected = EagerQList()
+    res = EagerQList().product_with([1, 2, 3], lambda a, b: a + b)
+    assert res == expected
+
+    expected = EagerQList()
+    res = EagerQList([1, 2, 3]).product_with([], lambda a, b: f'{a}{b}')
+    assert res == expected
+
+    expected = EagerQList(['1a', '1b', '1c', '2a', '2b', '2c'])
+    res = EagerQList([1, 2]).product_with(['a', 'b', 'c'], lambda a, b: f'{a}{b}')
+    assert res == expected
+
+    expected = EagerQList([1, 2]).product(['a', 'b', 'c']).map(lambda pair: f'{pair[0]}{pair[1]}')
+    res = EagerQList([1, 2]).product_with(['a', 'b', 'c'], lambda a, b: f'{a}{b}')
+    assert res == expected
+
+
+def test_zip_with():
+    expected = EagerQList()
+    res = EagerQList().zip_with([], lambda a, b: a + b)
+    assert res == expected
+
+    expected = EagerQList()
+    res = EagerQList().zip_with([1, 2, 3], lambda a, b: a + b)
+    assert res == expected
+
+    expected = EagerQList()
+    res = EagerQList([1, 2, 3]).zip_with([], lambda a, b: f'{a}{b}')
+    assert res == expected
+
+    expected = EagerQList(['1a', '2b'])
+    res = EagerQList([1, 2]).zip_with(['a', 'b', 'c'], lambda a, b: f'{a}{b}')
+    assert res == expected
+
+    expected = EagerQList([1, 2]).zip(['a', 'b', 'c']).map(lambda pair: f'{pair[0]}{pair[1]}')
+    res = EagerQList([1, 2]).zip_with(['a', 'b', 'c'], lambda a, b: f'{a}{b}')
+    assert res == expected

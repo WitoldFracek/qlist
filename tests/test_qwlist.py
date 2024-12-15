@@ -1,5 +1,4 @@
 import sys;
-from gc import collect
 
 sys.path.append('../src')
 from src.qwlist.qwlist import QList, Lazy
@@ -599,3 +598,72 @@ def test_group_by():
     res = QList([1, 2, 3]).group_by(lambda x: x).collect()
     assert res == expected
 
+
+def test_product():
+    expected = QList()
+    res = QList().product([]).collect()
+    assert res == expected
+
+    expected = QList()
+    res = QList().product([1, 2, 3]).collect()
+    assert res == expected
+
+    expected = QList()
+    res = QList([1, 2, 3]).product([]).collect()
+    assert res == expected
+
+    expected = QList([(1, 'a'), (1, 'b'), (1, 'c'), (2, 'a'), (2, 'b'), (2, 'c')])
+    res = QList([1, 2]).product(['a', 'b', 'c']).collect()
+    assert res == expected
+
+    expected = QList([1, 2]).flatmap(lambda n:
+        QList(['a', 'b', 'c']).map(lambda s:
+            (n, s)
+        )
+    ).collect()
+    res = QList([1, 2]).product(['a', 'b', 'c']).collect()
+    assert res == expected
+
+
+def test_product_with():
+    expected = QList()
+    res = QList().product_with([], lambda a, b: a + b).collect()
+    assert res == expected
+
+    expected = QList()
+    res = QList().product_with([1, 2, 3], lambda a, b: a + b).collect()
+    assert res == expected
+
+    expected = QList()
+    res = QList([1, 2, 3]).product_with([], lambda a, b: f'{a}{b}').collect()
+    assert res == expected
+
+    expected = QList(['1a', '1b', '1c', '2a', '2b', '2c'])
+    res = QList([1, 2]).product_with(['a', 'b', 'c'], lambda a, b: f'{a}{b}').collect()
+    assert res == expected
+
+    expected = QList([1, 2]).product(['a', 'b', 'c']).map(lambda pair: f'{pair[0]}{pair[1]}').collect()
+    res = QList([1, 2]).product_with(['a', 'b', 'c'], lambda a, b: f'{a}{b}').collect()
+    assert res == expected
+
+
+def test_zip_with():
+    expected = QList()
+    res = QList().zip_with([], lambda a, b: a + b).collect()
+    assert res == expected
+
+    expected = QList()
+    res = QList().zip_with([1, 2, 3], lambda a, b: a + b).collect()
+    assert res == expected
+
+    expected = QList()
+    res = QList([1, 2, 3]).zip_with([], lambda a, b: f'{a}{b}').collect()
+    assert res == expected
+
+    expected = QList(['1a', '2b'])
+    res = QList([1, 2]).zip_with(['a', 'b', 'c'], lambda a, b: f'{a}{b}').collect()
+    assert res == expected
+
+    expected = QList([1, 2]).zip(['a', 'b', 'c']).map(lambda pair: f'{pair[0]}{pair[1]}').collect()
+    res = QList([1, 2]).zip_with(['a', 'b', 'c'], lambda a, b: f'{a}{b}').collect()
+    assert res == expected
