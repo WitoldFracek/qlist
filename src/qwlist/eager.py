@@ -687,7 +687,7 @@ class EagerQList(list):
             and the resulting value would be a `Lazy` object with only one element:
             >>> EagerQList([2, 3]).flat_fold(lambda acc, x: [acc + x], 1)
             [6]
-            >>> EagerQList([2, 3]).fold(lambda acc, x: acc + x)
+            >>> EagerQList([2, 3]).fold(lambda acc, x: acc + x, 1)
             6
         """
         acc = EagerQList([init])
@@ -731,8 +731,7 @@ class EagerQList(list):
         Example:
             >>> list1 = EagerQList([1, 2])
             >>> list2 = EagerQList(['a', 'b'])
-            >>> result = list1.product_with(list2, lambda x, y: f"{x}{y}")
-            >>> list(result)
+            >>> list1.product_with(list2, lambda x, y: f"{x}{y}")
             ['1a', '1b', '2a', '2b']
         """
         def inner():
@@ -758,11 +757,10 @@ class EagerQList(list):
             Lazy[R]: A new EagerQList containing the results of applying `operation`
             to each pair in the zipped iterables.
 
-        Example:
-            >>> qlist1 = QList([1, 2, 3])
-            >>> qlist2 = QList(['a', 'b'])
-            >>> result = qlist1.zip_with(qlist2, lambda x, y: f"{x}{y}")
-            >>> list(result)
+        Examples:
+            >>> list1 = EagerQList([1, 2, 3])
+            >>> list2 = EagerQList(['a', 'b'])
+            >>> list1.zip_with(list2, lambda x, y: f"{x}{y}")
             ['1a', '2b']
         """
         def inner():

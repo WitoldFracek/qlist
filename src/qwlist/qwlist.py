@@ -796,7 +796,7 @@ class Lazy(Generic[T]):
             and the resulting value would be a `Lazy` object with only one element:
             >>> QList([2, 3]).flat_fold(lambda acc, x: [acc + x], 1).collect()
             [6]
-            >>> QList([2, 3]).fold(lambda acc, x: acc + x)
+            >>> QList([2, 3]).fold(lambda acc, x: acc + x, 1)
             6
         """
         acc = QList([init])
@@ -837,11 +837,10 @@ class Lazy(Generic[T]):
             A new Lazy containing the results of applying `operation`
             to each pair in the Cartesian product.
 
-        Example:
+        Examples:
             >>> lazy1 = Lazy([1, 2])
             >>> lazy2 = Lazy(['a', 'b'])
-            >>> result = lazy1.product_with(lazy2, lambda x, y: f"{x}{y}")
-            >>> list(result)
+            >>> lazy1.product_with(lazy2, lambda x, y: f"{x}{y}").collect()
             ['1a', '1b', '2a', '2b']
         """
         def inner():
@@ -867,11 +866,10 @@ class Lazy(Generic[T]):
             Lazy[R]: A new Lazy containing the results of applying `operation`
             to each pair in the zipped iterables.
 
-        Example:
+        Examples:
             >>> lazy1 = Lazy([1, 2, 3])
             >>> lazy2 = Lazy(['a', 'b'])
-            >>> result = lazy1.zip_with(lazy2, lambda x, y: f"{x}{y}")
-            >>> list(result)
+            >>> lazy1.zip_with(lazy2, lambda x, y: f"{x}{y}").collect()
             ['1a', '2b']
         """
         def inner():
@@ -1650,7 +1648,7 @@ class QList(list):
             and the resulting value would be a `Lazy` object with only one element:
             >>> QList([2, 3]).flat_fold(lambda acc, x: [acc + x], 1).collect()
             [6]
-            >>> QList([2, 3]).fold(lambda acc, x: acc + x)
+            >>> QList([2, 3]).fold(lambda acc, x: acc + x, 1)
             6
         """
         acc = QList([init])
@@ -1691,11 +1689,10 @@ class QList(list):
             A new Lazy containing the results of applying `operation`
             to each pair in the Cartesian product.
 
-        Example:
+        Examples:
             >>> qlist1 = QList([1, 2])
             >>> qlist2 = QList(['a', 'b'])
-            >>> result = qlist1.product_with(qlist2, lambda x, y: f"{x}{y}")
-            >>> list(result)
+            >>> qlist1.product_with(qlist2, lambda x, y: f"{x}{y}").collect()
             ['1a', '1b', '2a', '2b']
         """
         def inner():
@@ -1721,11 +1718,10 @@ class QList(list):
             Lazy[R]: A new Lazy containing the results of applying `operation`
             to each pair in the zipped iterables.
 
-        Example:
+        Examples:
             >>> qlist1 = QList([1, 2, 3])
             >>> qlist2 = QList(['a', 'b'])
-            >>> result = qlist1.zip_with(qlist2, lambda x, y: f"{x}{y}")
-            >>> list(result)
+            >>> qlist1.zip_with(qlist2, lambda x, y: f"{x}{y}").collect()
             ['1a', '2b']
         """
         def inner():
