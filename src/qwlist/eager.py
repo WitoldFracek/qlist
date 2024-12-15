@@ -732,7 +732,7 @@ class EagerQList[T](list):
             A new EagerQList containing the results of applying `operation`
             to each pair in the Cartesian product.
 
-        Example:
+        Examples:
             >>> list1 = EagerQList([1, 2])
             >>> list2 = EagerQList(['a', 'b'])
             >>> list1.product_with(list2, lambda x, y: f"{x}{y}")
