@@ -905,8 +905,8 @@ class QList[T](list):
         return super().__getitem__(item)
 
     def __add__(self, other: Iterable[T]) -> "QList[T]":
-        if not isinstance(other, Iterable):
-            raise TypeError(f"can only concatenate iterables (not '{type(other)}') to list")
+        if not isinstance(other, list):
+            raise TypeError(f"can only concatenate list-like (not '{type(other)}') to list")
         return QList(self.chain(other))
 
     def __mul__(self, times: int) -> "QList[T]":
