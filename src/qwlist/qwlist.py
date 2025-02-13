@@ -904,6 +904,21 @@ class QList[T](list):
             return QList(super().__getitem__(item))
         return super().__getitem__(item)
 
+    def __add__(self, other: Iterable[T]) -> "QList[T]":
+        if not isinstance(other, Iterable):
+            raise TypeError(f"can only concatenate iterables (not '{type(other)}') to list")
+        return QList(self.chain(other))
+
+    def __mul__(self, times: int) -> "QList[T]":
+        if not isinstance(times, int):
+            raise TypeError("can't multiply QList by non-int of type 'str'")
+        if times <= 0:
+            return QList()
+        def inner():
+            for _ in range(times):
+                yield from self
+        return QList(inner())
+
     def get(self, index: int, default: Optional[T] = None) -> Optional[T]:
         """
         Safely gets the element on the specified index. If the index is out of bounds `default` is returned.
@@ -1746,4 +1761,7 @@ if __name__ == '__main__':
         .take_while(lambda p: p * p <= n)
         .all(lambda x: n % x != 0)
     )
+
+    xs = QList([1, 2, 3]) * 0
+    xs.foreach(print)
 

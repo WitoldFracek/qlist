@@ -221,6 +221,7 @@ print(double_xs)
 
 ---
 
-And I have a mascot! Say hello to **Qitek**!
+[//]: # (And I have a mascot! Say hello to **Qitek**!)
 
-![qitek](https://github.com/WitoldFracek/qlist/blob/main/docs/qitek.png)
+[//]: # ()
+[//]: # (![qitek]&#40;https://github.com/WitoldFracek/qlist/blob/main/docs/qitek.png&#41;)
