@@ -30,6 +30,21 @@ class EagerQList(list):
             return EagerQList(super().__getitem__(item))
         return super().__getitem__(item)
 
+    def __add__(self, other: Iterable[T]) -> "EagerQList[T]":
+        if not isinstance(other, list):
+            raise TypeError(f"can only concatenate list-like (not '{type(other)}') to list")
+        return self.chain(other)
+
+    def __mul__(self, times: int) -> "EagerQList[T]":
+        if not isinstance(times, int):
+            raise TypeError(f"can't multiply QList by non-int of type '{type(times)}'")
+        if times <= 0:
+            return EagerQList()
+        def inner():
+            for _ in range(times):
+                yield from self
+        return EagerQList(inner())
+
     def get(self, index: int, default: Optional[T] = None) -> Optional[T]:
         """
         Safely gets the element on the specified index. If the index is out of bounds `default` is returned.

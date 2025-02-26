@@ -667,3 +667,69 @@ def test_zip_with():
     expected = QList([1, 2]).zip(['a', 'b', 'c']).map(lambda pair: f'{pair[0]}{pair[1]}').collect()
     res = QList([1, 2]).zip_with(['a', 'b', 'c'], lambda a, b: f'{a}{b}').collect()
     assert res == expected
+
+def test_mul():
+    expected = QList([1, 2, 3, 1, 2, 3])
+    res = QList([1, 2, 3]) * 2
+    assert res == expected
+
+    expected = QList()
+    res = QList(range(10)) * 0
+    assert res == expected
+
+    expected = QList()
+    res = QList(range(10)) * -4
+    assert res == expected
+
+    try:
+        QList([1, 2, 3]) * 'abc'
+    except TypeError:
+        assert True
+    else:
+        assert False
+
+    try:
+        QList([1, 2, 3]) * [1, 2, 3]
+    except TypeError:
+        assert True
+    else:
+        assert False
+
+def test_add():
+    expected = QList([1, 2, 3, 4])
+    res = QList([1, 2]) + [3, 4]
+    assert res == expected
+
+    expected = QList([1, 2, 3, 4])
+    res = QList([1, 2]) + QList([3, 4])
+    assert res == expected
+
+    expected = QList([1, 2, 3, 4])
+    res = QList([1, 2]) + EagerQList([3, 4])
+    assert res == expected
+
+    expected = QList([1, 2])
+    res = QList([1, 2]) + []
+    assert res == expected
+
+    expected = QList([1, 2])
+    res = QList() + [1, 2]
+    assert res == expected
+
+    expected = QList()
+    res = QList() + []
+    assert res == expected
+
+    try:
+        QList([1, 2]) + range(3, 5)
+    except TypeError:
+        assert True
+    else:
+        assert False
+
+    try:
+        QList([1, 2]) + 'abc'
+    except TypeError:
+        assert True
+    else:
+        assert False
